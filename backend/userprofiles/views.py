@@ -27,7 +27,9 @@ class ProfileCreateView(generics.CreateAPIView):
         try:
             return super().create(request,*args,**kwargs)
         except ValidationError as e:
-            return Response({"error":str(e)},status=status.HTTP_400_BAD_REQUEST)
+            print(e)
+            return Response({"error":str(e)},  status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
+            print(e)
             return Response({"error":str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
