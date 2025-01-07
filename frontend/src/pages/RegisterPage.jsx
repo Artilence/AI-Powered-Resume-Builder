@@ -8,6 +8,7 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(registerSchema),
@@ -17,10 +18,28 @@ const Register = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    console.log(data);
-    const response = await registerUser(data).unwrap();
-    if (response?.id) {
-      navigate('/login');
+    try {
+      const response = await registerUser(data).unwrap();
+
+      if (response?.id) {
+        navigate('/login');
+      }
+    } catch (error) {
+      if (error?.status === 400 && error?.data) {
+        const { email, username, password } = error.data;
+
+        if (email) {
+          setError('email', { type: 'server', message: email[0] });
+        }
+
+        if (username) {
+          setError('username', { type: 'server', message: username[0] });
+        }
+
+        if (password) {
+          setError('password', { type: 'server', message: password[0] });
+        }
+      }
     }
   };
 
