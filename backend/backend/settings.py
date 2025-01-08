@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'accounts', 
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
+    'resumeprofiles'
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
