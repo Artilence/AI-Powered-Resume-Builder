@@ -126,27 +126,30 @@ class CustomTokenRefreshView(TokenRefreshView):
 
 
 
-# 4. Logout View (Blacklist Refresh + Clear Cookies)
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
-
+        print('Refresh Token:\n', refresh_token)
         if refresh_token:
             try:
                 token = RefreshToken(refresh_token)
                 token.blacklist()  # Invalidate refresh token
-            except Exception:
-                return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+                print('Token successfully blacklisted.')
+            except ValidationError as e:
+                print('Validation Error:', e.detail)
+                return Response({"error": "Invalid or expired refresh token"}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                print('Unexpected Error:', str(e))
+                return Response({"error": "An error occurred during logout."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # Remove both access and refresh tokens from cookies
         response = Response({"detail": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT)
         response.delete_cookie('access_token')
         response.delete_cookie('refresh_token')
         return response
-
-
+    
 # 5. /me Endpoint (Protected User Data)
 # get user data
 class MeView(APIView):
