@@ -3,11 +3,11 @@ import './App.css';
 import Homepage from './pages/Homepage';
 import DemoTemplate from './components/DemoTemplate';
 import PreviewResume from './pages/PreviewResume';
-import SelectProfile from './pages/SelectProfile';
 import CreateProfile from './pages/CreateProfile';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ManageProfiles from './pages/ManageProfiles';
 
 function App() {
   return (
@@ -20,10 +20,17 @@ function App() {
           path="/preview-resume"
           element={<ProtectedRoute element={PreviewResume} />}
         />
-        <Route path="/selectprofile" element={<SelectProfile />} />
+        <Route
+          path="/selectprofile"
+          element={<ProtectedRoute element={CreateProfile} />}
+        />
         <Route path="/create-profile" element={<CreateProfile />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/manage-profiles"
+          element={<ProtectedRoute element={ManageProfiles} />}
+        />
       </Routes>
     </>
   );

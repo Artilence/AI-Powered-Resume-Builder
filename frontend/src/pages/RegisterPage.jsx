@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '../yup-schemas';
-import { useRegisterMutation } from '../app/auth/authAPI';
 import { useNavigate } from 'react-router';
-
+import { simpleAPI } from '../app/api/api';
 const Register = () => {
+  //React Hook + Yup integration
   const {
     register,
     handleSubmit,
@@ -13,20 +13,20 @@ const Register = () => {
   } = useForm({
     resolver: yupResolver(registerSchema),
   });
-  // const [registerUser, { isLoading }] = useRegisterMutation();
-  const [registerUser] = useRegisterMutation();
+
+  //States
   const navigate = useNavigate();
 
+  //Handles the backend Registeration
   const onSubmit = async (data) => {
     try {
-      const response = await registerUser(data).unwrap();
-
-      if (response?.id) {
-        navigate('/login');
-      }
+      await simpleAPI.post('/register/', data);
+      //after successfull registration
+      navigate('/login');
     } catch (error) {
-      if (error?.status === 400 && error?.data) {
-        const { email, username, password } = error.data;
+      //catch backend validation errors -> throw them in yup error states
+      if (error?.status === 400 && error?.response?.data) {
+        const { email, username, password } = error.response.data;
 
         if (email) {
           setError('email', { type: 'server', message: email[0] });

@@ -14,9 +14,9 @@ const Homepage = () => {
           get hired faster. Use our resume templates and get free access to 18
           more career tools!
         </p>
-        <Link to="/create-profile">
+        <Link to="/manage-profiles">
           <button className="px-10 py-5 bg-btn-blue text-white font-medium rounded-md hover:bg-btn-dark">
-            Create my resume
+            Manage-Profiles
           </button>
         </Link>
         <Link to="/preview-resume">

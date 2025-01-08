@@ -1,45 +1,35 @@
 import axios from 'axios';
-import { logout } from '../auth/authSlice';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 
-// Axios instance
-const api = axios.create({
+// Protected API instance with credentials
+const protectedAPI = axios.create({
   baseURL: '/api',
   withCredentials: true,
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+// Simple API (No auth required)
+export const simpleAPI = axios.create({
+  baseURL: '/api',
+});
 
-    // Handle 401 errors (Unauthorized)
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
-
-      try {
-        // Refresh token request
-        const refreshResponse = await axios.post(
-          '/api/refresh/',
-          {},
-          { withCredentials: true }
-        );
-
-        if (refreshResponse.status === 200) {
-          // Retry the original request after refreshing token
-          return api(originalRequest);
-        }
-      } catch (refreshError) {
-        const { store } = require('../store');
-        store.dispatch(logout());
-        window.location.href = '/login';
-      }
+// Refresh logic
+const refreshAuthLogic = async (failedRequest) => {
+  try {
+    const refreshResponse = await simpleAPI.post('/refresh/'); // Request refresh token
+    if (refreshResponse.status === 200) {
+      failedRequest.response.config._retry = true; // Retry the original request
+      return Promise.resolve();
     }
+  } catch (error) {
+    // Redirect to login if refresh fails
+    window.location.href = '/login';
     return Promise.reject(error);
   }
-);
+};
 
-export default api;
+// Attach interceptor to retry on 401/403
+createAuthRefreshInterceptor(protectedAPI, refreshAuthLogic, {
+  statusCodes: [401, 403], // Trigger refresh for both 401 and 403
+});
+
+export { protectedAPI };

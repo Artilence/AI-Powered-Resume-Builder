@@ -1,52 +1,32 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { protectedAPI, simpleAPI } from '../api/api';
 
-// Base query setup with credentials (cookies)
-const baseQuery = fetchBaseQuery({
-  baseUrl: '/api',
-  credentials: 'include', // Important for sending cookies
-});
+//login -> simpe Request -> recieves validated user credentials -> builder:saves them,persists user,change auth state -> Back to Parent Fufnction
+export const loginUser = createAsyncThunk(
+  'auth/login',
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await simpleAPI.post('/login/', credentials);
+      return response?.data?.user;
+    } catch (error) {
+      return rejectWithValue(
+        error?.response?.data?.detail || 'An unexpected error occurred'
+      );
+    }
+  }
+);
 
-export const authAPI = createApi({
-  reducerPath: 'authAPI',
-  baseQuery,
-  endpoints: (builder) => ({
-    login: builder.mutation({
-      query: (credentials) => ({
-        url: '/login/',
-        method: 'POST',
-        body: credentials,
-      }),
-    }),
-    fetchUser: builder.query({
-      query: () => '/me/',
-    }),
-    refreshToken: builder.mutation({
-      query: () => ({
-        url: '/refresh/',
-        method: 'POST',
-      }),
-    }),
-    logout: builder.mutation({
-      query: () => ({
-        url: '/logout/',
-        method: 'POST',
-      }),
-    }),
-    register: builder.mutation({
-      query: (userData) => ({
-        url: '/register/',
-        method: 'POST',
-        body: userData,
-      }),
-    }),
-  }),
-});
-
-// Export hooks
-export const {
-  useLoginMutation,
-  useRegisterMutation,
-  useFetchUserQuery,
-  useRefreshTokenMutation,
-  useLogoutMutation,
-} = authAPI;
+// logout -> protected Request -> blacklist_token(backend)->builder:sets user null -> back to Parent Function
+export const logoutUser = createAsyncThunk(
+  'auth/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      await protectedAPI.post('/logout/');
+      return {}; // Empty object indicates successful logout
+    } catch (error) {
+      return rejectWithValue(
+        error?.response?.data?.detail || 'Logout failed. Please try again.'
+      );
+    }
+  }
+);
