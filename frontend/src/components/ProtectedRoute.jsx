@@ -1,59 +1,39 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from 'react-router';
-import {
-  useRefreshTokenMutation,
-  useFetchUserQuery,
-} from '../app/auth/authAPI';
-import { setUser, logout } from '../app/auth/authSlice';
+import { protectedAPI } from '../app/api/api';
 
 const ProtectedRoute = ({ element: Element }) => {
-  const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.auth);
-  const [checkedAuth, setCheckedAuth] = useState(false);
-
-  // Fetch user on mount
-  const {
-    data: userData,
-    error,
-    isLoading,
-    refetch,
-    isSuccess,
-  } = useFetchUserQuery();
-
-  const [refreshToken] = useRefreshTokenMutation();
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // Manage auth state
 
   useEffect(() => {
-    if (isSuccess) {
-      // If fetchUser is successful, set user and mark auth as checked
-      dispatch(setUser(userData));
-      setCheckedAuth(true);
-    } else if (error && (error?.status === 401 || error?.status === 403)) {
-      // If 401 or 403, attempt refresh token
-      refreshToken()
-        .unwrap()
-        .then(() => {
-          refetch();
-        })
-        .catch(() => {
-          dispatch(logout());
-          setCheckedAuth(true);
-        });
-    } else if (error) {
-      // Handle all other errors
-      setCheckedAuth(true);
-    }
-  }, [isSuccess, error, dispatch, refetch, refreshToken, userData]);
+    const checkAuth = async () => {
+      try {
+        const response = await protectedAPI.get('/me/');
+        if (response.status === 200) {
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        console.log(error);
 
-  if (isLoading || !checkedAuth) {
-    return <div>Loading...</div>; // Loading spinner while checking auth
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  // If still loading auth state, don't render anything
+  if (isAuthenticated === null) {
+    return <>Loading</>;
   }
 
+  // Redirect to login if not authenticated
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
+  // Render the protected component if authenticated
   return <Element />;
 };
 

@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'accounts', 
     'rest_framework_simplejwt',
-    'userprofiles'
+    'rest_framework_simplejwt.token_blacklist'
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -110,6 +110,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 # Password validation

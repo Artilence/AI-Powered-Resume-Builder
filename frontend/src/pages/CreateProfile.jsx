@@ -1,4 +1,3 @@
-import React from 'react';
 import Layout from '../components/Layout/Layout';
 import {
   useForm,
@@ -9,7 +8,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { profileSchema } from '../yup-schemas';
 import { useDispatch } from 'react-redux';
-import { createUserProfile } from '../app/userProfiles/userProfiles';
+import { createUserProfile } from '../app/userProfiles/userProfilesAPI';
 
 //////////////////////////
 // Nested Projects Section
@@ -263,7 +262,6 @@ const CreateProfile = () => {
 
   // Handle form submission
   const onSubmit = (data) => {
-    console.log('Form Data:', data);
     dispatch(createUserProfile(data));
   };
 

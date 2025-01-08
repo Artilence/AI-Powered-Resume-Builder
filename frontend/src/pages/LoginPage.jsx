@@ -1,18 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../yup-schemas';
 import { useNavigate } from 'react-router';
-import { useLoginMutation } from '../app/auth/authAPI';
-import { useState } from 'react';
-import { setUser } from '../app/auth/authSlice';
+import { loginUser } from '../app/auth/authAPI';
 
 const Login = () => {
+  // states
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const [login, { isLoading }] = useLoginMutation();
-  const [login] = useLoginMutation();
-  const [responseError, setResponseError] = useState(null);
+  const { error } = useSelector((state) => state?.auth);
   // React Hook Form
   const {
     register,
@@ -23,14 +20,15 @@ const Login = () => {
     mode: 'onBlur',
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (credentials) => {
     try {
-      const response = await login(data).unwrap();
+      //using unwrap for making the request async as dispatch itselft is not async.
+      await dispatch(loginUser(credentials)).unwrap();
 
-      dispatch(setUser(response.user));
       navigate('/');
     } catch (error) {
-      setResponseError(error?.data?.detail);
+      console.log('Login failed:', error);
+      // Error is automatically set in Redux, no need to handle here unless extra logic is needed
     }
   };
 
@@ -69,9 +67,7 @@ const Login = () => {
               </p>
             )}
           </div>
-          {responseError && (
-            <p className="text-red-500 text-sm mt-1">{responseError}</p>
-          )}
+          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
           <button
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"

@@ -1,8 +1,6 @@
-// src/store.js
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice';
 import resumePreviewReducer from './resumePreviewSlice/resultPreviewSlice';
-import { authAPI } from './auth/authAPI';
 import {
   persistStore,
   persistReducer,
@@ -19,29 +17,28 @@ import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for
 const authPersistConfig = {
   key: 'auth', // Key in storage
   storage, // Storage engine (localStorage)
-  whitelist: ['user'], // Only persist the 'user' field
+  whitelist: ['user'], // Persist only 'user' field, avoid persisting loading or errors
 };
 
-// 2. Combine your reducers, wrapping authReducer with persistReducer
+// 2. Combine reducers (Wrap authReducer with persistReducer)
 const rootReducer = combineReducers({
-  auth: persistReducer(authPersistConfig, authReducer), // Persisted auth slice
-  resumePreview: resumePreviewReducer, // Non-persisted resume preview slice
-  [authAPI.reducerPath]: authAPI.reducer, // RTK Query's authAPI reducer
+  auth: persistReducer(authPersistConfig, authReducer),
+  resumePreview: resumePreviewReducer,
 });
 
-// 3. Configure the store with the persisted root reducer
+// 3. Configure the store with root reducer
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      // 4. Configure serializableCheck middleware to ignore redux-persist actions
+      // 4. Configure to ignore redux-persist actions during serializable check
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authAPI.middleware), // Add RTK Query's middleware
+    }),
 });
 
-// 5. Create a persistor linked to the store
+// 5. Persistor to persist store state across reloads
 export const persistor = persistStore(store);
 
 export default store;
