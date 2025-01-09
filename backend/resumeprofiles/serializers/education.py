@@ -5,7 +5,7 @@ from datetime import date
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Education
-        fields = ['id', 'userprofile', 'institution', 'degree', 'description', 'start_date', 'end_date']
+        fields = ['id', 'profile', 'institution', 'degree', 'description', 'start_date', 'end_date']
 
     # Validate the 'institution' field (required)
     def validate_institution(self, value):

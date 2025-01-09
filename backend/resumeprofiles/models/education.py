@@ -2,7 +2,7 @@ from django.db import models
 from .profile import Profile 
 
 class Education(models.Model):
-    userprofile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='education')  
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='education')  
     institution = models.CharField(max_length=255,null=False,blank=False)  
     degree = models.CharField(max_length=255,null=False,blank=False) 
     description = models.TextField(blank=True, null=True)  

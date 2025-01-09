@@ -5,7 +5,7 @@ from datetime import date
 class CertificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certification
-        fields = ['id', 'userprofile', 'title', 'organization', 'start_date', 'end_date', 'url']
+        fields = ['id', 'profile', 'title', 'organization', 'start_date', 'end_date', 'url']
 
     # Validate the 'title' field
     def validate_title(self, value):

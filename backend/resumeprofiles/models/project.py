@@ -2,7 +2,7 @@ from django.db import models
 from .profile import Profile  
 
 class Project(models.Model):
-    userprofile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='projects',db_index=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='projects',db_index=True)
     name = models.CharField(max_length=255,null=False,blank=False) 
     description = models.TextField(blank=True, null=True)  
     link = models.URLField(blank=True, null=True)  

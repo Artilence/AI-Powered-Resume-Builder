@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser  # Make sure to import CustomUser here
+from .models import User  # Make sure to import CustomUser here
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import IntegrityError, DatabaseError
@@ -7,19 +7,19 @@ import re
 
 # CustomUser Serializer
 # for creating a new custom user
-class CustomUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     # password is write only
     password = serializers.CharField(write_only=True)
     
     class Meta:
-        model = CustomUser  
+        model = User  
         # fields to be serialized
         fields = ['id', 'username', 'email', 'password']
 
     # Validate username -> check if it's valid, not taken, etc.
     def validate_username(self, value):
         # check if username already exists
-        if CustomUser.objects.filter(username=value).exists():
+        if User.objects.filter(username=value).exists():
             raise ValidationError("Username already exists")
         # check if username length is at least 4
         if len(value) < 4:
@@ -32,7 +32,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     # Validate email -> check if it's valid and not already taken
     def validate_email(self, value):
         # check if email already exists
-        if CustomUser.objects.filter(email=value):
+        if User.objects.filter(email=value):
             raise ValidationError("A user with this email already exists.")
         # check if email is valid
         try:
@@ -64,7 +64,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         try:
             # Attempt to create user
-            user = CustomUser.objects.create_user(
+            user = User.objects.create_user(
                 username=validated_data['username'],
                 email=validated_data['email'],
                 password=validated_data['password']
@@ -73,9 +73,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
         except IntegrityError as e:
             # Handle specific constraint violations
-            if 'customuser.username' in str(e):
+            if 'user.username' in str(e):
                 raise serializers.ValidationError({"username": "This username is already taken."})
-            if 'customuser.email' in str(e):
+            if 'user.email' in str(e):
                 raise serializers.ValidationError({"email": "This email is already taken."})
             raise serializers.ValidationError("A data integrity error occurred. Please try again.")
 

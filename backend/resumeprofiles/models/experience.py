@@ -4,7 +4,7 @@ from django.db import models
 from .profile import Profile
 
 class Experience(models.Model):
-    userprofile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='experiences', db_index=True)  
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='experiences', db_index=True)  
     company = models.CharField(max_length=255,null=False,blank=False) 
     start_date = models.DateField(null=False,blank=False)  
     end_date = models.DateField(null=False,blank=False)  

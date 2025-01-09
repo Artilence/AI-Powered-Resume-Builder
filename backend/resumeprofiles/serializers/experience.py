@@ -5,7 +5,7 @@ from datetime import date
 class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Experience
-        fields = ['id', 'userprofile', 'company', 'start_date', 'end_date', 'position', 'description']
+        fields = ['id', 'profile', 'company', 'start_date', 'end_date', 'position', 'description']
 
     # Optional: Add custom validation or methods for the fields if necessary
     def validate_company(self, value):
