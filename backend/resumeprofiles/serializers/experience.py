@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models.experience import Experience
+from datetime import date
 
 class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +19,6 @@ class ExperienceSerializer(serializers.ModelSerializer):
         return value
 
     def validate_start_date(self, value):
-        if value > models.DateField.today():
+        if value > date.today():
             raise serializers.ValidationError("Start date cannot be in the future.")
         return value
