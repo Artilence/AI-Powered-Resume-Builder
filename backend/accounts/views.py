@@ -2,13 +2,13 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.middleware.csrf import get_token
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+from .models import CustomUser
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer
+from .serializers import CustomUserSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework_simplejwt.tokens import AccessToken
@@ -17,16 +17,16 @@ from rest_framework_simplejwt.tokens import AccessToken
 # 1. Register View (Public)
 # create a new user
 class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
     permission_classes = [AllowAny]
 
 
 # 2. Login View (Public)
-# get access and refresh tokens
+# get access and refresh tokens 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = [AllowAny]
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     
     def post(self, request, *args, **kwargs):
         print('login view')
@@ -41,7 +41,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         user_id = decoded_token['user_id']
 
         # Fetch user from database
-        user = User.objects.get(id=user_id)
+        user = CustomUser.objects.get(id=user_id)
 
         # Add user info to response data
         response.data['user'] = {

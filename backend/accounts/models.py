@@ -47,7 +47,7 @@ class CustomUser(AbstractBaseUser):
       - updated_at (auto_now)
     """
     id = models.AutoField(primary_key=True)
-    username = models.CharField( unique=True)
+    username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     datejoined = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
