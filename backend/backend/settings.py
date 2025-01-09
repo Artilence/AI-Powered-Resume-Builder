@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j8c(a0#m=t##@w+ovk9pibbnyy$ow5g&svsl9sd1f+5q+@80t9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','']
 
@@ -46,12 +46,12 @@ INSTALLED_APPS = [
     'resumeprofiles',
     'drf_spectacular',
 ]
+
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'API Documentation',
+    'DESCRIPTION': 'Comprehensive API documentation for authentication and other features.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
 }
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

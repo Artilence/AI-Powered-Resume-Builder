@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User  # Make sure to import CustomUser here
+from ..models import User  # Make sure to import CustomUser here
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import IntegrityError, DatabaseError
