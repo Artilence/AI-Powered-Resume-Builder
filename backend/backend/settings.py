@@ -43,8 +43,16 @@ INSTALLED_APPS = [
     'accounts', 
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'resumeprofiles'
+    'resumeprofiles',
+    'drf_spectacular',
 ]
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -78,8 +86,13 @@ ROOT_URLCONF = 'backend.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'accounts.authentication.CookieJWTAuthentication',  # Path to your new class
+        'accounts.authentication.CookieJWTAuthentication', 
+
     ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Only authenticated users can access API
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -111,7 +124,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Password validation

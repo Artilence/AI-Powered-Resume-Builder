@@ -1,7 +1,7 @@
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import AccessToken
-from .models import CustomUser
+from .models import User
 
 
 # Custom Auth Verification Class
@@ -23,7 +23,7 @@ class CookieJWTAuthentication(BaseAuthentication):
             user_id = validated_token['user_id']
 
             # Retrieve the user
-            user = CustomUser.objects.get(id=user_id)
+            user = User.objects.get(id=user_id)
             return (user, validated_token)
 
         except Exception as e:

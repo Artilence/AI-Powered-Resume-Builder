@@ -2,31 +2,27 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.middleware.csrf import get_token
 from rest_framework.response import Response
-from .models import CustomUser
+from ..models import User
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import CustomUserSerializer
+from ..serializers import UserSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework_simplejwt.tokens import AccessToken
+from drf_spectacular.utils import extend_schema
 
 
-# 1. Register View (Public)
-# create a new user
-class RegisterView(generics.CreateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-    permission_classes = [AllowAny]
 
 
 # 2. Login View (Public)
 # get access and refresh tokens 
+@extend_schema(tags=['Authentication'])
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = [AllowAny]
-    queryset = CustomUser.objects.all()
+    queryset = User.objects.all()
     
     def post(self, request, *args, **kwargs):
         print('login view')
@@ -41,7 +37,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         user_id = decoded_token['user_id']
 
         # Fetch user from database
-        user = CustomUser.objects.get(id=user_id)
+        user = User.objects.get(id=user_id)
 
         # Add user info to response data
         response.data['user'] = {
@@ -93,6 +89,7 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
 # 4. Custom Refresh View
 # for validating refresh token from cookies
 # and returning a new access token
+@extend_schema(tags=['Tokens Validation'])
 class CustomTokenRefreshView(TokenRefreshView):
     serializer_class = CustomTokenRefreshSerializer
 
@@ -126,6 +123,7 @@ class CustomTokenRefreshView(TokenRefreshView):
 
 
 
+@extend_schema(tags=['Authentication'])
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -152,6 +150,7 @@ class LogoutView(APIView):
     
 # 5. /me Endpoint (Protected User Data)
 # get user data
+@extend_schema(tags=['Tokens Validation'])
 class MeView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):

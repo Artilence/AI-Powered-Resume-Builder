@@ -5,7 +5,7 @@ import re
 class SocialLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialLink
-        fields = ['id', 'userprofile', 'platform', 'url']
+        fields = ['id', 'profile', 'platform', 'url']
 
     # Validate the 'platform' field to ensure it's not empty and has a reasonable length
     def validate_platform(self, value):

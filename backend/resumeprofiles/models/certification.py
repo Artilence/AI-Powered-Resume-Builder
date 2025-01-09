@@ -2,11 +2,11 @@ from django.db import models
 from .profile import Profile  
 
 class Certification(models.Model):
-    userprofile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='certifications',db_index=True)  # FK to Profile
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='certifications',db_index=True)  # FK to Profile
     title = models.CharField(max_length=255,blank=False)
     organization = models.CharField(max_length=255,blank=False)  
     start_date=models.DateField(blank=True,null=True)
-    end_date = models.DateField(null=True, null=True) 
+    end_date = models.DateField(blank=True, null=True) 
     url = models.URLField(null=True, blank=True)
     
     def __str__(self):

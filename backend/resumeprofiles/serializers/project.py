@@ -5,7 +5,7 @@ from datetime import date
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ['id', 'userprofile', 'name', 'description', 'link', 'start_date', 'end_date']
+        fields = ['id', 'profile', 'name', 'description', 'link', 'start_date', 'end_date']
 
     # Validate the 'name' field (required and at least 3 characters long)
     def validate_name(self, value):

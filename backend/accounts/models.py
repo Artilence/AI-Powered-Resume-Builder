@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-class CustomUserManager(BaseUserManager):
+class UserManager(BaseUserManager):
    
 
     def create_user(self, username, email, password=None):
@@ -36,9 +36,9 @@ class CustomUserManager(BaseUserManager):
          return user
     '''
 
-class CustomUser(AbstractBaseUser):
+class User(AbstractBaseUser):
     """
-    Custom user model with:
+     user model with:
       - id (AutoField)
       - username (unique)
       - email (unique)
@@ -49,7 +49,7 @@ class CustomUser(AbstractBaseUser):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
-    datejoined = models.DateTimeField(auto_now_add=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     # AbstractBaseUser includes:
@@ -57,7 +57,7 @@ class CustomUser(AbstractBaseUser):
     # - last_login (optional)
     # - helper methods for authentication
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
     # By default, AbstractBaseUser requires that you define a username field
     USERNAME_FIELD = 'username'  # Could also be 'email' if you want email login
@@ -67,7 +67,7 @@ class CustomUser(AbstractBaseUser):
       
         self.email = self.email.lower()
         self.username = self.username.lower()
-        super(CustomUser, self).save(*args, **kwargs)
+        super(User, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.username} ({self.email})"
