@@ -43,8 +43,16 @@ INSTALLED_APPS = [
     'accounts', 
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'resumeprofiles'
+    'resumeprofiles',
+    'drf_spectacular',
 ]
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -78,8 +86,9 @@ ROOT_URLCONF = 'backend.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'accounts.authentication.CookieJWTAuthentication',  # Path to your new class
+        'accounts.authentication.CookieJWTAuthentication', 
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
