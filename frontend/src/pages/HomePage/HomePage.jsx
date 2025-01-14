@@ -1,5 +1,5 @@
 import Layout from '../../components/Layout/Layout';
-import HeroSection from './home-components/heroSection';
+import { HeroSection } from './home-components/';
 const HomePage = () => {
   return (
     <Layout>
