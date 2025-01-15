@@ -9,6 +9,7 @@ export default {
         'pink-purple': 'rgba(219, 209, 255, 1)',
         'light-gray': 'rgba(209, 213, 219, 1)',
         'dim-white': 'rgba(255, 255, 255, 1)',
+        'gray-black': 'rgba(30, 30, 30, 1)',
       },
       fontFamily: {
         albert: ['"Albert Sans"', 'sans-serif'],

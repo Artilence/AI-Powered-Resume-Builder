@@ -7,3 +7,11 @@
 html {
   font-size: 62.5%;
 }
+
+.custom-editor-toolbar {
+  @apply p-[6px] flex items-center justify-center cursor-pointer;
+}
+
+.custom-editor-toolbar img {
+  @apply w-[24px] h-[24px];
+}
