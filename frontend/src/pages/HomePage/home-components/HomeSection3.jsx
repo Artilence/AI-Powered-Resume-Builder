@@ -5,7 +5,7 @@ import {
   edvenitySolutionsSection1Image,
 } from '../../../assets';
 
-const EdvenitySolutionsSection1 = () => {
+const HomeSection3 = () => {
   return (
     <div className=" w-full h-max flex relative   justify-center items-center bg-black ">
       <Eclipse
@@ -181,4 +181,4 @@ const EdvenitySolutionsSection1 = () => {
   );
 };
 
-export default EdvenitySolutionsSection1;
+export default HomeSection3;
