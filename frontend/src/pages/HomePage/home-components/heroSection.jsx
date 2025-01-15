@@ -1,10 +1,13 @@
 import Eclipse from '../../../components/design-utils/Eclipse';
-import arrowRight from '../../../assets/arrowRight.png';
-import Sparklings from '../../../assets/sparkling.png';
-import heroProfiles from '../../../assets/heroProfiles.png';
+import {
+  arrowRight,
+  Sparkling,
+  heroProfiles,
+  heroStars,
+  heroImage,
+} from '../../../assets';
 import { Link } from 'react-router';
-import stars from '../../../assets/heroStars.png';
-import heroImage from '../../../assets/heroImage.png';
+
 const HeroSection = () => {
   return (
     <div className=" w-full  flex relative overflow-hidden z-20   justify-center items-center bg-black ">
@@ -41,7 +44,7 @@ const HeroSection = () => {
                 Generate Resume with AI
               </span>
               <img
-                src={Sparklings}
+                src={Sparkling}
                 alt=""
                 className="w-[24px] h-[24px] object-contain"
               />
@@ -55,7 +58,7 @@ const HeroSection = () => {
               />
               <div className="flex items-center lg:items-start gap-[12px] flex-col justify-center">
                 <img
-                  src={stars}
+                  src={heroStars}
                   alt=""
                   className="w-[150px] lg:w-[100px] lg:h-[16px] object-contain "
                 />

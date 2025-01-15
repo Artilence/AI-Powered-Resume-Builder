@@ -1,7 +1,10 @@
 import Eclipse from '../../../components/design-utils/Eclipse';
-import checkTick2 from '../../../assets/check-tick2.png';
-import checkTick from '../../../assets/check-tick.png';
-import edvenitySolutionsSection1Image from '../../../assets/EdvenitySolutions1.gif';
+import {
+  checkTick2,
+  checkTick,
+  edvenitySolutionsSection1Image,
+} from '../../../assets';
+
 const EdvenitySolutionsSection1 = () => {
   return (
     <div className=" w-full h-max flex relative   justify-center items-center bg-black ">

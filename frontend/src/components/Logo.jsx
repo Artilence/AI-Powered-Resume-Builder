@@ -1,4 +1,4 @@
-import LogoImg from '../assets/Logo.png';
+import { Logo as LogoImg } from '../assets';
 const Logo = () => {
   return (
     <div className="flex items-center justify-center lg:gap-[8px] xl:gap-[14px]">
