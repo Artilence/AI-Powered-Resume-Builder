@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ManageProfiles from './pages/ManageProfiles';
+import ResumeEditor from './pages/Resume-Editor/ResumeEditor';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/create-profile" element={<CreateProfile />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/resume-editor" element={<ResumeEditor />} />
         <Route
           path="/manage-profiles"
           element={<ProtectedRoute element={ManageProfiles} />}

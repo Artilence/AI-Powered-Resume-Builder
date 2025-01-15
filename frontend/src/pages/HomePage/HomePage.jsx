@@ -1,16 +1,12 @@
 import Layout from '../../components/Layout/Layout';
-import {
-  EdvenitySolutionsSection1,
-  HeroSection,
-  EdvenitySolutions2,
-} from './home-components/';
+import { HeroSection, HomeSection3, HomeSection4 } from './home-components/';
 
 const HomePage = () => {
   return (
     <Layout>
       <HeroSection />
-      <EdvenitySolutionsSection1 />
-      <EdvenitySolutions2 />
+      <HomeSection3 />
+      <HomeSection4 />
     </Layout>
   );
 };
