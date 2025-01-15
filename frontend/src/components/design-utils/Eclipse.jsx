@@ -1,7 +1,7 @@
-const Eclipse = ({ top, left }) => {
+const Eclipse = ({ top, left, rotate = '' }) => {
   return (
     <div
-      className={`absolute ${top} ${left} w-[calc(100vw*1.4)] h-[calc(100vw*1.4)] `}
+      className={`absolute ${top} ${rotate} ${left} w-[calc(100vw*1.5)] h-[calc(100vw*1.5)] `}
     >
       <div className="relative flex justify-center bg-black items-center w-full h-full">
         {/* Gradient Circle */}

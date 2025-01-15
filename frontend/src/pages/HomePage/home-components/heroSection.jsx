@@ -7,14 +7,14 @@ import stars from '../../../assets/heroStars.png';
 import heroImage from '../../../assets/heroImage.png';
 const HeroSection = () => {
   return (
-    <div className=" w-full  flex relative  justify-center items-center bg-black ">
+    <div className=" w-full  flex relative overflow-hidden z-20   justify-center items-center bg-black ">
       {/* Lower-Layer ring */}
       <Eclipse
         top="top-[calc(-100vw*.4)] xl:top-[calc(-100vw*.8)]"
         left="left-[calc(-100vw*0.2)] xl:left-[calc(-100vw*0.2)]"
       />
       {/* Upper-layer */}
-      <div className="px-[40px] py-[150px] gap-[100px] lg:px-[100px] lg:py-[150px] flex flex-col items-center justify-center  xl:grid xl:grid-cols-2 xl:px-[100px] xl:py-[150px] xl:gap-[100px] 2xl:grid-cols-[2fr_1fr] 2xl:gap-[200px] text-white  z-10  w-full h-full  2xl:px-[200px] 2xl:py-[220px]">
+      <div className=" px-[40px] py-[150px] gap-[100px] lg:px-[100px] lg:py-[150px] flex flex-col items-center justify-center  xl:grid xl:grid-cols-2 xl:px-[100px] xl:py-[150px] xl:gap-[100px] 2xl:grid-cols-[2fr_1fr] 2xl:gap-[200px] text-white  z-10  w-full h-full  2xl:px-[200px] 2xl:py-[220px]">
         {/* LEFFT */}
         <div className=" flex flex-col gap-[50px] xl:gap-[70px]">
           <div className="w-[fit-content] rounded-[50px] px-[16px] py-[8px] flex items-center gap-[6px] border border-white-transparent">
