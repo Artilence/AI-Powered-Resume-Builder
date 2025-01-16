@@ -1,64 +1,315 @@
+// src/components/QuillToolbar.jsx
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
-  arrowDown,
   T_Bold,
-  T_bulletList,
-  T_inlineCode,
   T_Italic,
-  T_NumberedList,
-  T_Redo,
-  T_Strikethrough,
-  T_Text,
-  T_TextAlign,
   T_Underline,
-  T_Undo,
-} from '../../../assets';
+  T_Strikethrough,
+  T_NumberedList,
+  T_BulletList,
+  T_Undo, // Import the Undo icon
+  T_Redo, // Import the Redo icon
+} from '../../../assets'; // Ensure all icons are correctly imported
 
-const QuillToolbar = () => {
+const QuillToolbar = ({ activeQuill }) => {
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isUnderline, setIsUnderline] = useState(false);
+  const [isStrikethrough, setIsStrikethrough] = useState(false);
+  const [isOrderedList, setIsOrderedList] = useState(false);
+  const [isUnorderedList, setIsUnorderedList] = useState(false);
+
+  // New state variables for Undo and Redo
+  const [canUndo, setCanUndo] = useState(false);
+  const [canRedo, setCanRedo] = useState(false);
+
+  // Function to toggle bold formatting
+  const toggleBold = () => {
+    if (activeQuill) {
+      const range = activeQuill.getSelection();
+      if (range) {
+        const currentFormat = activeQuill.getFormat(range);
+        activeQuill.format('bold', !currentFormat.bold);
+      }
+    }
+  };
+
+  // Function to toggle italic formatting
+  const toggleItalic = () => {
+    if (activeQuill) {
+      const range = activeQuill.getSelection();
+      if (range) {
+        const currentFormat = activeQuill.getFormat(range);
+        activeQuill.format('italic', !currentFormat.italic);
+      }
+    }
+  };
+
+  // Function to toggle underline formatting
+  const toggleUnderline = () => {
+    if (activeQuill) {
+      const range = activeQuill.getSelection();
+      if (range) {
+        const currentFormat = activeQuill.getFormat(range);
+        activeQuill.format('underline', !currentFormat.underline);
+      }
+    }
+  };
+
+  // Function to toggle strikethrough formatting
+  const toggleStrikethrough = () => {
+    if (activeQuill) {
+      const range = activeQuill.getSelection();
+      if (range) {
+        const currentFormat = activeQuill.getFormat(range);
+        activeQuill.format('strike', !currentFormat.strike);
+      }
+    }
+  };
+
+  // Function to toggle ordered list formatting
+  const toggleOrderedList = () => {
+    if (activeQuill) {
+      const range = activeQuill.getSelection();
+      if (range) {
+        const currentFormat = activeQuill.getFormat(range);
+        const isCurrentlyOrdered = currentFormat.list === 'ordered';
+        activeQuill.format('list', isCurrentlyOrdered ? false : 'ordered');
+
+        // Ensure mutual exclusivity
+        if (!isCurrentlyOrdered && currentFormat.list === 'bullet') {
+          activeQuill.format('list', 'ordered');
+        }
+      }
+    }
+  };
+
+  // Function to toggle unordered list formatting
+  const toggleUnorderedList = () => {
+    if (activeQuill) {
+      const range = activeQuill.getSelection();
+      if (range) {
+        const currentFormat = activeQuill.getFormat(range);
+        const isCurrentlyUnordered = currentFormat.list === 'bullet';
+        activeQuill.format('list', isCurrentlyUnordered ? false : 'bullet');
+
+        // Ensure mutual exclusivity
+        if (!isCurrentlyUnordered && currentFormat.list === 'ordered') {
+          activeQuill.format('list', 'bullet');
+        }
+      }
+    }
+  };
+
+  // Function to perform undo action
+  const toggleUndo = () => {
+    if (activeQuill) {
+      activeQuill.history.undo();
+    }
+  };
+
+  // Function to perform redo action
+  const toggleRedo = () => {
+    if (activeQuill) {
+      activeQuill.history.redo();
+    }
+  };
+
+  useEffect(() => {
+    if (activeQuill) {
+      const handleSelectionChange = (range, oldRange, source) => {
+        if (range) {
+          const currentFormat = activeQuill.getFormat(range);
+          setIsBold(currentFormat.bold || false);
+          setIsItalic(currentFormat.italic || false);
+          setIsUnderline(currentFormat.underline || false);
+          setIsStrikethrough(currentFormat.strike || false);
+          setIsOrderedList(currentFormat.list === 'ordered' || false);
+          setIsUnorderedList(currentFormat.list === 'bullet' || false);
+        } else {
+          setIsBold(false);
+          setIsItalic(false);
+          setIsUnderline(false);
+          setIsStrikethrough(false);
+          setIsOrderedList(false);
+          setIsUnorderedList(false);
+        }
+      };
+
+      activeQuill.on('selection-change', handleSelectionChange);
+
+      // Update history state
+      const updateHistoryState = () => {
+        setCanUndo(activeQuill.history.stack.undo.length > 0);
+        setCanRedo(activeQuill.history.stack.redo.length > 0);
+      };
+
+      activeQuill.on('text-change', updateHistoryState);
+      activeQuill.on('selection-change', updateHistoryState);
+
+      // Initialize the state
+      updateHistoryState();
+
+      return () => {
+        activeQuill.off('selection-change', handleSelectionChange);
+        activeQuill.off('text-change', updateHistoryState);
+        activeQuill.off('selection-change', updateHistoryState);
+      };
+    } else {
+      setIsBold(false);
+      setIsItalic(false);
+      setIsUnderline(false);
+      setIsStrikethrough(false);
+      setIsOrderedList(false);
+      setIsUnorderedList(false);
+      setCanUndo(false);
+      setCanRedo(false);
+    }
+  }, [activeQuill]);
+
   return (
-    <div className="bg-gray-black flex justify-start items-center px-[32px] py-[10px] rounded-[16px] w-max gap-[12px] ">
-      <span className="custom-editor-toolbar">
-        <img src={T_Undo} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_Redo} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_Text} alt="" />
-      </span>
-      <span className="p-[6px] flex items-center justify-center gap-[4px]">
-        <span className="text-base_2 text-dim-white">Normal Text</span>
-        <img src={arrowDown} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_TextAlign} alt="" />
-      </span>
-      <span className="p-[2px] flex items-center justify-center gap-[4px]">
-        <span className="h-[24px] w-[24px] rounded-sm bg-white"></span>
-        <img src={arrowDown} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_Bold} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_Italic} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_Underline} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_Strikethrough} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_inlineCode} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_bulletList} alt="" />
-      </span>
-      <span className="custom-editor-toolbar">
-        <img src={T_NumberedList} alt="" />
-      </span>
+    <div
+      id="toolbar-custom"
+      className="bg-gray-black flex items-center px-8 py-2 rounded-lg gap-3 fixed top-4 left-1/2 transform -translate-x-1/2 z-50 shadow-md"
+    >
+      {/* Undo Button */}
+      <button
+        type="button"
+        onClick={toggleUndo}
+        title="Undo"
+        aria-label="Undo"
+        className={`custom-editor-toolbar ${
+          canUndo ? 'bg-blue-500' : 'opacity-50 cursor-not-allowed'
+        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={!activeQuill || !canUndo}
+      >
+        <img src={T_Undo} alt="Undo" className="w-5 h-5 pointer-events-none" />
+      </button>
+
+      {/* Redo Button */}
+      <button
+        type="button"
+        onClick={toggleRedo}
+        title="Redo"
+        aria-label="Redo"
+        className={`custom-editor-toolbar ${
+          canRedo ? 'bg-blue-500' : 'opacity-50 cursor-not-allowed'
+        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={!activeQuill || !canRedo}
+      >
+        <img src={T_Redo} alt="Redo" className="w-5 h-5 pointer-events-none" />
+      </button>
+
+      {/* Bold Button */}
+      <button
+        type="button"
+        onClick={toggleBold}
+        title="Bold"
+        aria-label="Bold"
+        className={`custom-editor-toolbar ${isBold ? 'bg-blue-500' : ''} ${
+          !activeQuill ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+        disabled={!activeQuill}
+      >
+        <img src={T_Bold} alt="Bold" className="w-5 h-5 pointer-events-none" />
+      </button>
+
+      {/* Italic Button */}
+      <button
+        type="button"
+        onClick={toggleItalic}
+        title="Italic"
+        aria-label="Italic"
+        className={`custom-editor-toolbar ${isItalic ? 'bg-blue-500' : ''} ${
+          !activeQuill ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+        disabled={!activeQuill}
+      >
+        <img
+          src={T_Italic}
+          alt="Italic"
+          className="w-5 h-5 pointer-events-none"
+        />
+      </button>
+
+      {/* Underline Button */}
+      <button
+        type="button"
+        onClick={toggleUnderline}
+        title="Underline"
+        aria-label="Underline"
+        className={`custom-editor-toolbar ${isUnderline ? 'bg-blue-500' : ''} ${
+          !activeQuill ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+        disabled={!activeQuill}
+      >
+        <img
+          src={T_Underline}
+          alt="Underline"
+          className="w-5 h-5 pointer-events-none"
+        />
+      </button>
+
+      {/* Strikethrough Button */}
+      <button
+        type="button"
+        onClick={toggleStrikethrough}
+        title="Strikethrough"
+        aria-label="Strikethrough"
+        className={`custom-editor-toolbar ${
+          isStrikethrough ? 'bg-blue-500' : ''
+        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={!activeQuill}
+      >
+        <img
+          src={T_Strikethrough}
+          alt="Strikethrough"
+          className="w-5 h-5 pointer-events-none"
+        />
+      </button>
+
+      {/* Ordered List Button */}
+      <button
+        type="button"
+        onClick={toggleOrderedList}
+        title="Ordered List"
+        aria-label="Ordered List"
+        className={`custom-editor-toolbar ${
+          isOrderedList ? 'bg-blue-500' : ''
+        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={!activeQuill}
+      >
+        <img
+          src={T_NumberedList}
+          alt="Ordered List"
+          className="w-5 h-5 pointer-events-none"
+        />
+      </button>
+
+      {/* Unordered List Button */}
+      <button
+        type="button"
+        onClick={toggleUnorderedList}
+        title="Unordered List"
+        aria-label="Unordered List"
+        className={`custom-editor-toolbar ${
+          isUnorderedList ? 'bg-blue-500' : ''
+        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={!activeQuill}
+      >
+        <img
+          src={T_BulletList}
+          alt="Unordered List"
+          className="w-5 h-5 pointer-events-none"
+        />
+      </button>
     </div>
   );
+};
+
+QuillToolbar.propTypes = {
+  activeQuill: PropTypes.object, // Quill instance or null
 };
 
 export default QuillToolbar;
