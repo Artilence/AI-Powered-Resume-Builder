@@ -1,8 +1,7 @@
 import { Route, Routes } from 'react-router';
 import './App.css';
 
-import ResumeEditor from './pages/Resume-Editor/ResumeEditor';
-import SignUpPage from './pages/Auth/SignUpPage/SignUpPage';
+import { ResumeEditor, SignUpPage, MyDocumentsPage } from './pages';
 
 function App() {
   return (
@@ -10,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ResumeEditor />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/my-documents" element={<MyDocumentsPage />} />
       </Routes>
     </>
   );

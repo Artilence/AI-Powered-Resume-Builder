@@ -7,7 +7,7 @@ const Eclipse = ({ top, left, rotate = '' }) => {
         {/* Gradient Circle */}
         <div className="absolute z-[1]  rounded-full w-[90%] h-[90%] bg-gradient-to-r from-[rgba(53,124,247,1)] to-[rgba(110,73,242,1)] flex justify-center items-center">
           {/* Inner Black Circle */}
-          <div className="w-[80%]  h-[80%] bg-black rounded-full"></div>
+          <div className="w-[85%]  h-[85%] bg-black rounded-full"></div>
         </div>
         {/* Blurred Backdrop */}
         <div className="absolute z-[2] w-full h-full backdrop-blur-[80px]"></div>
