@@ -10,7 +10,9 @@ import T_Strikethrough from './t_strikethrough.png';
 import T_inlineCode from './t_inlinecode.png';
 import T_BulletList from './t_bulletpoints.png';
 import T_NumberedList from './t_listpoints.png';
-
+import logo from './Logo.png';
+import linkedin from './linkedinIcon.png';
+import google from './googleIcon.png';
 export {
   arrowDown,
   T_Undo,
@@ -24,4 +26,7 @@ export {
   T_inlineCode,
   T_BulletList,
   T_NumberedList,
+  logo,
+  linkedin,
+  google,
 };
