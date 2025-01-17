@@ -13,5 +13,12 @@ html {
 }
 
 .custom-editor-toolbar img {
-  @apply w-[24px] h-[24px];
+  @apply w-[24px] h-[24px] pointer-events-none;
+}
+
+.ql-editor {
+  @apply !p-0 !m-0 !border-none !outline-none;
+}
+.ql-container {
+  font-size: inherit !important;
 }
