@@ -17,6 +17,9 @@ import arrowLeft from './arrowLeft.png';
 import documentIcon from './docsIcon.png';
 import menu1 from './threedots.png';
 import downloadIcon from './downloads.png';
+import deleteDocument from './deleteDocument.png';
+import duplicateDocument from './duplicateDocument.png';
+import openDocument from './openDocument.png';
 export {
   arrowDown,
   T_Undo,
@@ -37,4 +40,7 @@ export {
   documentIcon,
   menu1,
   downloadIcon,
+  deleteDocument,
+  duplicateDocument,
+  openDocument,
 };

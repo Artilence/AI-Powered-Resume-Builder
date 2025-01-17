@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import Eclipse from '../../components/design-utils/Eclipse';
-import { arrowLeft, documentIcon, downloadIcon, menu1 } from '../../assets';
+import {
+  arrowLeft,
+  deleteDocument,
+  documentIcon,
+  downloadIcon,
+  duplicateDocument,
+  menu1,
+  openDocument,
+} from '../../assets';
 
 const MyDocumentsPage = () => {
   const [documents, setDocuments] = useState([
@@ -74,8 +82,34 @@ const MyDocumentsPage = () => {
                 <button className="hover:bg-gray-600 px-8 py-4  rounded-full text-white font-albert text-sm">
                   <img src={downloadIcon} alt="download" />
                 </button>
-                <button className="hover:bg-gray-600 h-20 w-20 flex justify-center items-center rounded-full text-white font-albert text-sm">
+                <button className="group relative hover:bg-gray-600 h-20 w-20 flex justify-center items-center rounded-full text-white font-albert text-sm">
                   <img src={menu1} alt="menu" />
+                  <div className="absolute hidden z-20 top-[100%] bg-black group-hover:flex flex-col  gap-2 w-max py-3 px-8 rounded-lg border border-white-transparent-2">
+                    <div className="flex justify-start items-center gap-[12px] px-2 py-3  rounded-lg cursor-pointer hover:bg-gray-700">
+                      <img src={openDocument} className="" alt="opendocument" />
+                      <span className="font-inter text-[12px]">Open</span>
+                    </div>
+                    <div className="flex justify-start items-center gap-[12px] px-2 py-3  rounded-lg cursor-pointer hover:bg-gray-700">
+                      <img
+                        src={duplicateDocument}
+                        className=""
+                        alt="opendocument"
+                      />
+                      <span className="font-inter text-[12px]">Duplicate</span>
+                    </div>
+                    <div className="flex justify-start items-center gap-[12px] px-2 py-3  rounded-lg cursor-pointer hover:bg-gray-700">
+                      <img src={downloadIcon} className="" alt="opendocument" />
+                      <span className="font-inter text-[12px]">Download</span>
+                    </div>
+                    <div className="flex justify-start items-center gap-[12px] px-2 py-3  rounded-lg cursor-pointer hover:bg-gray-700">
+                      <img
+                        src={deleteDocument}
+                        className=""
+                        alt="opendocument"
+                      />
+                      <span className="font-inter text-[12px]">Delete</span>
+                    </div>
+                  </div>
                 </button>
               </div>
             </div>
