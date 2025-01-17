@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
 // src/components/ResumeTemplate.jsx
 import React, { useRef, useEffect, useState } from 'react';
 import QuillField from '../pages/Resume-Editor/QuillJS/QuillField';
-import PropTypes from 'prop-types';
 
 const ResumeTemplate = ({ setActiveQuill }) => {
   const [fields, setFields] = useState({
@@ -63,7 +63,10 @@ const ResumeTemplate = ({ setActiveQuill }) => {
   const addSkill = () => {
     setFields((prev) => ({
       ...prev,
-      skills: [...prev.skills, { id: uuidv4(), content: '' }],
+      skills: [
+        ...prev.skills,
+        { id: fields.skills.length + 1, content: 'New Skill' },
+      ],
     }));
   };
 
@@ -133,6 +136,13 @@ const ResumeTemplate = ({ setActiveQuill }) => {
               </button>
             </div>
           ))}
+          <button
+            onClick={addSkill}
+            className="text-[12px] bg-gray-200 px-[10px] py-[10px] rounded-lg text-gray-500 hover:text-gray-700 focus:outline-none"
+            title="Add Skill"
+          >
+            + Add Skill
+          </button>
         </div>
       </div>
     </div>
