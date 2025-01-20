@@ -10,9 +10,9 @@ const ResumeTemplate = ({ setActiveQuill }) => {
     name: 'Your Name',
     summary: '',
     skills: [
-      { id: Date.now().toString(), content: 'Skill 1' },
-      { id: Date.now().toString(), content: 'Skill 2' },
-      { id: Date.now().toString(), content: 'Skill 3' },
+      { id: Date.now().toString() + 1212312, content: 'Skill 1' },
+      { id: Date.now().toString() + 1212311244, content: 'Skill 2' },
+      { id: Date.now().toString() + 121231244, content: 'Skill 3' },
     ],
     experience: [
       {

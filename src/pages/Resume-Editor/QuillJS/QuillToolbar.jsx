@@ -1,5 +1,5 @@
 // src/components/QuillToolbar.jsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   T_Bold,
@@ -9,7 +9,9 @@ import {
   T_NumberedList,
   T_BulletList,
   T_Undo, // Import the Undo icon
-  T_Redo, // Import the Redo icon
+  T_Redo,
+  T_alignleft,
+  arrowDown, // Import the Redo icon
 } from '../../../assets'; // Ensure all icons are correctly imported
 
 const QuillToolbar = ({ activeQuill }) => {
@@ -19,10 +21,28 @@ const QuillToolbar = ({ activeQuill }) => {
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [isOrderedList, setIsOrderedList] = useState(false);
   const [isUnorderedList, setIsUnorderedList] = useState(false);
+  const [textAlign, setTextAlign] = useState('');
 
   // New state variables for Undo and Redo
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
+
+  //Function to align-text
+  const toggleAlignText = (value) => {
+    if (activeQuill) {
+      const range = activeQuill.getSelection();
+      if (range) {
+        console.log('clicked');
+        setTextAlign(value);
+
+        const currentFormat = activeQuill.getFormat(range);
+        console.log(value);
+
+        const { index, length } = range;
+        activeQuill.formatLine(index, length, 'align', value);
+      }
+    }
+  };
 
   // Function to toggle bold formatting
   const toggleBold = () => {
@@ -127,6 +147,7 @@ const QuillToolbar = ({ activeQuill }) => {
           setIsStrikethrough(currentFormat.strike || false);
           setIsOrderedList(currentFormat.list === 'ordered' || false);
           setIsUnorderedList(currentFormat.list === 'bullet' || false);
+          setTextAlign(currentFormat.align || 'left');
         } else {
           setIsBold(false);
           setIsItalic(false);
@@ -134,6 +155,7 @@ const QuillToolbar = ({ activeQuill }) => {
           setIsStrikethrough(false);
           setIsOrderedList(false);
           setIsUnorderedList(false);
+          setTextAlign('left');
         }
       };
 
@@ -163,6 +185,7 @@ const QuillToolbar = ({ activeQuill }) => {
       setIsStrikethrough(false);
       setIsOrderedList(false);
       setIsUnorderedList(false);
+      setTextAlign('left');
       setCanUndo(false);
       setCanRedo(false);
     }
@@ -199,6 +222,44 @@ const QuillToolbar = ({ activeQuill }) => {
         disabled={!activeQuill || !canRedo}
       >
         <img src={T_Redo} alt="Redo" className="w-5 h-5 pointer-events-none" />
+      </button>
+      {/* Align Text */}
+      <button
+        type="button"
+        title="Align Text"
+        aria-label="Align Text"
+        className={`custom-editor-toolbar rounded-md  ${
+          textAlign !== 'right' && textAlign !== 'center' ? 'bg-blue-500' : ''
+        } `}
+        disabled={!activeQuill}
+        onClick={() => toggleAlignText('')}
+      >
+        <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
+      </button>
+      <button
+        type="button"
+        title="Align Text"
+        aria-label="Align Text"
+        className={`custom-editor-toolbar rounded-md  ${
+          textAlign === 'center' ? 'bg-blue-500' : ''
+        } `}
+        disabled={!activeQuill}
+        onClick={() => toggleAlignText('center')}
+      >
+        <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
+      </button>
+
+      <button
+        type="button"
+        title="Align Text"
+        aria-label="Align Text"
+        className={`custom-editor-toolbar rounded-md  ${
+          textAlign === 'right' ? 'bg-blue-500' : ''
+        } `}
+        disabled={!activeQuill}
+        onClick={() => toggleAlignText('right')}
+      >
+        <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
       </button>
 
       {/* Bold Button */}
