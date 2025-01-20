@@ -3,27 +3,27 @@ import Navbar from '../../../components/design-utils/Navbar';
 import { linkedin, google } from '../../../assets';
 import Eclipse from '../../../components/design-utils/Eclipse';
 import { Link, useNavigate } from 'react-router';
-import { simpleAPI } from '../../../app/api';
+import { loginUser } from '../../../app/auth/authAPI';
+import { useDispatch, useSelector } from 'react-redux';
 const SignInPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [userDetails, setUserDetails] = useState({
     email: '',
     password: '',
   });
-  const [errors, setErrorrs] = useState(null);
+  // Accessing isLoading and error states from auth slice
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const error = useSelector((state) => state.auth.error);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorrs(null);
-    try {
-      const response = await simpleAPI.post('/login/', userDetails);
-      console.log(response?.data?.user);
-    } catch (error) {
-      if (error?.response?.data?.detail) {
-        setErrorrs(error?.response?.data?.detail);
-      } else {
-        setErrorrs(error?.message);
+
+    await dispatch(loginUser(userDetails)).then(() => {
+      if (isAuthenticated) {
+        navigate('/');
       }
-    }
+    });
   };
   return (
     <>
@@ -47,9 +47,9 @@ const SignInPage = () => {
           </div>
           {/* Errors */}
           <div className="flex flex-col text-[10px] gap-4 py-10 ">
-            {errors && (
+            {error && (
               <div className="bg-red-800 p-4 rounded-full">
-                <span className="p-3">{errors}</span>
+                <span className="p-3">{error}</span>
               </div>
             )}
           </div>

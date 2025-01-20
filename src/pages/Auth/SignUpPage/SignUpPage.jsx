@@ -6,18 +6,29 @@ import { Link, useNavigate } from 'react-router';
 import { simpleAPI } from '../../../app/api';
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const [name, setName] = useState({
+    firstName: '',
+    lastName: '',
+  });
   const [userDetails, setUserDetails] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
   });
+
   const [errors, setErrorrs] = useState();
   const handleSubmit = async (e) => {
+    const combinedName = `${name.firstName} ${name.lastName}`;
+    setUserDetails({
+      ...userDetails,
+      name: combinedName,
+    });
+
     e.preventDefault();
     setErrorrs(null);
     try {
       const response = await simpleAPI.post('/users/', userDetails);
-      navigate('/login');
+      navigate('/signin');
     } catch (error) {
       console.log(error);
 
@@ -69,18 +80,16 @@ const SignUpPage = () => {
           </div>
           {/* Errors */}
           <div className="flex flex-col text-[10px] gap-4 py-10 ">
-            {errors?.username && (
-              <div className="bg-red-800 p-4 rounded-full">
-                {errors?.username.map((userError, index) => (
-                  <span className="p-3" key={index}>
-                    {userError}
-                  </span>
-                ))}
-              </div>
-            )}
             {errors?.email && (
               <div className="bg-red-800 p-4 rounded-full">
                 {errors?.email.map((userError, index) => (
+                  <span key={index}>{userError}</span>
+                ))}
+              </div>
+            )}
+            {errors?.name && (
+              <div className="bg-red-800 p-4 rounded-full">
+                {errors?.name.map((userError, index) => (
                   <span key={index}>{userError}</span>
                 ))}
               </div>
@@ -102,6 +111,36 @@ const SignUpPage = () => {
               onSubmit={handleSubmit}
               className="w-full flex flex-col gap-10"
             >
+              <div className="w-full flex items-center gap-10 justify-between">
+                <div className="flex w-full flex-col gap-3 justify-center items-start">
+                  <span className="font-inter text-sm text-label-gray">
+                    First Name
+                  </span>
+                  <input
+                    type="text"
+                    className="w-full rounded-full border border-white-transparent-2 text-base bg-black py-4 px-6 outline-none placeholder:text-white-transparent"
+                    onChange={(e) =>
+                      setName({ ...name, firstName: e.target.value })
+                    }
+                    value={name.firstName}
+                    placeholder="Example@gmail.com"
+                  />
+                </div>
+                <div className="flex w-full flex-col gap-3 justify-center items-start">
+                  <span className="font-inter text-sm text-label-gray">
+                    Last Name
+                  </span>
+                  <input
+                    type="text"
+                    className="w-full rounded-full border border-white-transparent-2 text-base bg-black py-4 px-6 outline-none placeholder:text-white-transparent"
+                    onChange={(e) =>
+                      setName({ ...name, lastName: e.target.value })
+                    }
+                    value={name.lastName}
+                    placeholder="Example@gmail.com"
+                  />
+                </div>
+              </div>
               <div className="flex flex-col gap-3 justify-center items-start">
                 <span className="font-inter text-sm text-label-gray">
                   Email address
@@ -116,20 +155,7 @@ const SignUpPage = () => {
                   placeholder="Example@gmail.com"
                 />
               </div>
-              <div className="flex flex-col gap-3 justify-center items-start">
-                <span className="font-inter text-sm text-label-gray">
-                  Username
-                </span>
-                <input
-                  type="text"
-                  className="w-full rounded-full border border-white-transparent-2 text-base bg-black py-4 px-6 outline-none placeholder:text-white-transparent"
-                  onChange={(e) =>
-                    setUserDetails({ ...userDetails, username: e.target.value })
-                  }
-                  value={userDetails.username}
-                  placeholder="John Doe..."
-                />
-              </div>
+
               <div className="flex flex-col gap-3 justify-center items-start">
                 <span className="font-inter text-sm text-label-gray">
                   Password
