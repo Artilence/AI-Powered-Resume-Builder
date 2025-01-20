@@ -151,7 +151,7 @@ const SignUpPage = () => {
           </div>
           <span className="w-full text-center flex items-center justify-center gap-2 font-inter text-sm text-label-gray">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary-blue cursor-pointer">
+            <Link to="/signin" className="text-primary-blue cursor-pointer">
               Login
             </Link>
           </span>

@@ -13,6 +13,13 @@ import T_NumberedList from './t_listpoints.png';
 import logo from './Logo.png';
 import linkedin from './linkedinIcon.png';
 import google from './googleIcon.png';
+import arrowLeft from './arrowLeft.png';
+import deleteDocument from './delete_icon.png';
+import documentIcon from './document_icon.png';
+import downloadIcon from './download_icon.png';
+import duplicateDocument from './duplicate_icon.png';
+import menu1 from './menu1.png';
+import openDocument from './openDocument.png';
 export {
   arrowDown,
   T_Undo,
@@ -29,4 +36,11 @@ export {
   logo,
   linkedin,
   google,
+  arrowLeft,
+  deleteDocument,
+  documentIcon,
+  downloadIcon,
+  duplicateDocument,
+  menu1,
+  openDocument,
 };
