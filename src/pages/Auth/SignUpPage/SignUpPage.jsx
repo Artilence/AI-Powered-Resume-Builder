@@ -48,35 +48,16 @@ const SignUpPage = () => {
           left="left-[calc(-100vw*0.2)] lg:left-[calc(-100vw*0.25)]"
         />
         {/* BOX */}
-        <div className=" bg-black z-10 flex flex-col border border-white-transparent lg:w-[40%] rounded-3xl text-white py-10 px-6">
+        <div className=" bg-black z-10 flex flex-col border border-white-transparent md:w-[70%] lg:w-[60%] xl:w-[40%] 2xl:w-[35%] rounded-3xl text-white py-10 px-8">
           {/* Header */}
           <div className="flex flex-col items-center justify-center gap-10">
             <h1 className="font-albert text-5xl font-semibold tracking-widest text-center">
               Create your free account{' '}
             </h1>
-            <p className="font-inter text-base text-center w-[60%]">
+            <p className="font-inter text-base text-center w-[80%]">
               Edvenity is the leading automated recruiting solution that helps
               you engage, nurture and hire talents faster.
             </p>
-            {/* Buttons */}
-            <div className="flex items-center flex-col gap-10 justify-center py-16 border-b border-white-transparent w-full">
-              <button className="w-full gap-5 px-9 py-4   flex items-center justify-center font-inter text-base bg-white-transparent rounded-full cursor-pointer">
-                <img
-                  src={linkedin}
-                  alt="linkedin"
-                  className="w-10 object-contain"
-                />
-                Sign up with LinkedIn
-              </button>
-              <button className="w-full gap-5 px-9 py-4   flex items-center justify-center font-inter text-base bg-white-transparent rounded-full cursor-pointer">
-                <img
-                  src={google}
-                  alt="google"
-                  className="w-10 object-contain"
-                />
-                Sign up with Google
-              </button>
-            </div>
           </div>
           {/* Errors */}
           <div className="flex flex-col text-[10px] gap-4 py-10 ">
@@ -111,6 +92,35 @@ const SignUpPage = () => {
               onSubmit={handleSubmit}
               className="w-full flex flex-col gap-10"
             >
+              <div className="flex flex-col gap-3 justify-center items-start">
+                <span className="font-inter text-sm text-label-gray">
+                  Email address
+                </span>
+                <input
+                  type="email"
+                  className="w-full rounded-full border border-white-transparent-2 text-base bg-black py-4 px-6 outline-none placeholder:text-white-transparent"
+                  onChange={(e) =>
+                    setUserDetails({ ...userDetails, email: e.target.value })
+                  }
+                  value={userDetails.email}
+                  placeholder="Example@gmail.com"
+                />
+              </div>
+
+              <div className="flex flex-col gap-3 justify-center items-start">
+                <span className="font-inter text-sm text-label-gray">
+                  Password
+                </span>
+                <input
+                  type="password"
+                  className="w-full rounded-full border  border-white-transparent-2 text-base bg-black py-4 px-6 outline-none placeholder:text-white-transparent"
+                  onChange={(e) =>
+                    setUserDetails({ ...userDetails, password: e.target.value })
+                  }
+                  value={userDetails.password}
+                  placeholder="********"
+                />
+              </div>
               <div className="w-full flex items-center gap-10 justify-between">
                 <div className="flex w-full flex-col gap-3 justify-center items-start">
                   <span className="font-inter text-sm text-label-gray">
@@ -141,34 +151,24 @@ const SignUpPage = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col gap-3 justify-center items-start">
-                <span className="font-inter text-sm text-label-gray">
-                  Email address
-                </span>
-                <input
-                  type="email"
-                  className="w-full rounded-full border border-white-transparent-2 text-base bg-black py-4 px-6 outline-none placeholder:text-white-transparent"
-                  onChange={(e) =>
-                    setUserDetails({ ...userDetails, email: e.target.value })
-                  }
-                  value={userDetails.email}
-                  placeholder="Example@gmail.com"
-                />
-              </div>
-
-              <div className="flex flex-col gap-3 justify-center items-start">
-                <span className="font-inter text-sm text-label-gray">
-                  Password
-                </span>
-                <input
-                  type="password"
-                  className="w-full rounded-full border  border-white-transparent-2 text-base bg-black py-4 px-6 outline-none placeholder:text-white-transparent"
-                  onChange={(e) =>
-                    setUserDetails({ ...userDetails, password: e.target.value })
-                  }
-                  value={userDetails.password}
-                  placeholder="********"
-                />
+              {/* Buttons */}
+              <div className="flex items-center flex-col gap-10 justify-center pt-10 border-t border-white-transparent w-full">
+                <button className="w-full gap-5 px-9 py-4   flex items-center justify-center font-inter text-base bg-white-transparent rounded-full cursor-pointer">
+                  <img
+                    src={linkedin}
+                    alt="linkedin"
+                    className="w-10 object-contain"
+                  />
+                  Sign up with LinkedIn
+                </button>
+                <button className="w-full gap-5 px-9 py-4   flex items-center justify-center font-inter text-base bg-white-transparent rounded-full cursor-pointer">
+                  <img
+                    src={google}
+                    alt="google"
+                    className="w-10 object-contain"
+                  />
+                  Sign up with Google
+                </button>
               </div>
               <button className="w-full bg-btn-purple text-white font-inter text-base py-4 px-6 rounded-full">
                 Sign Up

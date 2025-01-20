@@ -34,7 +34,7 @@ const SignInPage = () => {
           left="left-[calc(-100vw*0.2)] lg:left-[calc(-100vw*0.25)]"
         />
         {/* BOX */}
-        <div className=" bg-black z-10 flex flex-col border border-white-transparent lg:w-[40%] rounded-3xl text-white py-10 px-6">
+        <div className=" bg-black z-10 flex flex-col border border-white-transparent md:w-[70%] lg:w-[60%] xl:w-[40%] 2xl:w-[30%] rounded-3xl text-white py-10 px-6">
           {/* Header */}
           <div className="flex flex-col items-center justify-center gap-10">
             <h1 className="font-albert text-5xl font-semibold tracking-widest text-center">
@@ -94,7 +94,7 @@ const SignInPage = () => {
                 </div>
               </div>
               {/* Buttons */}
-              <div className="flex items-center flex-col gap-10 justify-center py-16 border-b border-white-transparent w-full">
+              <div className="flex items-center flex-col gap-10 justify-center pt-16 border-t border-white-transparent w-full">
                 <button className="w-full gap-5 px-9 py-4   flex items-center justify-center font-inter text-base bg-white-transparent rounded-full cursor-pointer">
                   <img
                     src={linkedin}
