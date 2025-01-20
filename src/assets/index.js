@@ -20,7 +20,10 @@ import downloadIcon from './download_icon.png';
 import duplicateDocument from './duplicate_icon.png';
 import menu1 from './menu1.png';
 import openDocument from './openDocument.png';
+import myDocuments from './myDocuments.png';
+import dummyprofile from './dummyprofile.png';
 export {
+  myDocuments,
   arrowDown,
   T_Undo,
   T_Redo,
@@ -43,4 +46,5 @@ export {
   duplicateDocument,
   menu1,
   openDocument,
+  dummyprofile,
 };

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser } from './authAPI';
+import { loginUser, logoutUser } from './authAPI';
 //Auth Logic
 //login -> user logins -> user persisted->isauthenticated will be refreshed to false everytime user came back
 //or refreshes.
@@ -33,6 +33,12 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Login failed';
+      })
+      // Handle successful logout
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.loading = false;
       });
   },
 });

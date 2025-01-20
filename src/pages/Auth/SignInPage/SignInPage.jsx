@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import Navbar from '../../../components/design-utils/Navbar';
+import Navbar from '../../../components/Layout/Navbar';
+
 import { linkedin, google } from '../../../assets';
 import Eclipse from '../../../components/design-utils/Eclipse';
 import { Link, useNavigate } from 'react-router';
@@ -20,9 +21,7 @@ const SignInPage = () => {
     e.preventDefault();
 
     await dispatch(loginUser(userDetails)).then(() => {
-      if (isAuthenticated) {
-        navigate('/');
-      }
+      navigate('/');
     });
   };
   return (
