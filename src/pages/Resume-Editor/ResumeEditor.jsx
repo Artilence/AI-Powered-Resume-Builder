@@ -4,7 +4,7 @@ import Eclipse from '../../components/design-utils/Eclipse';
 import ResumeTemplate from '../../Resumes/ResumeTemplate1'; // Corrected import
 import QuillToolbar from './QuillJS/QuillToolbar';
 import Layout from '../../components/Layout/Layout';
-import Chat from './chatbot/Chat';
+import AddToChatButton from './ChatBot/AddToChatButton';
 const ResumeEditor = () => {
   // PDF
 
@@ -26,7 +26,7 @@ const ResumeEditor = () => {
           {/* Resume Template that uses this same toolbar */}
 
           <ResumeTemplate setActiveQuill={handleSetActiveQuill} />
-          <Chat />
+          <AddToChatButton />
         </div>
       </div>
     </Layout>

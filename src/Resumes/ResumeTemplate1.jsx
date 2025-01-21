@@ -2,7 +2,6 @@
 // src/components/ResumeTemplate.jsx
 import { useEffect, useState } from 'react';
 import QuillField from '../pages/Resume-Editor/QuillJS/QuillField';
-import { usePDF } from 'react-to-pdf';
 import {
   initializeArrayRefs,
   useFieldRefs,
@@ -13,8 +12,6 @@ import {
 } from '../utils';
 
 const ResumeTemplate = ({ setActiveQuill }) => {
-  const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
-
   const [fields, setFields] = useState({
     name: 'Your Name',
     summary: '',
@@ -168,11 +165,7 @@ const ResumeTemplate = ({ setActiveQuill }) => {
   };
 
   return (
-    <div
-      ref={targetRef}
-      className="w-[700px] h-[1200px] bg-white shadow-lg rounded-lg py-[40px] px-[20px] flex flex-col gap-4"
-    >
-      <button onClick={toPDF}>Download PDF</button>
+    <div className="w-[700px] h-[1200px] bg-white shadow-lg rounded-lg py-[40px] px-[20px] flex flex-col gap-4">
       <div className="pb-[30px] w-full text-[40px] font-bold text-gray-500 flex items-center justify-start">
         <QuillField
           ref={quillRefs?.name}
