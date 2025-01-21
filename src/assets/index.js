@@ -13,6 +13,7 @@ import T_NumberedList from './t_listpoints.png';
 import logo from './Logo.png';
 import linkedin from './linkedinIcon.png';
 import google from './googleIcon.png';
+
 import arrowLeft from './arrowLeft.png';
 import deleteDocument from './delete_icon.png';
 import documentIcon from './document_icon.png';
@@ -22,6 +23,7 @@ import menu1 from './menu1.png';
 import openDocument from './openDocument.png';
 import myDocuments from './myDocuments.png';
 import dummyprofile from './dummyprofile.png';
+
 export {
   myDocuments,
   arrowDown,
@@ -39,6 +41,7 @@ export {
   logo,
   linkedin,
   google,
+
   arrowLeft,
   deleteDocument,
   documentIcon,
@@ -47,4 +50,5 @@ export {
   menu1,
   openDocument,
   dummyprofile,
+
 };
