@@ -26,7 +26,7 @@ const ResumeEditor = () => {
           {/* Resume Template that uses this same toolbar */}
 
           <ResumeTemplate setActiveQuill={handleSetActiveQuill} />
-          <AddToChatButton />
+          <AddToChatButton activeQuill={activeQuill} />
         </div>
       </div>
     </Layout>
