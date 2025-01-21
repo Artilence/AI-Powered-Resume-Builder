@@ -13,6 +13,9 @@ export default {
         'label-gray': 'rgba(228, 228, 231, 1)',
         'white-transparent-2': 'rgba(255, 255, 255, 0.2)',
         'btn-purple': 'rgba(77, 39, 215, 1)',
+
+        'black-transparent': 'rgba(255, 255, 255, 0.7)',
+
       },
       fontFamily: {
         albert: ['"Albert Sans"', 'sans-serif'],
@@ -23,6 +26,9 @@ export default {
         sm: '14px',
         base_2: '18px',
         heading: '42px',
+
+        heading_2: '32px',
+
       },
     },
   },
