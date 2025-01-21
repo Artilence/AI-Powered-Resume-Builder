@@ -7,7 +7,7 @@ import SignUpPage from './pages/Auth/SignUpPage/SignUpPage';
 import SignInPage from './pages/Auth/SignInPage/SignInPage';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
-import QuillEditor from './pages/TestEditor/QuillEditor';
+import Layout from './pages/TestEditor/Layout';
 function App() {
   const user = useSelector((state) => state.auth.user);
   return (
@@ -24,7 +24,7 @@ function App() {
           element={user ? <Navigate to="/" /> : <SignInPage />}
         />
         <Route path="/my-resumes" element={<MyDocumentsPage />} />
-        <Route path="/test" element={<QuillEditor />} />
+        <Route path="/test" element={<Layout />} />
       </Routes>
     </>
   );

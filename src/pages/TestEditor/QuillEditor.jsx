@@ -106,10 +106,7 @@ const QuillEditor = () => {
   }, [editorState]);
 
   return (
-    <div
-      className="relative p-4 max-w-3xl mx-auto flex flex-col gap-4"
-      ref={containerRef}
-    >
+    <div className=" " ref={containerRef}>
       <h1 className="text-2xl font-bold">Quill Editor with Diff Preview</h1>
 
       <ReactQuill
@@ -117,7 +114,7 @@ const QuillEditor = () => {
         theme="snow"
         value={content}
         onChange={setContent}
-        className="bg-white rounded shadow relative"
+        className="bg-white rounded w-full "
       />
 
       <div className="flex gap-2 mt-4">

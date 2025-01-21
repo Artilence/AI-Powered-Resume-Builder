@@ -1,8 +1,7 @@
-import { UploadDocContext } from '../store';
+import { UploadDocContext } from './store';
 import { useContext, useState } from 'react';
 import axios from 'axios';
 import parse from 'html-react-parser';
-import { toast } from 'react-hot-toast';
 
 function Chat() {
   const { selectedContent, setNewContent, setEditorState, deltaToHtml } =
@@ -56,12 +55,11 @@ function Chat() {
       setPrompt(''); // Reset prompt after sending
     } catch (error) {
       console.error('Error from API:', error);
-      toast.error('Failed to transform content.');
     }
   };
 
   return (
-    <div className="relative px-6 space-y-6 flex flex-col h-full">
+    <div className="border-l-2 border-gray-300  h-full px-6 space-y-6 flex flex-col py-6 ">
       <div className="flex-1 overflow-auto">
         {messages.length > 0 ? (
           messages.map((message, index) => (
@@ -122,17 +120,17 @@ function Chat() {
         </div>
       )}
 
-      <div className="flex">
+      <div className="flex border border-gray-300 rounded-lg p-4">
         <input
           type="text"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Type prompt for context..."
-          className="input input-bordered w-[80%] !border-r-0 rounded-r-none"
+          className=" h-full outline-none w-[80%] "
         />
         <button
           onClick={handleSend}
-          className="btn btn-primary w-[20%] !text-black rounded-l-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-primary-blue p-4 rounded-lg text-white w-[20%]  rounded-l-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!selectedContent || !prompt}
         >
           Send
