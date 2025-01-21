@@ -192,10 +192,7 @@ const QuillToolbar = ({ activeQuill }) => {
   }, [activeQuill]);
 
   return (
-    <div
-      id="toolbar-custom"
-      className="bg-gray-black flex items-center px-8 py-2 rounded-lg gap-3 absolute top-28  z-50 shadow-md"
-    >
+    <div className="bg-gray-black flex items-center px-8 py-2 rounded-lg gap-3 fixed top-[13%]  z-20 shadow-md">
       {/* Undo Button */}
       <button
         type="button"
