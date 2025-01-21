@@ -37,7 +37,7 @@ const QuillField = forwardRef(
               userOnly: true,
             },
           },
-          formats: ['bold', 'italic', 'underline', 'strike', 'list'],
+          formats: ['bold', 'italic', 'underline', 'strike', 'list', 'align'],
         });
 
         // Set default content if provided

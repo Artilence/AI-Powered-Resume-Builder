@@ -22,3 +22,10 @@ html {
 .ql-container {
   font-size: inherit !important;
 }
+
+/* Targeting the input fields when autofilled */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px rgba(35, 34, 34, 0.788) inset; /* Replace #f0f0f0 with your desired background color */
+  -webkit-text-fill-color: white; /* Replace #333 with your desired text color */
+  transition: background-color 5000s ease-in-out 0s; /* Prevents background color flicker */
+}
