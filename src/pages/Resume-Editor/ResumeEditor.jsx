@@ -5,6 +5,8 @@ import ResumeTemplate from '../../Resumes/ResumeTemplate1'; // Corrected import
 import QuillToolbar from './QuillJS/QuillToolbar';
 import Layout from '../../components/Layout/Layout';
 const ResumeEditor = () => {
+  // PDF
+
   const [activeQuill, setActiveQuill] = useState(null); // Tracks the active Quill instance
 
   // Memoize the setActiveQuill callback to prevent unnecessary re-renders
@@ -21,6 +23,7 @@ const ResumeEditor = () => {
           <QuillToolbar activeQuill={activeQuill} />
 
           {/* Resume Template that uses this same toolbar */}
+
           <ResumeTemplate setActiveQuill={handleSetActiveQuill} />
         </div>
       </div>
