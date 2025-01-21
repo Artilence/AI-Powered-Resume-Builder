@@ -1,11 +1,20 @@
 /* eslint-disable react/prop-types */
 // src/components/ResumeTemplate.jsx
-import React, { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import QuillField from '../pages/Resume-Editor/QuillJS/QuillField';
+import { usePDF } from 'react-to-pdf';
+import {
+  initializeArrayRefs,
+  useFieldRefs,
+  handleTextChange,
+  handleSelectionChange,
+  removeField,
+  addField,
+} from '../utils';
 
 const ResumeTemplate = ({ setActiveQuill }) => {
-  //states to manage the editor fields
-  //will also be used to set default ai generated values
+  const { toPDF, targetRef } = usePDF({ filename: 'page.pdf' });
+
   const [fields, setFields] = useState({
     name: 'Your Name',
     summary: '',
@@ -50,40 +59,85 @@ const ResumeTemplate = ({ setActiveQuill }) => {
     ],
   });
 
-  // Refs to manage Quill instances
-  //To manage the quill instances for each field
-  const quillRefs = {
-    name: useRef(null),
-    summary: useRef(null),
-    skills: useRef([]),
-    experience: useRef([]),
-    education: useRef([]),
-  };
+  /*
+  **Functionality of the Toolbar Integrated with Quill Editor**
 
-  //To manage the text changes in the fields
-  const handleTextChange = (fieldName, content) => {
-    setFields((prev) => ({
-      ...prev,
-      [fieldName]: content,
-    }));
-  };
+  This section outlines how the toolbar operates in conjunction with the Quill editor to manage user data fields.
 
-  //To manage the selection changes in the fields
-  const handleSelectionChange = (range, quill) => {
-    if (range) {
-      setActiveQuill(quill);
-    } else {
-      setActiveQuill(null);
-    }
-  };
+  **Key Operations:**
 
-  //SKILLS LOGIC
-  //To manage the skills rendering logic
+  1. **Initialization of Refs for Editable Fields:**
+     - For every user data field that needs to be rendered and edited within the Quill editor, a corresponding `ref` is initialized.
+     - These refs allow direct manipulation and access to the DOM elements managed by Quill.
+
+  2. **Exclusion of Non-Editable Fields:**
+     - Certain fields such as `startDate`, `id`, and `endDate` are designated as non-editable.
+     - These fields are **not rendered** within the Quill editor to maintain data integrity and prevent unintended modifications.
+
+  3. **Creation of a Ref Replica for User Data:**
+     - A replica of the user data object is created where each editable field key maps to its corresponding `ref`.
+     - This structure ensures that the refs mirror the user data's schema, facilitating seamless data binding and manipulation.
+
+  **Implementation Steps:**
+
+  - **Step 1: Establish Basic Ref Structure**
+    - Initialize a foundational structure of refs for each primary field in the user data.
+    - Example:
+      ```javascript
+      const refs = useRef({
+        name: React.createRef(),
+        summary: React.createRef(),
+        skills: useRef([]),
+        experience: useRef([]),
+        education: useRef([]),
+      });
+      ```
+
+  - **Step 2: Initialize Nested Field Refs with Control Options**
+    - Utilize the `initializeArrayRefs()` helper function to set up refs for nested data structures such as `experience`, `education`, and `skills`.
+    - **Control Options:** Specify which sub-fields within these nested structures should have refs, effectively excluding non-editable fields.
+    - Example:
+      ```javascript
+      useEffect(() => {
+        const experienceOptions = { position: true, company: true, description: true };
+        initializeArrayRefs(refs.current.experience.current, fields.experience, experienceOptions);
+      }, [fields.experience]);
+      ```
+    - This ensures that only the specified editable fields (`position`, `company`, `description`) within each experience entry have corresponding refs.
+
+  **Summary:**
+
+  - **Editable Fields Management:** By initializing refs for each editable field, the toolbar gains precise control over the data rendered in the Quill editor.
+  - **Data Integrity:** Excluding non-editable fields from the editor prevents accidental modifications, maintaining the integrity of crucial data points like `id` and date fields.
+  - **Scalability:** The approach of creating a replica object with refs allows for scalable management of dynamic and nested data structures, making it easier to handle complex user data schemas.
+
+  **Note:** While this setup provides robust control over editable fields within the Quill editor, always ensure that any direct DOM manipulations via refs do not conflict with React's state management to prevent inconsistencies.
+*/
+
+  let quillRefs = useFieldRefs(fields);
+  console.log(fields);
+
   useEffect(() => {
-    quillRefs.skills.current = fields.skills.map(
-      (skill, i) => quillRefs.skills.current[i] || React.createRef()
-    );
-  }, [fields.skills, fields.skills.length, quillRefs.skills]);
+    initializeArrayRefs(quillRefs?.skills?.current, fields?.skills, {
+      content: true,
+    });
+    initializeArrayRefs(quillRefs?.experience?.current, fields?.experience, {
+      position: true,
+      company: true,
+      description: true,
+    });
+    initializeArrayRefs(quillRefs?.education?.current, fields?.education, {
+      degree: true,
+      institution: true,
+    });
+  }, [
+    fields?.skills,
+    quillRefs?.skills,
+    fields?.experience,
+    quillRefs?.experience,
+    fields?.education,
+    quillRefs?.education,
+  ]);
 
   // Handler for text changes in skills
   const handleSkillChange = (index, content) => {
@@ -93,36 +147,6 @@ const ResumeTemplate = ({ setActiveQuill }) => {
       return { ...prev, skills: updatedSkills };
     });
   };
-  //To add a new skill
-  const addSkill = () => {
-    setFields((prev) => ({
-      ...prev,
-      skills: [
-        ...prev.skills,
-        { id: Date.now().toString(), content: 'New Skill' },
-      ],
-    }));
-  };
-
-  //To remove a skill
-  const removeSkill = (index) => {
-    setFields((prev) => ({
-      ...prev,
-      skills: prev.skills.filter((_, i) => i !== index),
-    }));
-  };
-
-  // EXPERIENCE LOGIC
-  // To manage experience rendering logic
-  useEffect(() => {
-    // Create refs for each experience item
-    quillRefs.experience.current = fields.experience.map((exp, i) => ({
-      position: quillRefs.experience.current[i]?.position || React.createRef(),
-      company: quillRefs.experience.current[i]?.company || React.createRef(),
-      description:
-        quillRefs.experience.current[i]?.description || React.createRef(),
-    }));
-  }, [fields.experience, fields.experience.length, quillRefs.experience]);
 
   // Handler for text changes in experience fields
   const handleExperienceChange = (id, field, value) => {
@@ -134,42 +158,6 @@ const ResumeTemplate = ({ setActiveQuill }) => {
     }));
   };
 
-  // To add a new experience
-  const addExperience = () => {
-    setFields((prev) => ({
-      ...prev,
-      experience: [
-        ...prev.experience,
-        {
-          id: Date.now().toString(),
-          position: 'New Job Title',
-          company: 'New Company',
-          description: 'New Job Description',
-          startDate: '2025-01',
-          endDate: '2030-01',
-        },
-      ],
-    }));
-  };
-
-  // To remove an experience
-  const removeExperience = (index) => {
-    setFields((prev) => ({
-      ...prev,
-      experience: prev.experience.filter((_, i) => i !== index),
-    }));
-  };
-
-  //EDUCATION LOGIC
-  //To manage education rendering logic
-  useEffect(() => {
-    quillRefs.education.current = fields.education.map((edu, i) => ({
-      degree: quillRefs.education.current[i]?.degree || React.createRef(),
-      institution:
-        quillRefs.education.current[i]?.institution || React.createRef(),
-    }));
-  }, [fields.education, fields.education.length, quillRefs.education]);
-
   const handleEducationChange = (index, field, value) => {
     setFields((prev) => ({
       ...prev,
@@ -179,35 +167,23 @@ const ResumeTemplate = ({ setActiveQuill }) => {
     }));
   };
 
-  const addEducation = () => {
-    const newEducation = {
-      degree: 'Enter Your Degree here',
-      institution: 'Enter Your Institution here',
-      endDate: '2030-01',
-    };
-
-    setFields((prev) => ({
-      ...prev,
-      education: [...prev.education, newEducation],
-    }));
-  };
-
-  const removeEducation = (index) => {
-    setFields((prev) => ({
-      ...prev,
-      education: prev.education.filter((_, i) => i !== index),
-    }));
-  };
-
   return (
-    <div className="w-[700px] h-[1200px] bg-white shadow-lg rounded-lg py-[40px] px-[20px] flex flex-col gap-4">
+    <div
+      ref={targetRef}
+      className="w-[700px] h-[1200px] bg-white shadow-lg rounded-lg py-[40px] px-[20px] flex flex-col gap-4"
+    >
+      <button onClick={toPDF}>Download PDF</button>
       <div className="pb-[30px] w-full text-[40px] font-bold text-gray-500 flex items-center justify-start">
         <QuillField
-          ref={quillRefs.name}
+          ref={quillRefs?.name}
           readOnly={false}
-          defaultValue="Your Name"
-          onTextChange={(content) => handleTextChange('name', content)}
-          onSelectionChange={handleSelectionChange}
+          defaultValue="name"
+          onTextChange={(content) =>
+            handleTextChange(setFields, 'name', content)
+          }
+          onSelectionChange={(range, quill) =>
+            handleSelectionChange(setActiveQuill, range, quill)
+          }
         />
       </div>
       <div className="flex pb-[50px]  flex-col gap-5 w-full items-start justify-center">
@@ -222,8 +198,12 @@ const ResumeTemplate = ({ setActiveQuill }) => {
             ref={quillRefs?.summary}
             readOnly={false}
             defaultValue="Enter your brief summary"
-            onTextChange={(content) => handleTextChange('summary', content)}
-            onSelectionChange={handleSelectionChange}
+            onTextChange={(content) =>
+              handleTextChange(setFields, 'summary', content)
+            }
+            onSelectionChange={(range, quill) =>
+              handleSelectionChange(setActiveQuill, range, quill)
+            }
           />
         </div>
       </div>
@@ -241,15 +221,16 @@ const ResumeTemplate = ({ setActiveQuill }) => {
               className="flex gap-4 items-center justify-center bg-gray-200 w-max px-[10px] py-[10px] text-[12px] rounded-lg"
             >
               <QuillField
-                ref={quillRefs.skills.current[index]}
+                ref={quillRefs?.skills?.current[index]}
                 readOnly={false}
                 defaultValue={skill.content}
                 onTextChange={(content) => handleSkillChange(skill, content)}
-                onSelectionChange={handleSelectionChange}
+                onSelectionChange={(range, quill) =>
+                  handleSelectionChange(setActiveQuill, range, quill)
+                }
               />
-              {/* Remove Skill Button */}
               <button
-                onClick={() => removeSkill(index)}
+                onClick={() => removeField(setFields, 'skills', index)}
                 className=" text-red-500 hover:text-red-700 focus:outline-none"
                 title="Remove Skill"
               >
@@ -258,7 +239,12 @@ const ResumeTemplate = ({ setActiveQuill }) => {
             </div>
           ))}
           <button
-            onClick={addSkill}
+            onClick={() =>
+              addField(setFields, 'skills', {
+                id: Date.now().toString(),
+                content: 'New Skill',
+              })
+            }
             className="text-[12px] bg-gray-200 px-[10px] py-[10px] rounded-lg text-gray-500 hover:text-gray-700 focus:outline-none"
             title="Add Skill"
           >
@@ -287,7 +273,9 @@ const ResumeTemplate = ({ setActiveQuill }) => {
                   onTextChange={(content) =>
                     handleExperienceChange(exp, 'position', content)
                   }
-                  onSelectionChange={handleSelectionChange}
+                  onSelectionChange={(range, quill) =>
+                    handleSelectionChange(setActiveQuill, range, quill)
+                  }
                 />
               </div>
               <div className="flex justify-start items-center w-max text-[14px] gap-5">
@@ -298,7 +286,9 @@ const ResumeTemplate = ({ setActiveQuill }) => {
                   onTextChange={(content) =>
                     handleExperienceChange(exp, 'company', content)
                   }
-                  onSelectionChange={handleSelectionChange}
+                  onSelectionChange={(range, quill) =>
+                    handleSelectionChange(setActiveQuill, range, quill)
+                  }
                 />
                 <input
                   type="month"
@@ -327,11 +317,13 @@ const ResumeTemplate = ({ setActiveQuill }) => {
                   onTextChange={(content) =>
                     handleExperienceChange(exp, 'description', content)
                   }
-                  onSelectionChange={handleSelectionChange}
+                  onSelectionChange={(range, quill) =>
+                    handleSelectionChange(setActiveQuill, range, quill)
+                  }
                 />
               </div>
               <button
-                onClick={() => removeExperience(index)}
+                onClick={() => removeField(setFields, 'experience', index)}
                 className="text-red-500 hover:text-red-700 focus:outline-none"
                 title="Remove Experience"
               >
@@ -340,7 +332,16 @@ const ResumeTemplate = ({ setActiveQuill }) => {
             </div>
           ))}
           <button
-            onClick={addExperience}
+            onClick={() =>
+              addField(setFields, 'experience', {
+                id: Date.now().toString(),
+                position: 'New Job Title',
+                company: 'New Company',
+                description: 'New Job Description',
+                startDate: '2025-01',
+                endDate: '2030-01',
+              })
+            }
             className="text-[12px] bg-gray-200 px-[10px] py-[10px] rounded-lg text-gray-500 hover:text-gray-700 focus:outline-none"
             title="Add Experience"
           >
@@ -365,7 +366,9 @@ const ResumeTemplate = ({ setActiveQuill }) => {
                     onTextChange={(content) =>
                       handleEducationChange(edu, 'degree', content)
                     }
-                    onSelectionChange={handleSelectionChange}
+                    onSelectionChange={(range, quill) =>
+                      handleSelectionChange(setActiveQuill, range, quill)
+                    }
                   />
                 </div>
                 <div className="w-max text-[12px] text-gray-500 flex items-center justify-start gap-3">
@@ -376,7 +379,9 @@ const ResumeTemplate = ({ setActiveQuill }) => {
                     onTextChange={(content) =>
                       handleEducationChange(edu, 'institution', content)
                     }
-                    onSelectionChange={handleSelectionChange}
+                    onSelectionChange={(range, quill) =>
+                      handleSelectionChange(setActiveQuill, range, quill)
+                    }
                   />
                   <input
                     type="month"
@@ -388,7 +393,7 @@ const ResumeTemplate = ({ setActiveQuill }) => {
                   />
                 </div>
                 <button
-                  onClick={() => removeEducation(index)}
+                  onClick={() => removeField(setFields, 'education', index)}
                   className="w-[200px] text-red-500 hover:text-red-700 focus:outline-none"
                   title="Remove Education"
                 >
@@ -397,7 +402,14 @@ const ResumeTemplate = ({ setActiveQuill }) => {
               </div>
             ))}
             <button
-              onClick={addEducation}
+              onClick={() =>
+                addField(setFields, 'education', {
+                  id: Date.now().toString(),
+                  degree: 'Enter Your Degree here',
+                  institution: 'Enter Your Institution here',
+                  endDate: '2030-01',
+                })
+              }
               className="text-[12px] bg-gray-200 px-[10px] py-[10px] rounded-lg text-gray-500 hover:text-gray-700 focus:outline-none"
               title="Add Education"
             >

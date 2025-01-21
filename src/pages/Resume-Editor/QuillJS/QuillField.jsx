@@ -3,17 +3,15 @@
 // src/components/QuillField.jsx
 import { forwardRef, useEffect, useRef, useLayoutEffect } from 'react';
 import Quill from 'quill';
-import { Delta } from 'quill';
 import 'quill/dist/quill.bubble.css';
 
 const QuillField = forwardRef(
   (
-    { readOnly = false, defaultValue = null, onTextChange, onSelectionChange },
+    { readOnly = false, defaultValue = '', onTextChange, onSelectionChange },
     ref
   ) => {
     const containerRef = useRef(null);
     const quillInstanceRef = useRef(null);
-    const toolbar = document.getElementById('toolbar-custom');
 
     // Update event handlers to avoid stale closures
     const onTextChangeRef = useRef(onTextChange);
@@ -42,7 +40,7 @@ const QuillField = forwardRef(
 
         // Set default content if provided
         if (defaultValue) {
-          quill.setContents(new Delta().insert(`${defaultValue}`));
+          quill.setText(defaultValue);
         }
 
         // Forward the Quill instance to parent via ref
@@ -52,9 +50,11 @@ const QuillField = forwardRef(
         }
 
         // Listen for text changes
+        // Listen for text changes
         quill.on('text-change', () => {
-          const html = quill.root.innerHTML;
-          onTextChangeRef.current(html);
+          let text = quill.getText(); // Get plain text
+          text = text.replace(/\n/g, ' '); // Replace \n with space
+          onTextChangeRef.current(text);
         });
 
         // Listen for selection changes
