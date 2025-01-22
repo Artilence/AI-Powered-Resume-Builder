@@ -24,7 +24,7 @@ export const ChatbotProvider = ({ children }) => {
   });
   const [editorState, setEditorState] = useState(() => {
     const saved = localStorage.getItem('editorState');
-    return saved ? JSON.parse(saved) : '';
+    return saved ? JSON.parse(saved) : 'EDITING';
   });
   const [content, setContent] = useState(() => {
     const saved = localStorage.getItem('content');
@@ -59,7 +59,6 @@ export const ChatbotProvider = ({ children }) => {
     editorState,
     content,
     originalSelectedContent,
-    currentEditorRef,
   ]);
 
   return (
@@ -81,8 +80,6 @@ export const ChatbotProvider = ({ children }) => {
         setContent,
         originalSelectedContent,
         setOriginalSelectedContent,
-        currentEditorRef,
-        setCurrentEditorRef,
       }}
     >
       {children}
