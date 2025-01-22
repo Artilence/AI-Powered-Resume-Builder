@@ -17,16 +17,16 @@ const ResumeEditor = () => {
 
   return (
     <Layout>
-      <div className="w-full mt-10 pt-32 h-full flex items-center justify-center overflow-hidden relative bg-black">
+      <div className="w-full mt-10 pt-32 h-max flex items-center justify-center  relative bg-black">
         <Eclipse top="top-[calc(-100vw*.9)]" left="left-[calc(-125vw*0.2)]" />
         <div className="w-full h-full z-10 py-[100px] gap-[100px] flex flex-col items-center justify-center">
           {/* Shared Quill Toolbar */}
           <QuillToolbar activeQuill={activeQuill} />
 
           {/* Resume Template that uses this same toolbar */}
+          <AddToChatButton activeQuill={activeQuill} />
 
           <ResumeTemplate setActiveQuill={handleSetActiveQuill} />
-          <AddToChatButton activeQuill={activeQuill} />
         </div>
       </div>
     </Layout>

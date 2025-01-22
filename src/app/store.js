@@ -2,7 +2,7 @@
 
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice'; // Adjust the path as necessary
-import currentChatbotContextSlice from './CurrentChatbotContextSlice';
+import currentChatbotContextReducer from './CurrentChatbotContextSlice'; // Corrected import
 import {
   persistStore,
   persistReducer,
@@ -29,7 +29,7 @@ const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 // Combine reducers (add other reducers if you have them)
 const rootReducer = combineReducers({
   auth: persistedAuthReducer,
-  currentChatbotContext: currentChatbotContextSlice.reducer,
+  currentChatbotContext: currentChatbotContextReducer, // Corrected reducer reference
   // Add other reducers here
 });
 

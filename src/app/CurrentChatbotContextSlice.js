@@ -1,3 +1,5 @@
+// CurrentChatbotContextSlice.js
+
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -6,6 +8,7 @@ const initialState = {
   firstContent: '',
   lastContent: '',
   newContent: '',
+  selectedContent: '',
 };
 
 const currentChatbotContextSlice = createSlice({
@@ -27,6 +30,10 @@ const currentChatbotContextSlice = createSlice({
     setNewContent: (state, action) => {
       state.newContent = action.payload;
     },
+
+    setSelectedContent: (state, action) => {
+      state.selectedContent = action.payload;
+    },
   },
 });
 
@@ -36,6 +43,7 @@ export const {
   setFirstContent,
   setLastContent,
   setNewContent,
+  setSelectedContent,
 } = currentChatbotContextSlice.actions;
 
 export default currentChatbotContextSlice.reducer;

@@ -112,7 +112,6 @@ const ResumeTemplate = ({ setActiveQuill }) => {
 */
 
   let quillRefs = useFieldRefs(fields);
-  console.log(fields);
 
   useEffect(() => {
     initializeArrayRefs(quillRefs?.skills?.current, fields?.skills, {
