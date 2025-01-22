@@ -10,14 +10,14 @@ import { persistor } from './app/store';
 import { ChatbotProvider } from './app/Context/ChatBotProvider.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <ChatbotProvider>
+    <ChatbotProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
             <App />
-          </ChatbotProvider>
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
+    </ChatbotProvider>
   </StrictMode>
 );
