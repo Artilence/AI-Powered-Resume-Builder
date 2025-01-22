@@ -1,34 +1,49 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setEditorState,
-  setFirstContent,
-  setLastContent,
-  setSelectedContent,
-} from '../../../app/CurrentChatbotContextSlice';
+import { useContext, useEffect, useState } from 'react';
+
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+import { ChatbotContext } from '../../../app/Context/ChatBotContext';
 
 const AddToChatButton = ({ activeQuill }) => {
   //Making clone of the current quill editor to avoid mutating the original quill editor
-  const [currentQuill, setCurrentQuill] = useState(null);
-  const dispatch = useDispatch();
+  const {
+    currentQuill,
+    setCurrentQuill,
+    setFirstContent,
+    setLastContent,
+    setSelectedContent,
+    setEditorState,
+  } = useContext(ChatbotContext);
   useEffect(() => {
     setCurrentQuill(activeQuill);
     //focusing the quill editor again after btn is clicked
     currentQuill?.focus();
-  }, [currentQuill, activeQuill]);
+  }, [currentQuill, activeQuill, setCurrentQuill]);
+
+  // Demo Response
+  const dempResponse = () => {
+    const demoResponse = (
+      <p>
+        <strong>Hello Demo Response</strong>
+        <br />
+      </p>
+    );
+    setSelectedContent(demoResponse);
+    setEditorState('CHANGED');
+  };
 
   const handleAddToChat = (e) => {
     e.preventDefault();
     // verifying if there is any text selected
     const range = currentQuill?.getSelection();
+    console.log(range);
+    console.log(currentQuill);
     if (!range || range.length === 0) {
       console.log('No text selected.');
       setCurrentQuill(null);
       return;
     }
     //Setting the editor state to editing
-    dispatch(setEditorState('EDITING'));
+    setEditorState('EDITING');
     // Getting the selected text from the quill editor
     const selectedDeltas = currentQuill?.getContents(range.index, range.length);
     // Converting the selected text to html
@@ -37,12 +52,15 @@ const AddToChatButton = ({ activeQuill }) => {
     const selectedHtml = converter.convert();
 
     // Setting the first and last content of the quill editor
-    dispatch(setFirstContent(currentQuill?.getContents(0, range.index)));
-    dispatch(
-      setLastContent(currentQuill?.getContents(range.index + range.length))
-    );
+    const firstContent = currentQuill?.getContents(0, range.index);
+    const lastContent = currentQuill?.getContents(range.index + range.length);
+    setFirstContent(firstContent);
+    setLastContent(lastContent);
     // Setting the selected content of the quill editor
-    dispatch(setSelectedContent(selectedHtml));
+    setSelectedContent(selectedHtml);
+
+    //Calling Demo Response
+    demoResponse();
   };
 
   return (

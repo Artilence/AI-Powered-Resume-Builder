@@ -2,7 +2,6 @@
 
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice'; // Adjust the path as necessary
-import currentChatbotContextReducer from './CurrentChatbotContextSlice'; // Corrected import
 import {
   persistStore,
   persistReducer,
@@ -29,7 +28,6 @@ const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 // Combine reducers (add other reducers if you have them)
 const rootReducer = combineReducers({
   auth: persistedAuthReducer,
-  currentChatbotContext: currentChatbotContextReducer, // Corrected reducer reference
   // Add other reducers here
 });
 
@@ -41,6 +39,9 @@ const store = configureStore({
       serializableCheck: {
         // Ignore these action types for Redux Persist
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+
+        // Alternatively, ignore specific paths
+        ignoredPaths: [],
       },
     }),
 });
