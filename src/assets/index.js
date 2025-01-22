@@ -23,6 +23,7 @@ import menu1 from './menu1.png';
 import openDocument from './openDocument.png';
 import myDocuments from './myDocuments.png';
 import dummyprofile from './dummyprofile.png';
+import selectedTick from './selectedTick.png';
 
 export {
   myDocuments,
@@ -41,7 +42,6 @@ export {
   logo,
   linkedin,
   google,
-
   arrowLeft,
   deleteDocument,
   documentIcon,
@@ -50,5 +50,5 @@ export {
   menu1,
   openDocument,
   dummyprofile,
-
+  selectedTick,
 };

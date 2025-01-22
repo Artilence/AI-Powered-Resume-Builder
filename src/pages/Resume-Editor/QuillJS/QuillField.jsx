@@ -43,6 +43,7 @@ const QuillField = forwardRef(
             'list',
             'align',
             'background',
+            'color',
           ],
         });
 

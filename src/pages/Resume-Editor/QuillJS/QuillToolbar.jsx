@@ -11,7 +11,47 @@ import {
   T_Undo, // Import the Undo icon
   T_Redo,
   T_alignleft,
+  arrowDown,
+  selectedTick,
 } from '../../../assets'; // Ensure all icons are correctly imported
+
+const quillColors = [
+  '#000000',
+  '#e60000',
+  '#ff9900',
+  '#ffff00',
+  '#008a00',
+  '#0066cc',
+  '#9933ff',
+  '#ffffff',
+  '#facccc',
+  '#ffebcc',
+  '#ffffcc',
+  '#cce8cc',
+  '#cce0f5',
+  '#ebd6ff',
+  '#bbbbbb',
+  '#f06666',
+  '#ffc266',
+  '#ffff66',
+  '#66b966',
+  '#66a3e0',
+  '#c285ff',
+  '#888888',
+  '#a10000',
+  '#b26b00',
+  '#b2b200',
+  '#006100',
+  '#0047b2',
+  '#6b24b2',
+  '#444444',
+  '#5c0000',
+  '#663d00',
+  '#666600',
+  '#003700',
+  '#002966',
+  '#3d1466',
+];
 
 const QuillToolbar = ({ activeQuill }) => {
   const [isBold, setIsBold] = useState(false);
@@ -21,6 +61,7 @@ const QuillToolbar = ({ activeQuill }) => {
   const [isOrderedList, setIsOrderedList] = useState(false);
   const [isUnorderedList, setIsUnorderedList] = useState(false);
   const [textAlign, setTextAlign] = useState('');
+  const [selectedColor, setSelectedColor] = useState('#facccc');
 
   // New state variables for Undo and Redo
   const [canUndo, setCanUndo] = useState(false);
@@ -132,6 +173,13 @@ const QuillToolbar = ({ activeQuill }) => {
     }
   };
 
+  const handleColorChange = (color) => {
+    if (activeQuill) {
+      activeQuill.format('color', color);
+      setSelectedColor(color);
+    }
+  };
+
   useEffect(() => {
     if (activeQuill) {
       const handleSelectionChange = (range) => {
@@ -144,6 +192,7 @@ const QuillToolbar = ({ activeQuill }) => {
           setIsOrderedList(currentFormat.list === 'ordered' || false);
           setIsUnorderedList(currentFormat.list === 'bullet' || false);
           setTextAlign(currentFormat.align || 'left');
+          setSelectedColor(currentFormat.color || '#ffffff');
         } else {
           setIsBold(false);
           setIsItalic(false);
@@ -184,6 +233,7 @@ const QuillToolbar = ({ activeQuill }) => {
       setTextAlign('left');
       setCanUndo(false);
       setCanRedo(false);
+      setSelectedColor('#ffffff');
     }
   }, [activeQuill]);
 
@@ -253,6 +303,46 @@ const QuillToolbar = ({ activeQuill }) => {
         onClick={() => toggleAlignText('right')}
       >
         <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
+      </button>
+      {/* Color Picker */}
+
+      <button
+        className={`relative group/color flex items-center gap-2 cursor-pointer ${
+          !activeQuill
+            ? 'opacity-50 cursor-not-allowed pointer-events-none'
+            : ''
+        }`}
+        disabled={!activeQuill}
+      >
+        <span
+          style={{ backgroundColor: selectedColor }}
+          className={` w-[24px] h-[24px] rounded-lg`}
+        ></span>
+        <img
+          src={arrowDown}
+          alt="Bold"
+          className="w-[24px] h-[24px] object-contain"
+        />
+        <div className="absolute top-0 pt-20 left-0 hidden group-hover/color:flex">
+          <div className="flex flex-wrap gap-2 min-w-[200px] border border-white-transparent-2 bg-gray-black px-[12px] py-[24px] rounded-xl">
+            {quillColors?.map((color) => (
+              <span
+                key={color}
+                style={{ backgroundColor: color }}
+                className=" relative w-[24px] h-[24px] flex items-center justify-center  rounded-full  cursor-pointer"
+                onClick={() => handleColorChange(color)}
+              >
+                {selectedColor === color && (
+                  <img
+                    src={selectedTick}
+                    alt="selectedTick"
+                    className="w-full h-full  rounded-full absolute bg-black opacity-50 object-contain !pointer-events-none !cursor-none"
+                  />
+                )}
+              </span>
+            ))}
+          </div>
+        </div>
       </button>
 
       {/* Bold Button */}
