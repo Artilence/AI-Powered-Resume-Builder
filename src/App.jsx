@@ -1,10 +1,7 @@
 import { Route, Routes } from 'react-router';
 import './App.css';
 
-import MyDocumentsPage from './pages/MyDocumentsPage/MyDocumentsPage';
-import ResumeEditor from './pages/Resume-Editor/ResumeEditor';
-import SignUpPage from './pages/Auth/SignUpPage/SignUpPage';
-import SignInPage from './pages/Auth/SignInPage/SignInPage';
+import { MyDocumentsPage, ResumeEditor, SignUpPage, SignInPage } from './pages';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
 function App() {

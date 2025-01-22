@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import Navbar from '../../../components/Layout/Navbar';
 
 import { linkedin, google } from '../../../assets';
-import Eclipse from '../../../components/design-utils/Eclipse';
+import { Eclipse } from '../../../components';
 import { Link, useNavigate } from 'react-router';
-import { loginUser } from '../../../app/auth/authAPI';
+import { loginUser } from '../../../app/index';
 import { useDispatch, useSelector } from 'react-redux';
+import { Layout } from '../../../components';
 const SignInPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,7 +14,6 @@ const SignInPage = () => {
     password: '',
   });
   // Accessing isLoading and error states from auth slice
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const error = useSelector((state) => state.auth.error);
 
   const handleSubmit = async (e) => {
@@ -25,8 +24,7 @@ const SignInPage = () => {
     });
   };
   return (
-    <>
-      <Navbar />
+    <Layout>
       <div className="w-full relative flex items-center justify-center min-h-screen overflow-hidden py-72 px-10 bg-black">
         <Eclipse
           top="top-[calc(-100vw*.3)] lg:top-[calc(-100vw*1)]"
@@ -126,7 +124,7 @@ const SignInPage = () => {
           </span>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

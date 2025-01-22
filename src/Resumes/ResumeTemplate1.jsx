@@ -9,7 +9,7 @@ import {
   handleSelectionChange,
   removeField,
   addField,
-} from '../utils';
+} from '../ResumeStateUtils';
 
 const ResumeTemplate = ({ setActiveQuill }) => {
   const [fields, setFields] = useState({

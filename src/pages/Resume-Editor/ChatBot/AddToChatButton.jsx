@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { ChatbotContext } from '../../../app/Context/ChatBotContext';
-import { current } from '@reduxjs/toolkit';
 
+// eslint-disable-next-line react/prop-types
 const AddToChatButton = ({ activeQuill }) => {
   //Making clone of the current quill editor to avoid mutating the original quill editor
   const {
@@ -16,11 +16,8 @@ const AddToChatButton = ({ activeQuill }) => {
     setNewContent,
     firstContent,
     lastContent,
-    selectedContent,
     editorState,
     newContent,
-    content,
-    setContent,
     originalSelectedContent,
     setOriginalSelectedContent,
   } = useContext(ChatbotContext);
@@ -63,89 +60,6 @@ const AddToChatButton = ({ activeQuill }) => {
       setSelectedContent(selectedHtml),
       setOriginalSelectedContent(selectedDeltas),
     ]);
-  };
-
-  // Move demoResponse definition here, after all the context values are declared
-  const demoResponse = () => {
-    const demoResponse = '<p><strong>Hello Demo Response</strong><br/></p>';
-    setNewContent(demoResponse);
-
-    setEditorState('CHANGED');
-    //converting response to delta
-    const convertContent = (content) => {
-      const newDelta = currentQuill?.clipboard?.convert({ html: content });
-      return newDelta;
-    };
-
-    const first = firstContent;
-    const original = JSON.parse(JSON.stringify(originalSelectedContent));
-    const transformed = convertContent(newContent);
-    const last = lastContent;
-
-    // Apply styling
-    /**
-     * Applies background and text color styles to each Delta operation.
-     * - Overwrites existing 'color' and 'background' attributes if they exist.
-     * - Creates the 'attributes' object and assigns 'color' and 'background' if they don't exist.
-     * - Returns a new array of operations without mutating the original.
-     *
-     * @param {Array} ops - Array of Delta operations.
-     * @param {string} bgColor - The background color to apply (e.g., 'lightgreen', '#FF0000').
-     * @param {string} color - The text color to apply (e.g., 'green', '#0000FF').
-     * @returns {Array} - New array of Delta operations with updated styles.
-     */
-    const applyStyle = (ops, bgColor, color) => {
-      return ops.map((op) => {
-        // Clone the operation to avoid mutating the original
-        if (op?.attributes) {
-          op.attributes = {
-            ...op.attributes,
-            background: bgColor,
-            color: color,
-          };
-        } else {
-          op.attributes = {
-            background: bgColor,
-            color: color,
-          };
-        }
-      });
-    };
-
-    console.log('original', original);
-
-    applyStyle(original.ops, 'pink', 'red');
-    applyStyle(transformed.ops, 'lightgreen', 'green');
-    console.log([
-      ...first.ops,
-      ...original.ops,
-      ...transformed.ops,
-      ...last.ops,
-    ]);
-
-    return [...first.ops, ...original.ops, ...transformed.ops, ...last.ops];
-
-    switch (editorState) {
-      case 'CHANGED':
-        console.log('original', original);
-
-        applyStyle(original.ops, 'pink', 'red');
-        applyStyle(transformed.ops, 'lightgreen', 'green');
-        console.log([
-          ...first.ops,
-          ...original.ops,
-          ...transformed.ops,
-          ...last.ops,
-        ]);
-
-        return [...first.ops, ...original.ops, ...transformed.ops, ...last.ops];
-      case 'ACCEPTED':
-        return [...first.ops, ...transformed.ops, ...last.ops];
-      case 'REJECTED':
-        return [...first.ops, ...original.ops, ...last.ops];
-      default:
-        return [];
-    }
   };
 
   const handleSendChatRequest = () => {
@@ -197,41 +111,6 @@ const AddToChatButton = ({ activeQuill }) => {
       ...transformed.ops,
       ...last.ops,
     ]);
-  };
-
-  const setEditorContents = (
-    option,
-    original,
-    transformed,
-    first,
-    last,
-    applyStyle
-  ) => {
-    switch (option) {
-      case 'CHANGED':
-        applyStyle(original.ops, 'pink', 'red');
-        applyStyle(transformed.ops, 'lightgreen', 'green');
-        return currentQuill?.setContents([
-          ...first.ops,
-          ...original.ops,
-          ...transformed.ops,
-          ...last.ops,
-        ]);
-      case 'ACCEPTED':
-        return currentQuill?.setContents([
-          ...first.ops,
-          ...transformed.ops,
-          ...last.ops,
-        ]);
-      case 'REJECTED':
-        return currentQuill?.setContents([
-          ...first.ops,
-          ...original.ops,
-          ...last.ops,
-        ]);
-      default:
-        return [];
-    }
   };
 
   const handleUserResponse = (option) => {

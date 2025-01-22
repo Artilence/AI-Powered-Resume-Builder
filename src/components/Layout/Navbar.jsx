@@ -7,7 +7,7 @@ import {
   arrowDown,
 } from '../../assets';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../../app/auth/authAPI';
+import { logoutUser } from '../../app/index';
 
 const Navbar = () => {
   const user = useSelector((state) => state.auth.user);

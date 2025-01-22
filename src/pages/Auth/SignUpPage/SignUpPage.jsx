@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import Navbar from '../../../components/Layout/Navbar';
 import { linkedin, google } from '../../../assets';
-import Eclipse from '../../../components/design-utils/Eclipse';
+import { Eclipse, Layout } from '../../../components';
 import { Link, useNavigate } from 'react-router';
-import { simpleAPI } from '../../../app/api';
+import { simpleAPI } from '../../../app/index';
 const SignUpPage = () => {
   const navigate = useNavigate();
   const [name, setName] = useState({
@@ -27,7 +26,7 @@ const SignUpPage = () => {
     e.preventDefault();
     setErrorrs(null);
     try {
-      const response = await simpleAPI.post('/users/', userDetails);
+      await simpleAPI.post('/users/', userDetails);
       navigate('/signin');
     } catch (error) {
       console.log(error);
@@ -40,8 +39,7 @@ const SignUpPage = () => {
     }
   };
   return (
-    <>
-      <Navbar />
+    <Layout>
       <div className="w-full relative flex items-center justify-center min-h-screen overflow-hidden py-72 px-10 bg-black">
         <Eclipse
           top="top-[calc(-100vw*.3)] lg:top-[calc(-100vw*1)]"
@@ -183,7 +181,7 @@ const SignUpPage = () => {
           </span>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

@@ -34,10 +34,6 @@ export const ChatbotProvider = ({ children }) => {
     const saved = localStorage.getItem('originalSelectedContent');
     return saved ? JSON.parse(saved) : '';
   });
-  const currentEditorRef = useRef(null);
-  const setCurrentEditorRef = (ref) => {
-    currentEditorRef.current = ref;
-  };
 
   // Save states to localStorage whenever they change
   useEffect(() => {
