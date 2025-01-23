@@ -1,9 +1,18 @@
 // QuillContext.js
 import { ChatbotContext } from './ChatBotContext.js';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 // Create the Quill Provider Component
 export const ChatbotProvider = ({ children }) => {
+  const [selectedTemplate, setSelectedTemplate] = useState(() => {
+    const saved = localStorage.getItem('selectedTemplate');
+    // If no value is saved, store the default value 2 and return it
+    if (!saved) {
+      localStorage.setItem('selectedTemplate', JSON.stringify(1));
+      return 2;
+    }
+    return JSON.parse(saved);
+  });
   // Load initial states from localStorage
   const [currentQuill, setCurrentQuill] = useState(null);
   const [firstContent, setFirstContent] = useState(() => {
@@ -47,6 +56,7 @@ export const ChatbotProvider = ({ children }) => {
       'originalSelectedContent',
       JSON.stringify(originalSelectedContent)
     );
+    localStorage.setItem('selectedTemplate', JSON.stringify(selectedTemplate));
   }, [
     firstContent,
     lastContent,
@@ -55,6 +65,7 @@ export const ChatbotProvider = ({ children }) => {
     editorState,
     content,
     originalSelectedContent,
+    selectedTemplate,
   ]);
 
   return (
@@ -76,6 +87,8 @@ export const ChatbotProvider = ({ children }) => {
         setContent,
         originalSelectedContent,
         setOriginalSelectedContent,
+        selectedTemplate,
+        setSelectedTemplate,
       }}
     >
       {children}

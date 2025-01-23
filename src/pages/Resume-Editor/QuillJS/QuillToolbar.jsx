@@ -14,6 +14,7 @@ import {
   arrowDown,
   selectedTick,
 } from '../../../assets'; // Ensure all icons are correctly imported
+import TemplateSelector from '../../../components/TemplateSelector';
 
 const quillColors = [
   '#000000',
@@ -238,216 +239,231 @@ const QuillToolbar = ({ activeQuill }) => {
   }, [activeQuill]);
 
   return (
-    <div className="bg-gray-black flex items-center px-8 py-2 rounded-lg gap-3 fixed top-[13%]  z-20 shadow-md">
-      {/* Undo Button */}
-      <button
-        type="button"
-        onClick={toggleUndo}
-        title="Undo"
-        aria-label="Undo"
-        className={`custom-editor-toolbar ${
-          canUndo ? 'bg-blue-500' : 'opacity-50 cursor-not-allowed'
-        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
-        disabled={!activeQuill || !canUndo}
-      >
-        <img src={T_Undo} alt="Undo" className="w-5 h-5 pointer-events-none" />
-      </button>
+    <div className="flex gap-5 fixed top-[13%]  z-20">
+      <div className="bg-gray-black flex items-center px-8 py-2 rounded-lg gap-3  shadow-md">
+        {/* Undo Button */}
+        <button
+          type="button"
+          onClick={toggleUndo}
+          title="Undo"
+          aria-label="Undo"
+          className={`custom-editor-toolbar ${
+            canUndo ? 'bg-blue-500' : 'opacity-50 cursor-not-allowed'
+          } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!activeQuill || !canUndo}
+        >
+          <img
+            src={T_Undo}
+            alt="Undo"
+            className="w-5 h-5 pointer-events-none"
+          />
+        </button>
 
-      {/* Redo Button */}
-      <button
-        type="button"
-        onClick={toggleRedo}
-        title="Redo"
-        aria-label="Redo"
-        className={`custom-editor-toolbar ${
-          canRedo ? 'bg-blue-500' : 'opacity-50 cursor-not-allowed'
-        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
-        disabled={!activeQuill || !canRedo}
-      >
-        <img src={T_Redo} alt="Redo" className="w-5 h-5 pointer-events-none" />
-      </button>
-      {/* Align Text */}
-      <button
-        type="button"
-        title="Align Text"
-        aria-label="Align Text"
-        className={`custom-editor-toolbar rounded-md  ${
-          textAlign !== 'right' && textAlign !== 'center' ? 'bg-blue-500' : ''
-        } `}
-        disabled={!activeQuill}
-        onClick={() => toggleAlignText('')}
-      >
-        <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
-      </button>
-      <button
-        type="button"
-        title="Align Text"
-        aria-label="Align Text"
-        className={`custom-editor-toolbar rounded-md  ${
-          textAlign === 'center' ? 'bg-blue-500' : ''
-        } `}
-        disabled={!activeQuill}
-        onClick={() => toggleAlignText('center')}
-      >
-        <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
-      </button>
+        {/* Redo Button */}
+        <button
+          type="button"
+          onClick={toggleRedo}
+          title="Redo"
+          aria-label="Redo"
+          className={`custom-editor-toolbar ${
+            canRedo ? 'bg-blue-500' : 'opacity-50 cursor-not-allowed'
+          } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!activeQuill || !canRedo}
+        >
+          <img
+            src={T_Redo}
+            alt="Redo"
+            className="w-5 h-5 pointer-events-none"
+          />
+        </button>
+        {/* Align Text */}
+        <button
+          type="button"
+          title="Align Text"
+          aria-label="Align Text"
+          className={`custom-editor-toolbar rounded-md  ${
+            textAlign !== 'right' && textAlign !== 'center' ? 'bg-blue-500' : ''
+          } `}
+          disabled={!activeQuill}
+          onClick={() => toggleAlignText('')}
+        >
+          <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
+        </button>
+        <button
+          type="button"
+          title="Align Text"
+          aria-label="Align Text"
+          className={`custom-editor-toolbar rounded-md  ${
+            textAlign === 'center' ? 'bg-blue-500' : ''
+          } `}
+          disabled={!activeQuill}
+          onClick={() => toggleAlignText('center')}
+        >
+          <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
+        </button>
 
-      <button
-        type="button"
-        title="Align Text"
-        aria-label="Align Text"
-        className={`custom-editor-toolbar rounded-md  ${
-          textAlign === 'right' ? 'bg-blue-500' : ''
-        } `}
-        disabled={!activeQuill}
-        onClick={() => toggleAlignText('right')}
-      >
-        <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
-      </button>
-      {/* Color Picker */}
+        <button
+          type="button"
+          title="Align Text"
+          aria-label="Align Text"
+          className={`custom-editor-toolbar rounded-md  ${
+            textAlign === 'right' ? 'bg-blue-500' : ''
+          } `}
+          disabled={!activeQuill}
+          onClick={() => toggleAlignText('right')}
+        >
+          <img src={T_alignleft} alt="Align Text" className="w-5 h-5 " />
+        </button>
+        {/* Color Picker */}
 
-      <button
-        className={`relative group/color flex items-center gap-2 cursor-pointer ${
-          !activeQuill
-            ? 'opacity-50 cursor-not-allowed pointer-events-none'
-            : ''
-        }`}
-        disabled={!activeQuill}
-      >
-        <span
-          style={{ backgroundColor: selectedColor }}
-          className={` w-[24px] h-[24px] rounded-lg`}
-        ></span>
-        <img
-          src={arrowDown}
-          alt="Bold"
-          className="w-[24px] h-[24px] object-contain"
-        />
-        <div className="absolute top-0 pt-20 left-0 hidden group-hover/color:flex">
-          <div className="flex flex-wrap gap-2 min-w-[200px] border border-white-transparent-2 bg-gray-black px-[12px] py-[24px] rounded-xl">
-            {quillColors?.map((color) => (
-              <span
-                key={color}
-                style={{ backgroundColor: color }}
-                className=" relative w-[24px] h-[24px] flex items-center justify-center  rounded-full  cursor-pointer"
-                onClick={() => handleColorChange(color)}
-              >
-                {selectedColor === color && (
-                  <img
-                    src={selectedTick}
-                    alt="selectedTick"
-                    className="w-full h-full  rounded-full absolute bg-black opacity-50 object-contain !pointer-events-none !cursor-none"
-                  />
-                )}
-              </span>
-            ))}
+        <button
+          className={`relative group/color flex items-center gap-2 cursor-pointer ${
+            !activeQuill
+              ? 'opacity-50 cursor-not-allowed pointer-events-none'
+              : ''
+          }`}
+          disabled={!activeQuill}
+        >
+          <span
+            style={{ backgroundColor: selectedColor }}
+            className={` w-[24px] h-[24px] rounded-lg`}
+          ></span>
+          <img
+            src={arrowDown}
+            alt="Bold"
+            className="w-[24px] h-[24px] object-contain"
+          />
+          <div className="absolute top-0 pt-20 left-0 hidden group-hover/color:flex">
+            <div className="flex flex-wrap gap-2 min-w-[200px] border border-white-transparent-2 bg-gray-black px-[12px] py-[24px] rounded-xl">
+              {quillColors?.map((color) => (
+                <span
+                  key={color}
+                  style={{ backgroundColor: color }}
+                  className=" relative w-[24px] h-[24px] flex items-center justify-center  rounded-full  cursor-pointer"
+                  onClick={() => handleColorChange(color)}
+                >
+                  {selectedColor === color && (
+                    <img
+                      src={selectedTick}
+                      alt="selectedTick"
+                      className="w-full h-full  rounded-full absolute bg-black opacity-50 object-contain !pointer-events-none !cursor-none"
+                    />
+                  )}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-      </button>
+        </button>
 
-      {/* Bold Button */}
-      <button
-        type="button"
-        onClick={toggleBold}
-        title="Bold"
-        aria-label="Bold"
-        className={`custom-editor-toolbar ${isBold ? 'bg-blue-500' : ''} ${
-          !activeQuill ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
-        disabled={!activeQuill}
-      >
-        <img src={T_Bold} alt="Bold" className="w-5 h-5 pointer-events-none" />
-      </button>
+        {/* Bold Button */}
+        <button
+          type="button"
+          onClick={toggleBold}
+          title="Bold"
+          aria-label="Bold"
+          className={`custom-editor-toolbar ${isBold ? 'bg-blue-500' : ''} ${
+            !activeQuill ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          disabled={!activeQuill}
+        >
+          <img
+            src={T_Bold}
+            alt="Bold"
+            className="w-5 h-5 pointer-events-none"
+          />
+        </button>
 
-      {/* Italic Button */}
-      <button
-        type="button"
-        onClick={toggleItalic}
-        title="Italic"
-        aria-label="Italic"
-        className={`custom-editor-toolbar ${isItalic ? 'bg-blue-500' : ''} ${
-          !activeQuill ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
-        disabled={!activeQuill}
-      >
-        <img
-          src={T_Italic}
-          alt="Italic"
-          className="w-5 h-5 pointer-events-none"
-        />
-      </button>
+        {/* Italic Button */}
+        <button
+          type="button"
+          onClick={toggleItalic}
+          title="Italic"
+          aria-label="Italic"
+          className={`custom-editor-toolbar ${isItalic ? 'bg-blue-500' : ''} ${
+            !activeQuill ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          disabled={!activeQuill}
+        >
+          <img
+            src={T_Italic}
+            alt="Italic"
+            className="w-5 h-5 pointer-events-none"
+          />
+        </button>
 
-      {/* Underline Button */}
-      <button
-        type="button"
-        onClick={toggleUnderline}
-        title="Underline"
-        aria-label="Underline"
-        className={`custom-editor-toolbar ${isUnderline ? 'bg-blue-500' : ''} ${
-          !activeQuill ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
-        disabled={!activeQuill}
-      >
-        <img
-          src={T_Underline}
-          alt="Underline"
-          className="w-5 h-5 pointer-events-none"
-        />
-      </button>
+        {/* Underline Button */}
+        <button
+          type="button"
+          onClick={toggleUnderline}
+          title="Underline"
+          aria-label="Underline"
+          className={`custom-editor-toolbar ${
+            isUnderline ? 'bg-blue-500' : ''
+          } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!activeQuill}
+        >
+          <img
+            src={T_Underline}
+            alt="Underline"
+            className="w-5 h-5 pointer-events-none"
+          />
+        </button>
 
-      {/* Strikethrough Button */}
-      <button
-        type="button"
-        onClick={toggleStrikethrough}
-        title="Strikethrough"
-        aria-label="Strikethrough"
-        className={`custom-editor-toolbar ${
-          isStrikethrough ? 'bg-blue-500' : ''
-        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
-        disabled={!activeQuill}
-      >
-        <img
-          src={T_Strikethrough}
-          alt="Strikethrough"
-          className="w-5 h-5 pointer-events-none"
-        />
-      </button>
+        {/* Strikethrough Button */}
+        <button
+          type="button"
+          onClick={toggleStrikethrough}
+          title="Strikethrough"
+          aria-label="Strikethrough"
+          className={`custom-editor-toolbar ${
+            isStrikethrough ? 'bg-blue-500' : ''
+          } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!activeQuill}
+        >
+          <img
+            src={T_Strikethrough}
+            alt="Strikethrough"
+            className="w-5 h-5 pointer-events-none"
+          />
+        </button>
 
-      {/* Ordered List Button */}
-      <button
-        type="button"
-        onClick={toggleOrderedList}
-        title="Ordered List"
-        aria-label="Ordered List"
-        className={`custom-editor-toolbar ${
-          isOrderedList ? 'bg-blue-500' : ''
-        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
-        disabled={!activeQuill}
-      >
-        <img
-          src={T_NumberedList}
-          alt="Ordered List"
-          className="w-5 h-5 pointer-events-none"
-        />
-      </button>
+        {/* Ordered List Button */}
+        <button
+          type="button"
+          onClick={toggleOrderedList}
+          title="Ordered List"
+          aria-label="Ordered List"
+          className={`custom-editor-toolbar ${
+            isOrderedList ? 'bg-blue-500' : ''
+          } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!activeQuill}
+        >
+          <img
+            src={T_NumberedList}
+            alt="Ordered List"
+            className="w-5 h-5 pointer-events-none"
+          />
+        </button>
 
-      {/* Unordered List Button */}
-      <button
-        type="button"
-        onClick={toggleUnorderedList}
-        title="Unordered List"
-        aria-label="Unordered List"
-        className={`custom-editor-toolbar ${
-          isUnorderedList ? 'bg-blue-500' : ''
-        } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
-        disabled={!activeQuill}
-      >
-        <img
-          src={T_BulletList}
-          alt="Unordered List"
-          className="w-5 h-5 pointer-events-none"
-        />
-      </button>
+        {/* Unordered List Button */}
+        <button
+          type="button"
+          onClick={toggleUnorderedList}
+          title="Unordered List"
+          aria-label="Unordered List"
+          className={`custom-editor-toolbar ${
+            isUnorderedList ? 'bg-blue-500' : ''
+          } ${!activeQuill ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!activeQuill}
+        >
+          <img
+            src={T_BulletList}
+            alt="Unordered List"
+            className="w-5 h-5 pointer-events-none"
+          />
+        </button>
+      </div>
+      <TemplateSelector />
     </div>
   );
 };
