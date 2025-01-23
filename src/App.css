@@ -29,3 +29,7 @@ input:-webkit-autofill {
   -webkit-text-fill-color: white; /* Replace #333 with your desired text color */
   transition: background-color 5000s ease-in-out 0s; /* Prevents background color flicker */
 }
+
+.a4-paper {
+  @apply w-[8.27in] h-[11.69in] bg-white shadow-md overflow-hidden rounded-sm;
+}

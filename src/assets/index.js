@@ -24,7 +24,7 @@ import openDocument from './openDocument.png';
 import myDocuments from './myDocuments.png';
 import dummyprofile from './dummyprofile.png';
 import selectedTick from './selectedTick.png';
-
+import dummyProfilePicture from './dummyProfilePicture.jpg';
 export {
   myDocuments,
   arrowDown,
@@ -51,4 +51,5 @@ export {
   openDocument,
   dummyprofile,
   selectedTick,
+  dummyProfilePicture,
 };

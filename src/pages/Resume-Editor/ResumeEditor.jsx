@@ -5,6 +5,7 @@ import ResumeTemplate from '../../Resumes/ResumeTemplate1'; // Corrected import
 import QuillToolbar from './QuillJS/QuillToolbar';
 import Layout from '../../components/Layout/Layout';
 import AddToChatButton from './ChatBot/AddToChatButton';
+import ResumeTemplate2 from '../../Resumes/ResumeTemplate2';
 const ResumeEditor = () => {
   // PDF
 
@@ -26,7 +27,7 @@ const ResumeEditor = () => {
           {/* Resume Template that uses this same toolbar */}
           <AddToChatButton activeQuill={activeQuill} />
 
-          <ResumeTemplate setActiveQuill={handleSetActiveQuill} />
+          <ResumeTemplate2 setActiveQuill={handleSetActiveQuill} />
         </div>
       </div>
     </Layout>

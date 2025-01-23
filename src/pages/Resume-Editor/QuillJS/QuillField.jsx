@@ -6,7 +6,16 @@ import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 
 const QuillField = forwardRef(
-  ({ defaultValue = '', onTextChange, onSelectionChange }) => {
+  (
+    {
+      readOnly = false,
+      defaultValue = '',
+      onTextChange,
+      onSelectionChange,
+      defaultStyles = null,
+    },
+    ref
+  ) => {
     const containerRef = useRef(null);
     const quillInstanceRef = useRef(null);
 
@@ -51,6 +60,16 @@ const QuillField = forwardRef(
 
         // Forward the Quill instance to parent via ref
         quillInstanceRef.current = quill;
+        if (ref && typeof ref === 'object') {
+          ref.current = quill;
+        }
+
+        if (defaultStyles) {
+          Object.entries(defaultStyles).forEach(([key, value]) => {
+            quill.format(key, value);
+          });
+          quill.blur();
+        }
 
         // Listen for text changes
         // Listen for text changes
@@ -72,9 +91,12 @@ const QuillField = forwardRef(
           quillInstanceRef.current.off('text-change');
           quillInstanceRef.current.off('selection-change');
           quillInstanceRef.current = null;
+          if (ref && typeof ref === 'object') {
+            ref.current = null;
+          }
         }
       };
-    }, [defaultValue]);
+    }, [defaultValue, ref]);
 
     return (
       <div
