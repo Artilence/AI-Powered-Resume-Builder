@@ -26,7 +26,7 @@ const AddToChatButton = ({ activeQuill }) => {
     setCurrentQuill(activeQuill);
     // //focusing the quill editor again after btn is clicked
 
-    currentQuill?.focus();
+    // currentQuill?.focus();
   }, [currentQuill, activeQuill, setCurrentQuill, setEditorState]);
 
   //will be used to add the content to the chat
