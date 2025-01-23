@@ -101,7 +101,7 @@ const QuillField = forwardRef(
     return (
       <div
         ref={containerRef}
-        className="w-full h-full !outline-none !border-none p-0 m-0"
+        className="!w-[inherit] !h-[inherit] !outline-none !border-none p-0 m-0"
       ></div>
     );
   }

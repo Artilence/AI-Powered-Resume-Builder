@@ -19,8 +19,15 @@ html {
 .ql-editor {
   @apply !p-0 !m-0 !border-none !outline-none;
 }
-.ql-container {
+
+.ql-container,
+.ql-editor,
+.ql-toolbar,
+.ql-bubble {
   font-size: inherit !important;
+  width: inherit !important;
+  height: inherit !important;
+  overflow: hidden !important;
 }
 
 /* Targeting the input fields when autofilled */
