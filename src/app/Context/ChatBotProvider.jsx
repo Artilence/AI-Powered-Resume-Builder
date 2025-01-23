@@ -13,6 +13,8 @@ export const ChatbotProvider = ({ children }) => {
     }
     return JSON.parse(saved);
   });
+  const [isTemplateDownloaded, setIsTemplateDownloaded] = useState(false);
+
   // Load initial states from localStorage
   const [currentQuill, setCurrentQuill] = useState(null);
   const [firstContent, setFirstContent] = useState(() => {

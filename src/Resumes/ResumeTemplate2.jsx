@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const ResumeTemplate2 = ({ setActiveQuill }) => {
+  const [isTemplateDownloading, setIsTemplateDownloading] = useState(false);
   const [userData, setUserData] = useState({
     fullName: 'shohagh hossen',
     position: 'Graphic Designer',
@@ -197,6 +198,9 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
                 onTextChange={(content) =>
                   handleTextChange(setUserData, 'summary', content)
                 }
+                onSelectionChange={(range, quill) =>
+                  handleSelectionChange(setActiveQuill, range, quill)
+                }
               />
             </div>
           </div>
@@ -313,6 +317,9 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
                       onSelectionChange={(range, quill) =>
                         handleSelectionChange(setActiveQuill, range, quill)
                       }
+                      onFocus={(range, quill) =>
+                        handleSelectionChange(setActiveQuill, range, quill)
+                      }
                       defaultValue={experience?.position}
                     />
                   </div>
@@ -327,6 +334,9 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
                             content
                           )
                         }
+                        onFocus={(range, quill) =>
+                          handleSelectionChange(setActiveQuill, range, quill)
+                        }
                       />
                     </span>
                     -
@@ -335,6 +345,9 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
                         defaultValue={experience?.endDate}
                         onTextChange={(content) =>
                           handleTextChange(setUserData, 'endDate', content)
+                        }
+                        onFocus={(range, quill) =>
+                          handleSelectionChange(setActiveQuill, range, quill)
                         }
                       />
                     </span>
@@ -345,6 +358,9 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
                     defaultValue={experience?.description}
                     onTextChange={(content) =>
                       handleTextChange(setUserData, 'summary', content)
+                    }
+                    onSelectionChange={(range, quill) =>
+                      handleSelectionChange(setActiveQuill, range, quill)
                     }
                   />
                 </div>
@@ -388,6 +404,9 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
                         onTextChange={(content) =>
                           handleTextChange(setUserData, 'startDate', content)
                         }
+                        onSelectionChange={(range, quill) =>
+                          handleSelectionChange(setActiveQuill, range, quill)
+                        }
                       />
                     </span>
                     -
@@ -396,6 +415,9 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
                         defaultValue={education?.endDate}
                         onTextChange={(content) =>
                           handleTextChange(setUserData, 'endDate', content)
+                        }
+                        onSelectionChange={(range, quill) =>
+                          handleSelectionChange(setActiveQuill, range, quill)
                         }
                       />
                     </span>
@@ -406,6 +428,9 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
                     defaultValue={education?.description}
                     onTextChange={(content) =>
                       handleTextChange(setUserData, 'description', content)
+                    }
+                    onSelectionChange={(range, quill) =>
+                      handleSelectionChange(setActiveQuill, range, quill)
                     }
                   />
                 </div>
@@ -426,7 +451,14 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
               <div className="w-full h-full flex flex-col  pl-14 pb-10 pt-20 gap-5">
                 {userData?.language?.map((language, index) => (
                   <div key={index} className="flex items-center gap-5">
-                    <div>{language?.name}</div>
+                    <div>
+                      <QuillField
+                        defaultValue={language?.name}
+                        onSelectionChange={(range, quill) =>
+                          handleSelectionChange(setActiveQuill, range, quill)
+                        }
+                      />
+                    </div>
                     <div className="w-full h-[15px]">
                       <DottedPercentageSlider level={language?.level} />
                     </div>
