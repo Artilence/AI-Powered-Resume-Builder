@@ -6,10 +6,7 @@ import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 
 const QuillField = forwardRef(
-  (
-    { readOnly = false, defaultValue = '', onTextChange, onSelectionChange },
-    ref
-  ) => {
+  ({ defaultValue = '', onTextChange, onSelectionChange }) => {
     const containerRef = useRef(null);
     const quillInstanceRef = useRef(null);
 
@@ -54,9 +51,6 @@ const QuillField = forwardRef(
 
         // Forward the Quill instance to parent via ref
         quillInstanceRef.current = quill;
-        if (ref && typeof ref === 'object') {
-          ref.current = quill;
-        }
 
         // Listen for text changes
         // Listen for text changes
@@ -78,19 +72,9 @@ const QuillField = forwardRef(
           quillInstanceRef.current.off('text-change');
           quillInstanceRef.current.off('selection-change');
           quillInstanceRef.current = null;
-          if (ref && typeof ref === 'object') {
-            ref.current = null;
-          }
         }
       };
-    }, [defaultValue, ref]);
-
-    // Handle readOnly prop changes
-    useEffect(() => {
-      if (quillInstanceRef.current) {
-        quillInstanceRef.current.enable(!readOnly);
-      }
-    }, [readOnly]);
+    }, [defaultValue]);
 
     return (
       <div
