@@ -2,7 +2,8 @@
 import { useState, useCallback, useContext } from 'react';
 import { Eclipse } from '../../components';
 import { ResumeTemplate1, ResumeTemplate2 } from '../../Resumes/index'; // Corrected import
-import { QuillToolbar, AddToChatButton } from './components';
+import { AddToChatButton } from './components';
+import { QuillToolbar } from '../../components';
 import Layout from '../../components/Layout/Layout';
 import { ChatbotContext } from '../../app/Context/ChatBotContext';
 const ResumeEditor = () => {
