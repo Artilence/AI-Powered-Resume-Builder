@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
-import { ChatbotContext } from '../../../app/Context/ChatBotContext';
+import { ChatbotContext } from '../../../../app/Context/ChatBotContext';
 
 // eslint-disable-next-line react/prop-types
 const AddToChatButton = ({ activeQuill }) => {

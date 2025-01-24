@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
-import { dummyProfilePicture } from '../assets';
-import QuillField from '../pages/Resume-Editor/QuillJS/QuillField';
-import { handleSelectionChange, handleTextChange } from '../ResumeStateUtils';
-import PercentageSlider from '../components/PercentageSlider';
-import DottedPercentageSlider from '../components/DottedPercentageSlider';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+/* eslint-disable react/prop-types */
+import { useState } from 'react';
+import { dummyProfilePicture } from '../../assets';
+import { QuillField } from '../../pages/ResumeEditorPage/components';
+import {
+  handleSelectionChange,
+  handleTextChange,
+} from '../../ResumeStateUtils';
+import {
+  PercentageSlider,
+  DottedPercentageSlider,
+} from './components/PercentageSliders';
 
 const ResumeTemplate2 = ({ setActiveQuill }) => {
-  const [isTemplateDownloading, setIsTemplateDownloading] = useState(false);
   const [userData, setUserData] = useState({
     fullName: 'shohagh hossen',
     position: 'Graphic Designer',

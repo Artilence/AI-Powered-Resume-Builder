@@ -13,8 +13,8 @@ import {
   T_alignleft,
   arrowDown,
   selectedTick,
-} from '../../../assets'; // Ensure all icons are correctly imported
-import TemplateSelector from '../../../components/TemplateSelector';
+} from '../../../../assets'; // Ensure all icons are correctly imported
+import TemplateSelector from '../../../../components/TemplateSelector';
 
 const quillColors = [
   '#000000',

@@ -1,15 +1,15 @@
 /* eslint-disable react/prop-types */
 // src/components/ResumeTemplate.jsx
 import { useState } from 'react';
-import QuillField from '../pages/Resume-Editor/QuillJS/QuillField';
+import { QuillField } from '../../pages/ResumeEditorPage/components';
 import {
   handleTextChange,
   handleSelectionChange,
   removeField,
   addField,
-} from '../ResumeStateUtils';
+} from '../../ResumeStateUtils';
 
-const ResumeTemplate = ({ setActiveQuill }) => {
+const ResumeTemplate1 = ({ setActiveQuill }) => {
   const [fields, setFields] = useState({
     name: 'Your Name',
     summary: '',
@@ -317,4 +317,4 @@ const ResumeTemplate = ({ setActiveQuill }) => {
   );
 };
 
-export default ResumeTemplate;
+export default ResumeTemplate1;
