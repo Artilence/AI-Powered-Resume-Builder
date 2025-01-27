@@ -15,7 +15,7 @@ export const protectedAPI = axios.create({
 });
 
 // Function that will be called to refresh authorization
-const refreshAuthLogic = (failedRequest) => {
+const refreshAuthLogic = async (failedRequest) => {
   return axios
     .post('/api/refresh/', {}, { withCredentials: true })
     .then((response) => {

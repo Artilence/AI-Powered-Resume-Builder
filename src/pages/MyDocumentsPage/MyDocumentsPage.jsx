@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import Eclipse from '../../components/design-utils/Eclipse';
 import {
   arrowLeft,
   deleteDocument,
@@ -10,10 +8,10 @@ import {
   openDocument,
 } from '../../assets';
 import { Link } from 'react-router';
-import Layout from '../../components/Layout/Layout';
+import { Layout, Eclipse } from '../../components';
 
 const MyDocumentsPage = () => {
-  const [documents, setDocuments] = useState([
+  const documents = [
     {
       name: 'Ibrar Naveed - Resume',
       lastActivity: 'Today at 4:42 AM',
@@ -26,7 +24,7 @@ const MyDocumentsPage = () => {
       name: 'Ibrar Naveed - Resume',
       lastActivity: 'Today at 4:42 AM',
     },
-  ]);
+  ];
   return (
     <Layout>
       <div className="w-full relative flex  min-h-screen overflow-hidden pt-32  bg-black">

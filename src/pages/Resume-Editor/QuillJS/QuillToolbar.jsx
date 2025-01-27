@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 // src/components/QuillToolbar.jsx
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   T_Bold,
   T_Italic,
@@ -11,7 +11,6 @@ import {
   T_Undo, // Import the Undo icon
   T_Redo,
   T_alignleft,
-  arrowDown, // Import the Redo icon
 } from '../../../assets'; // Ensure all icons are correctly imported
 
 const QuillToolbar = ({ activeQuill }) => {
@@ -34,9 +33,6 @@ const QuillToolbar = ({ activeQuill }) => {
       if (range) {
         console.log('clicked');
         setTextAlign(value);
-
-        const currentFormat = activeQuill.getFormat(range);
-        console.log(value);
 
         const { index, length } = range;
         activeQuill.formatLine(index, length, 'align', value);
@@ -138,7 +134,7 @@ const QuillToolbar = ({ activeQuill }) => {
 
   useEffect(() => {
     if (activeQuill) {
-      const handleSelectionChange = (range, oldRange, source) => {
+      const handleSelectionChange = (range) => {
         if (range) {
           const currentFormat = activeQuill.getFormat(range);
           setIsBold(currentFormat.bold || false);
@@ -192,10 +188,7 @@ const QuillToolbar = ({ activeQuill }) => {
   }, [activeQuill]);
 
   return (
-    <div
-      id="toolbar-custom"
-      className="bg-gray-black flex items-center px-8 py-2 rounded-lg gap-3 absolute top-28  z-50 shadow-md"
-    >
+    <div className="bg-gray-black flex items-center px-8 py-2 rounded-lg gap-3 fixed top-[13%]  z-20 shadow-md">
       {/* Undo Button */}
       <button
         type="button"
@@ -367,10 +360,6 @@ const QuillToolbar = ({ activeQuill }) => {
       </button>
     </div>
   );
-};
-
-QuillToolbar.propTypes = {
-  activeQuill: PropTypes.object, // Quill instance or null
 };
 
 export default QuillToolbar;

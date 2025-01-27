@@ -7,7 +7,7 @@ import {
   arrowDown,
 } from '../../assets';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../../app/auth/authAPI';
+import { logoutUser } from '../../app/index';
 
 const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
@@ -17,7 +17,7 @@ const Navbar = () => {
     dispatch(logoutUser());
   };
   return (
-    <div className="w-full z-50 fixed top-0 left-0 bg-black flex items-center justify-between py-5 px-52">
+    <div className="w-full z-40 fixed top-0 left-0 bg-black flex items-center justify-between py-5 px-52">
       <div>
         <img src={logo} alt="logo" className="w-80 object-contain " />
       </div>

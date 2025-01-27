@@ -2,7 +2,6 @@
 
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice'; // Adjust the path as necessary
-
 import {
   persistStore,
   persistReducer,
@@ -40,6 +39,9 @@ const store = configureStore({
       serializableCheck: {
         // Ignore these action types for Redux Persist
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+
+        // Alternatively, ignore specific paths
+        ignoredPaths: [],
       },
     }),
 });
