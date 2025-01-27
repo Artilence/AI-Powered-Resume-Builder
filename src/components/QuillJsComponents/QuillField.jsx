@@ -4,6 +4,8 @@
 import { forwardRef, useEffect, useRef, useLayoutEffect } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedContent } from '../../app/index';
 
 const QuillField = forwardRef(
   (
@@ -19,7 +21,10 @@ const QuillField = forwardRef(
     const quillInstanceRef = useRef(null);
     const initializedRef = useRef(false);
     const defaultsRef = useRef({ value: defaultValue, styles: defaultStyles });
-
+    const dispatch = useDispatch();
+    const editorState = useSelector(
+      (state) => state.ResumeEditorAndChatCrontrol.editorState
+    );
     // Update event handlers to avoid stale closures
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
@@ -80,10 +85,28 @@ const QuillField = forwardRef(
         });
 
         quill.on('selection-change', (range) => {
+          if (range) {
+            console.log(range);
+            const selectedContent = quill.getContents(
+              range.index,
+              range.length
+            );
+            dispatch(
+              setSelectedContent(JSON.parse(JSON.stringify(selectedContent)))
+            );
+          }
           if (onSelectionChangeRef.current) {
             onSelectionChangeRef.current(range, quill);
           }
         });
+
+        if (editorState !== 'EDITING') {
+          console.log(editorState);
+
+          quill.disable(); // Disable editing
+        } else {
+          quill.enable(); // Enable editing
+        }
       }
 
       return () => {
@@ -96,7 +119,7 @@ const QuillField = forwardRef(
           }
         }
       };
-    }, [ref]);
+    }, [ref, dispatch, editorState]);
 
     return (
       <div

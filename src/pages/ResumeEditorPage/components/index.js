@@ -1,2 +1,3 @@
 import AddToChatButton from './ChatBot/AddToChatButton';
-export { AddToChatButton };
+import ChatBot from './ChatBot/ChatBot';
+export { AddToChatButton, ChatBot };
