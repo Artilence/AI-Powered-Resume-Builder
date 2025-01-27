@@ -15,7 +15,8 @@ export default {
         'btn-purple': 'rgba(77, 39, 215, 1)',
 
         'black-transparent': 'rgba(255, 255, 255, 0.7)',
-
+        'green-dark': '#1F855F',
+        'green-light': '#2EB588',
       },
       fontFamily: {
         albert: ['"Albert Sans"', 'sans-serif'],
@@ -28,7 +29,6 @@ export default {
         heading: '42px',
 
         heading_2: '32px',
-
       },
     },
   },

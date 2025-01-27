@@ -27,7 +27,11 @@ import myDocuments from './mydocuments.png';
 import dummyprofile from './dummyprofile.png';
 import selectedTick from './selectedTick.png';
 
-
+import dummyProfilePicture from './dummyProfilePicture.jpg';
+import ResumeSS1 from './ResumeSS1.png';
+import templatesIcon1 from './templatesIcon1.png';
+import closeIcon from './closeIcon.png';
+import ResumeSS2 from './ResumeSS2.png';
 
 export {
   myDocuments,
@@ -57,5 +61,11 @@ export {
 
 
   selectedTick,
+
+  dummyProfilePicture,
+  ResumeSS1,
+  templatesIcon1,
+  closeIcon,
+  ResumeSS2,
 
 };

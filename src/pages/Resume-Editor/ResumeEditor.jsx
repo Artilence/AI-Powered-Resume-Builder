@@ -1,10 +1,12 @@
 // src/components/ResumeEditor.jsx
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import Eclipse from '../../components/design-utils/Eclipse';
 import ResumeTemplate from '../../Resumes/ResumeTemplate1'; // Corrected import
 import QuillToolbar from './QuillJS/QuillToolbar';
 import Layout from '../../components/Layout/Layout';
 import AddToChatButton from './ChatBot/AddToChatButton';
+import ResumeTemplate2 from '../../Resumes/ResumeTemplate2';
+import { ChatbotContext } from '../../app/Context/ChatBotContext';
 const ResumeEditor = () => {
   // PDF
 
@@ -15,6 +17,7 @@ const ResumeEditor = () => {
     setActiveQuill(quill);
   }, []);
 
+  const { selectedTemplate } = useContext(ChatbotContext);
   return (
     <Layout>
       <div className="w-full mt-10 pt-32 h-max flex items-center justify-center  relative bg-black">
@@ -26,7 +29,12 @@ const ResumeEditor = () => {
           {/* Resume Template that uses this same toolbar */}
           <AddToChatButton activeQuill={activeQuill} />
 
-          <ResumeTemplate setActiveQuill={handleSetActiveQuill} />
+          {selectedTemplate === 2 && (
+            <ResumeTemplate2 setActiveQuill={handleSetActiveQuill} />
+          )}
+          {selectedTemplate === 1 && (
+            <ResumeTemplate setActiveQuill={handleSetActiveQuill} />
+          )}
         </div>
       </div>
     </Layout>

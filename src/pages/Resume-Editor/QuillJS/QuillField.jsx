@@ -7,11 +7,18 @@ import 'quill/dist/quill.bubble.css';
 
 const QuillField = forwardRef(
   (
-    { readOnly = false, defaultValue = '', onTextChange, onSelectionChange },
+    {
+      defaultValue = '',
+      onTextChange,
+      onSelectionChange,
+      defaultStyles = null,
+    },
     ref
   ) => {
     const containerRef = useRef(null);
     const quillInstanceRef = useRef(null);
+    const initializedRef = useRef(false);
+    const defaultsRef = useRef({ value: defaultValue, styles: defaultStyles });
 
     // Update event handlers to avoid stale closures
     const onTextChangeRef = useRef(onTextChange);
@@ -24,7 +31,6 @@ const QuillField = forwardRef(
 
     useEffect(() => {
       if (containerRef.current && !quillInstanceRef.current) {
-        // Initialize Quill editor
         const quill = new Quill(containerRef.current, {
           theme: 'bubble',
           modules: {
@@ -47,32 +53,39 @@ const QuillField = forwardRef(
           ],
         });
 
-        // Set default content if provided
-        if (defaultValue) {
-          quill.setText(defaultValue);
+        // Set initial content and styles
+        if (!initializedRef.current) {
+          if (defaultsRef?.current?.value) {
+            quill.setText(defaultsRef.current.value);
+          }
+        }
+        if (defaultsRef?.current?.styles) {
+          Object.entries(defaultsRef.current.styles).forEach(([key, value]) => {
+            quill.format(key, value);
+          });
+          initializedRef.current = true;
         }
 
-        // Forward the Quill instance to parent via ref
         quillInstanceRef.current = quill;
         if (ref && typeof ref === 'object') {
           ref.current = quill;
         }
 
-        // Listen for text changes
-        // Listen for text changes
         quill.on('text-change', () => {
-          let text = quill.getText(); // Get plain text
-          text = text.replace(/\n/g, ' '); // Replace \n with space
-          onTextChangeRef.current(text);
+          if (onTextChangeRef.current) {
+            let text = quill.getText();
+            text = text.replace(/\n/g, ' ');
+            onTextChangeRef.current(text);
+          }
         });
 
-        // Listen for selection changes
         quill.on('selection-change', (range) => {
-          onSelectionChangeRef.current(range, quill);
+          if (onSelectionChangeRef.current) {
+            onSelectionChangeRef.current(range, quill);
+          }
         });
       }
 
-      // Cleanup on unmount
       return () => {
         if (quillInstanceRef.current) {
           quillInstanceRef.current.off('text-change');
@@ -83,19 +96,12 @@ const QuillField = forwardRef(
           }
         }
       };
-    }, [defaultValue, ref]);
-
-    // Handle readOnly prop changes
-    useEffect(() => {
-      if (quillInstanceRef.current) {
-        quillInstanceRef.current.enable(!readOnly);
-      }
-    }, [readOnly]);
+    }, [ref]);
 
     return (
       <div
         ref={containerRef}
-        className="w-full h-full !outline-none !border-none p-0 m-0"
+        className="!w-[inherit] !h-[inherit] !outline-none !border-none p-0 m-0"
       ></div>
     );
   }
