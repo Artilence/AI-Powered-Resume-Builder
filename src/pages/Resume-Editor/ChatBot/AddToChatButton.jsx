@@ -81,18 +81,11 @@ const AddToChatButton = ({ activeQuill }) => {
     const applyStyle = (ops, bgColor, color) => {
       return ops.map((op) => {
         // Clone the operation to avoid mutating the original
-        if (op?.attributes) {
-          op.attributes = {
-            ...op.attributes,
-            background: bgColor,
-            color: color,
-          };
-        } else {
-          op.attributes = {
-            background: bgColor,
-            color: color,
-          };
-        }
+        op.attributes = {
+          ...(op.attributes || {}),
+          background: bgColor,
+          color: color,
+        };
       });
     };
 
