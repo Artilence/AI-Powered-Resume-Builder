@@ -6,26 +6,34 @@ import {
   defaultChatBotProfile,
 } from '../../../../assets';
 import { useSelector, useDispatch } from 'react-redux';
-import { addChatMessage, setIsChatbotOpen } from '../../../../app/index';
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+
+import {
+  addChatMessage,
+  setEditorState,
+  setIsChatbotOpen,
+} from '../../../../app/index';
 import { chatbotSendIcon } from '../../../../assets';
 import { useEffect, useState, useRef } from 'react';
 
 const ChatBot = ({ activeQuill }) => {
   const dispatch = useDispatch();
-  const quillRef = useRef(null);
-  const { isChatbotOpen, selectedContentDelta, chatMessages } = useSelector(
-    (state) => state.ResumeEditorAndChatCrontrol
-  );
+  const [quillRef, setQuillRef] = useState(null);
+  const {
+    isChatbotOpen,
+    selectedContentDelta,
+    chatMessages,
+    firstContentDelta,
+    lastContentDelta,
+  } = useSelector((state) => state.ResumeEditorAndChatCrontrol);
   const [chatMessage, setChatMessage] = useState('');
   useEffect(() => {
     if (activeQuill) {
-      quillRef.current = activeQuill;
+      setQuillRef(activeQuill);
     }
   }, [activeQuill]);
 
-  const handleChatMessage = () => {
-    if (!chatMessage) return;
-
+  const updateChatMessage = () => {
     dispatch(
       addChatMessage({
         date: new Date().toLocaleString('en-US', {
@@ -38,6 +46,65 @@ const ChatBot = ({ activeQuill }) => {
       })
     );
     setChatMessage('');
+  };
+
+  //converting response to delta
+  const convertContent = (content) => {
+    const newDelta = quillRef?.clipboard?.convert({
+      html: content,
+    });
+    return newDelta;
+  };
+
+  //applying style to the content
+  const applyStyle = (ops, bgColor, color) => {
+    return ops.map((op) => {
+      // Clone the operation to avoid mutating the original
+      op.attributes = {
+        ...(op.attributes || {}),
+        background: bgColor,
+        color: color,
+      };
+    });
+  };
+
+  //handle chat message
+  const handleChatMessage = async () => {
+    //updating message and editor state
+    dispatch(setEditorState('CHANGING'));
+    updateChatMessage();
+
+    //converting selected content to html for response
+    const cfg = {};
+    const converter = new QuillDeltaToHtmlConverter(
+      selectedContentDelta.ops,
+      cfg
+    );
+    const selectedContentHtml = converter.convert();
+    //Send response to chatbot
+    //Dummy response
+    const newContentHTML = '<p><strong>Hello Demo Response</strong><br/></p>';
+
+    //updating editor state
+    setEditorState('CHANGED');
+    //getting first, original and last content
+    const first = firstContentDelta;
+    const original = JSON.parse(JSON.stringify(selectedContentDelta));
+    const transformed = JSON.parse(
+      JSON.stringify(convertContent(`<br/>${newContentHTML}`))
+    );
+    const last = lastContentDelta;
+
+    //applying style to original and transformed content
+    applyStyle(original.ops, 'pink', 'red');
+    applyStyle(transformed.ops, 'lightgreen', 'green');
+    //setting new content to editor
+    quillRef?.setContents([
+      ...first.ops,
+      ...original.ops,
+      ...transformed.ops,
+      ...last.ops,
+    ]);
   };
 
   return (
@@ -77,9 +144,9 @@ const ChatBot = ({ activeQuill }) => {
               </div>
             </div>
             {/* chatbot Bottom */}
-            <div className=" w-full h-full bg-chat-bg px-[22px] py-[32px] gap-5 flex items-center  justify-start flex-col">
+            <div className=" w-full h-full bg-chat-bg px-[22px] py-[32px] gap-5 flex items-center  justify-between flex-col">
               {/* chat messages */}
-              <div className=" flex flex-col justify-center items-center w-full   h-[65%] overflow-y-scroll">
+              <div className=" flex flex-col justify-center items-center w-full   h-[60%] overflow-y-scroll">
                 <div className=" flex flex-col gap-5 h-full   w-full ">
                   {chatMessages.map((message) => (
                     <div key={message.date} className="flex flex-col gap-2 ">

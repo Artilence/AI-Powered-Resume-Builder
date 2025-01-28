@@ -116,12 +116,6 @@ const QuillField = forwardRef(
             onSelectionChangeRef.current(range, quill);
           }
         });
-
-        if (editorState !== 'EDITING') {
-          quill.disable(); // Disable editing
-        } else {
-          quill.enable(); // Enable editing
-        }
       }
 
       return () => {
@@ -134,7 +128,16 @@ const QuillField = forwardRef(
           }
         }
       };
-    }, [ref, dispatch, editorState]);
+    }, [ref, dispatch]);
+    useEffect(() => {
+      if (quillInstanceRef.current) {
+        if (editorState !== 'EDITING') {
+          quillInstanceRef.current.disable();
+        } else {
+          quillInstanceRef.current.enable();
+        }
+      }
+    }, [editorState]); // 🔹 Runs ONLY when `editorState` changes
 
     return (
       <div
