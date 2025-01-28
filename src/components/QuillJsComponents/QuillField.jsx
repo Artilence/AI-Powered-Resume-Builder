@@ -119,7 +119,7 @@ const QuillField = forwardRef(
           }
         });
         if (spanRef.current) {
-          spanRef.current.style.display = 'none';
+          // spanRef.current.style.display = 'none';
         }
       }
 
@@ -158,9 +158,9 @@ const QuillField = forwardRef(
         ></div>
         <span
           ref={spanRef}
-          className=" absolute top-[100%] left-0 z-[100] w-full bg-black"
+          className="absolute top-[100%] left-0 z-[100] w-full bg-light-gray  rounded-lg p-2"
         >
-          i am a span
+          Accept Reject
         </span>
       </div>
     );
