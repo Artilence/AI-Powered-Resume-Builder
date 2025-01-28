@@ -33,7 +33,7 @@ import ResumeSS2 from './ResumeSS2.png';
 import chatbotIcon from './chatbotIcon.png';
 import LogoIcon from './LogoIcon.png';
 import chatbotSendIcon from './chatbotSendIcon.png';
-
+import defaultChatBotProfile from './defaultchatbotprofile.png';
 export {
   myDocuments,
   arrowDown,
@@ -68,4 +68,5 @@ export {
   ResumeSS2,
   LogoIcon,
   chatbotSendIcon,
+  defaultChatBotProfile,
 };

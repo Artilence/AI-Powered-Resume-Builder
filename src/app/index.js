@@ -3,9 +3,11 @@ import { loginUser, logoutUser } from './auth/authAPI';
 import { protectedAPI, simpleAPI } from './api';
 import {
   setIsChatbotOpen,
-  setSelectedContent,
+  setSelectedContentDelta,
   addChatMessage,
   setEditorState,
+  setFirstContentDelta,
+  setLastContentDelta,
 } from './ResumeEditor/ResumeEditorAndChatCrontrol';
 
 export {
@@ -14,8 +16,10 @@ export {
   logoutUser,
   protectedAPI,
   simpleAPI,
+  setFirstContentDelta,
+  setLastContentDelta,
   setIsChatbotOpen,
-  setSelectedContent,
+  setSelectedContentDelta,
   addChatMessage,
   setEditorState,
 };

@@ -5,7 +5,11 @@ import { forwardRef, useEffect, useRef, useLayoutEffect } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedContent } from '../../app/index';
+import {
+  setSelectedContentDelta,
+  setFirstContentDelta,
+  setLastContentDelta,
+} from '../../app/index';
 
 const QuillField = forwardRef(
   (
@@ -85,14 +89,27 @@ const QuillField = forwardRef(
         });
 
         quill.on('selection-change', (range) => {
-          if (range) {
-            console.log(range);
-            const selectedContent = quill.getContents(
+          if (range?.length > 0) {
+            const selectedContentDelta = quill.getContents(
               range.index,
               range.length
             );
+            const firstContentValue = quill?.getContents(0, range.index);
+            const lastContentValue = quill?.getContents(
+              range.index + range.length
+            );
             dispatch(
-              setSelectedContent(JSON.parse(JSON.stringify(selectedContent)))
+              setSelectedContentDelta(
+                JSON.parse(JSON.stringify(selectedContentDelta))
+              )
+            );
+            dispatch(
+              setFirstContentDelta(
+                JSON.parse(JSON.stringify(firstContentValue))
+              )
+            );
+            dispatch(
+              setLastContentDelta(JSON.parse(JSON.stringify(lastContentValue)))
             );
           }
           if (onSelectionChangeRef.current) {
@@ -101,8 +118,6 @@ const QuillField = forwardRef(
         });
 
         if (editorState !== 'EDITING') {
-          console.log(editorState);
-
           quill.disable(); // Disable editing
         } else {
           quill.enable(); // Enable editing

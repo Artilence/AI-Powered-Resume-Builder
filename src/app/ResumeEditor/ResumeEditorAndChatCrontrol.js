@@ -2,9 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isChatbotOpen: false,
-  selectedContent: null,
+  selectedContentDelta: null,
   chatMessages: [],
   editorState: 'EDITING',
+  firstContentDelta: null,
+  lastContentDelta: null,
 };
 
 const ResumeEditorAndChatCrontrol = createSlice({
@@ -14,8 +16,8 @@ const ResumeEditorAndChatCrontrol = createSlice({
     setIsChatbotOpen: (state, action) => {
       state.isChatbotOpen = action.payload;
     },
-    setSelectedContent: (state, action) => {
-      state.selectedContent = action.payload;
+    setSelectedContentDelta: (state, action) => {
+      state.selectedContentDelta = action.payload;
     },
     addChatMessage: (state, action) => {
       state.chatMessages = [...state.chatMessages, action.payload];
@@ -23,13 +25,21 @@ const ResumeEditorAndChatCrontrol = createSlice({
     setEditorState: (state, action) => {
       state.editorState = action.payload;
     },
+    setFirstContentDelta: (state, action) => {
+      state.firstContentDelta = action.payload;
+    },
+    setLastContentDelta: (state, action) => {
+      state.lastContentDelta = action.payload;
+    },
   },
 });
 
 export const {
   setIsChatbotOpen,
-  setSelectedContent,
+  setSelectedContentDelta,
   addChatMessage,
   setEditorState,
+  setFirstContentDelta,
+  setLastContentDelta,
 } = ResumeEditorAndChatCrontrol.actions;
 export default ResumeEditorAndChatCrontrol.reducer;
