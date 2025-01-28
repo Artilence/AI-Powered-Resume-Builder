@@ -1,5 +1,5 @@
 // src/components/ResumeEditor.jsx
-import { useState, useCallback, useContext } from 'react';
+import { useState, useCallback, useContext, useRef } from 'react';
 import { Eclipse } from '../../components';
 import { ResumeTemplate1, ResumeTemplate2 } from '../../Resumes/index'; // Corrected import
 import { ChatBot } from './components';
@@ -10,9 +10,10 @@ const ResumeEditor = () => {
   // PDF
 
   const [activeQuill, setActiveQuill] = useState(null); // Tracks the active Quill instance
-
   // Memoize the setActiveQuill callback to prevent unnecessary re-renders
-  const handleSetActiveQuill = useCallback((quill) => {
+  const changeSpanDisplayRef = useRef(null);
+  const handleSetActiveQuill = useCallback((quill, changeSpanDisplay) => {
+    changeSpanDisplayRef.current = changeSpanDisplay;
     setActiveQuill(quill);
   }, []);
 
@@ -26,7 +27,10 @@ const ResumeEditor = () => {
           <QuillToolbar activeQuill={activeQuill} />
 
           {/* Resume Template that uses this same toolbar */}
-          <ChatBot activeQuill={activeQuill} />
+          <ChatBot
+            activeQuill={activeQuill}
+            changeSpanDisplayRef={changeSpanDisplayRef}
+          />
 
           {selectedTemplate === 2 && (
             <ResumeTemplate2 setActiveQuill={handleSetActiveQuill} />

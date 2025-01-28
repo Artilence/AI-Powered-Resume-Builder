@@ -2,7 +2,6 @@
 import { QuillField } from '../../../../components';
 
 import { handleTextChange } from '../../../../ResumeStateUtils';
-import { handleSelectionChange } from '../../../../ResumeStateUtils';
 
 const EducationSection = ({ userData, setUserData, setActiveQuill }) => {
   const handleEducationChange = (index, field, value) => {
@@ -36,8 +35,8 @@ const EducationSection = ({ userData, setUserData, setActiveQuill }) => {
                   onTextChange={(content) =>
                     handleEducationChange(education.id, 'degree', content)
                   }
-                  onSelectionChange={(range, quill) =>
-                    handleSelectionChange(setActiveQuill, range, quill)
+                  onSelectionChange={(range, quill, changeSpanDisplay) =>
+                    setActiveQuill(quill, changeSpanDisplay)
                   }
                   defaultValue={education?.degree}
                 />
@@ -49,8 +48,8 @@ const EducationSection = ({ userData, setUserData, setActiveQuill }) => {
                     onTextChange={(content) =>
                       handleTextChange(setUserData, 'startDate', content)
                     }
-                    onSelectionChange={(range, quill) =>
-                      handleSelectionChange(setActiveQuill, range, quill)
+                    onSelectionChange={(range, quill, changeSpanDisplay) =>
+                      setActiveQuill(quill, changeSpanDisplay)
                     }
                   />
                 </span>
@@ -61,8 +60,8 @@ const EducationSection = ({ userData, setUserData, setActiveQuill }) => {
                     onTextChange={(content) =>
                       handleTextChange(setUserData, 'endDate', content)
                     }
-                    onSelectionChange={(range, quill) =>
-                      handleSelectionChange(setActiveQuill, range, quill)
+                    onSelectionChange={(range, quill, changeSpanDisplay) =>
+                      setActiveQuill(quill, changeSpanDisplay)
                     }
                   />
                 </span>
@@ -74,8 +73,8 @@ const EducationSection = ({ userData, setUserData, setActiveQuill }) => {
                 onTextChange={(content) =>
                   handleTextChange(setUserData, 'description', content)
                 }
-                onSelectionChange={(range, quill) =>
-                  handleSelectionChange(setActiveQuill, range, quill)
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
                 }
               />
             </div>

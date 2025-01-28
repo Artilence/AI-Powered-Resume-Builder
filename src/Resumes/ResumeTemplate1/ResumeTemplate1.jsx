@@ -3,10 +3,7 @@
 import { useState } from 'react';
 import { QuillField } from '../../components';
 
-import {
-  handleTextChange,
-  handleSelectionChange,
-} from '../../ResumeStateUtils';
+import { handleTextChange } from '../../ResumeStateUtils';
 import {
   EducationSection,
   ExperienceSection,
@@ -66,8 +63,8 @@ const ResumeTemplate1 = ({ setActiveQuill }) => {
           onTextChange={(content) =>
             handleTextChange(setFields, 'name', content)
           }
-          onSelectionChange={(range, quill) =>
-            handleSelectionChange(setActiveQuill, range, quill)
+          onSelectionChange={(range, quill, changeSpanDisplay) =>
+            setActiveQuill(quill, changeSpanDisplay)
           }
         />
       </div>
@@ -84,8 +81,8 @@ const ResumeTemplate1 = ({ setActiveQuill }) => {
             onTextChange={(content) =>
               handleTextChange(setFields, 'summary', content)
             }
-            onSelectionChange={(range, quill) =>
-              handleSelectionChange(setActiveQuill, range, quill)
+            onSelectionChange={(range, quill, changeSpanDisplay) =>
+              setActiveQuill(quill, changeSpanDisplay)
             }
           />
         </div>

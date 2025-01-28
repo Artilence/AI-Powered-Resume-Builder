@@ -2,7 +2,7 @@
 import { QuillField } from '../../../../components';
 
 import { handleTextChange } from '../../../../ResumeStateUtils';
-import { handleSelectionChange } from '../../../../ResumeStateUtils';
+
 const LeftTopSection = ({ userData, setUserData, setActiveQuill }) => {
   return (
     <div className="flex flex-col items-center justify-center bg-green-dark py-20 gap-14 w-full">
@@ -26,8 +26,8 @@ const LeftTopSection = ({ userData, setUserData, setActiveQuill }) => {
             onTextChange={(content) =>
               handleTextChange(setUserData, 'fullName', content)
             }
-            onSelectionChange={(range, quill) =>
-              handleSelectionChange(setActiveQuill, range, quill)
+            onSelectionChange={(range, quill, changeSpanDisplay) =>
+              setActiveQuill(quill, changeSpanDisplay)
             }
             defaultStyles={{
               align: 'center',
@@ -40,8 +40,8 @@ const LeftTopSection = ({ userData, setUserData, setActiveQuill }) => {
             onTextChange={(content) =>
               handleTextChange(setUserData, 'position', content)
             }
-            onSelectionChange={(range, quill) =>
-              handleSelectionChange(setActiveQuill, range, quill)
+            onSelectionChange={(range, quill, changeSpanDisplay) =>
+              setActiveQuill(quill, changeSpanDisplay)
             }
             defaultStyles={{
               align: 'center',

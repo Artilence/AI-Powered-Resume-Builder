@@ -14,9 +14,9 @@ import {
   setIsChatbotOpen,
 } from '../../../../app/index';
 import { chatbotSendIcon } from '../../../../assets';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
-const ChatBot = ({ activeQuill }) => {
+const ChatBot = ({ activeQuill, changeSpanDisplayRef }) => {
   const dispatch = useDispatch();
   const [quillRef, setQuillRef] = useState(null);
   const {
@@ -105,6 +105,8 @@ const ChatBot = ({ activeQuill }) => {
       ...transformed.ops,
       ...last.ops,
     ]);
+
+    changeSpanDisplayRef?.current?.current(true);
   };
 
   return (

@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { QuillField } from '../../../components';
 
-import { handleSelectionChange } from '../../../ResumeStateUtils';
 import { addField, removeField } from '../../../ResumeStateUtils';
 
 const EducationSection = ({ fields, setFields, setActiveQuill }) => {
@@ -30,8 +29,8 @@ const EducationSection = ({ fields, setFields, setActiveQuill }) => {
                 onTextChange={(content) =>
                   handleEducationChange(edu, 'degree', content)
                 }
-                onSelectionChange={(range, quill) =>
-                  handleSelectionChange(setActiveQuill, range, quill)
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
                 }
               />
             </div>
@@ -41,8 +40,8 @@ const EducationSection = ({ fields, setFields, setActiveQuill }) => {
                 onTextChange={(content) =>
                   handleEducationChange(edu, 'institution', content)
                 }
-                onSelectionChange={(range, quill) =>
-                  handleSelectionChange(setActiveQuill, range, quill)
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
                 }
               />
               <input

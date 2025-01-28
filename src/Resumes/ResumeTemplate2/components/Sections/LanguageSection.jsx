@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { QuillField } from '../../../../components';
 
-import { handleSelectionChange } from '../../../../ResumeStateUtils';
 import { DottedPercentageSlider } from '../PercentageSliders';
 const LanguageSection = ({ userData, setActiveQuill }) => {
   return (
@@ -21,8 +20,8 @@ const LanguageSection = ({ userData, setActiveQuill }) => {
                 <div>
                   <QuillField
                     defaultValue={language?.name}
-                    onSelectionChange={(range, quill) =>
-                      handleSelectionChange(setActiveQuill, range, quill)
+                    onSelectionChange={(range, quill, changeSpanDisplay) =>
+                      setActiveQuill(quill, changeSpanDisplay)
                     }
                   />
                 </div>

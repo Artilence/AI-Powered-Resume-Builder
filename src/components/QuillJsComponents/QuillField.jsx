@@ -32,6 +32,8 @@ const QuillField = forwardRef(
     // Update event handlers to avoid stale closures
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
+    const spanRef = useRef(null); // Ref for the <span>
+    const changeSpanDisplay = useRef(null);
 
     useLayoutEffect(() => {
       onTextChangeRef.current = onTextChange;
@@ -113,9 +115,12 @@ const QuillField = forwardRef(
             );
           }
           if (onSelectionChangeRef.current) {
-            onSelectionChangeRef.current(range, quill);
+            onSelectionChangeRef.current(range, quill, changeSpanDisplay);
           }
         });
+        if (spanRef.current) {
+          spanRef.current.style.display = 'none';
+        }
       }
 
       return () => {
@@ -138,12 +143,26 @@ const QuillField = forwardRef(
         }
       }
     }, [editorState]); // 🔹 Runs ONLY when `editorState` changes
+    changeSpanDisplay.current = (isVisible) => {
+      if (spanRef.current) {
+        console.log(spanRef.current);
+        spanRef.current.style.display = isVisible ? 'flex' : 'none';
+      }
+    };
 
     return (
-      <div
-        ref={containerRef}
-        className="!w-[inherit] !h-[inherit] !outline-none !border-none p-0 m-0"
-      ></div>
+      <div className="relative w-full flex flex-col">
+        <div
+          ref={containerRef}
+          className="!w-[inherit] !h-[inherit] !outline-none !border-none p-0 m-0"
+        ></div>
+        <span
+          ref={spanRef}
+          className=" absolute top-[100%] left-0 z-[100] w-full bg-black"
+        >
+          i am a span
+        </span>
+      </div>
     );
   }
 );

@@ -39,8 +39,8 @@ const ExperienceSection = ({ userData, setUserData, setActiveQuill }) => {
                   onSelectionChange={(range, quill) =>
                     handleSelectionChange(setActiveQuill, range, quill)
                   }
-                  onFocus={(range, quill) =>
-                    handleSelectionChange(setActiveQuill, range, quill)
+                  onFocus={(range, quill, changeSpanDisplay) =>
+                    setActiveQuill(quill, changeSpanDisplay)
                   }
                   defaultValue={experience?.position}
                 />
@@ -56,8 +56,8 @@ const ExperienceSection = ({ userData, setUserData, setActiveQuill }) => {
                         content
                       )
                     }
-                    onFocus={(range, quill) =>
-                      handleSelectionChange(setActiveQuill, range, quill)
+                    onFocus={(range, quill, changeSpanDisplay) =>
+                      setActiveQuill(quill, changeSpanDisplay)
                     }
                   />
                 </span>
@@ -68,8 +68,8 @@ const ExperienceSection = ({ userData, setUserData, setActiveQuill }) => {
                     onTextChange={(content) =>
                       handleTextChange(setUserData, 'endDate', content)
                     }
-                    onFocus={(range, quill) =>
-                      handleSelectionChange(setActiveQuill, range, quill)
+                    onFocus={(range, quill, changeSpanDisplay) =>
+                      setActiveQuill(quill, changeSpanDisplay)
                     }
                   />
                 </span>
@@ -81,8 +81,8 @@ const ExperienceSection = ({ userData, setUserData, setActiveQuill }) => {
                 onTextChange={(content) =>
                   handleTextChange(setUserData, 'summary', content)
                 }
-                onSelectionChange={(range, quill) =>
-                  handleSelectionChange(setActiveQuill, range, quill)
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
                 }
               />
             </div>

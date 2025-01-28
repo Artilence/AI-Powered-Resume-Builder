@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { QuillField } from '../../../components';
 
-import { handleSelectionChange } from '../../../ResumeStateUtils';
 import { addField, removeField } from '../../../ResumeStateUtils';
 
 const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
@@ -26,8 +25,8 @@ const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
               onTextChange={(content) =>
                 handleExperienceChange(exp, 'position', content)
               }
-              onSelectionChange={(range, quill) =>
-                handleSelectionChange(setActiveQuill, range, quill)
+              onSelectionChange={(range, quill, changeSpanDisplay) =>
+                setActiveQuill(quill, changeSpanDisplay)
               }
             />
           </div>
@@ -37,8 +36,8 @@ const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
               onTextChange={(content) =>
                 handleExperienceChange(exp, 'company', content)
               }
-              onSelectionChange={(range, quill) =>
-                handleSelectionChange(setActiveQuill, range, quill)
+              onSelectionChange={(range, quill, changeSpanDisplay) =>
+                setActiveQuill(quill, changeSpanDisplay)
               }
             />
             <input
@@ -66,8 +65,8 @@ const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
               onTextChange={(content) =>
                 handleExperienceChange(exp, 'description', content)
               }
-              onSelectionChange={(range, quill) =>
-                handleSelectionChange(setActiveQuill, range, quill)
+              onSelectionChange={(range, quill, changeSpanDisplay) =>
+                setActiveQuill(quill, changeSpanDisplay)
               }
             />
           </div>

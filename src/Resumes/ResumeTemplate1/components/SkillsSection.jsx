@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { QuillField } from '../../../components';
-import { handleSelectionChange } from '../../../ResumeStateUtils';
+
 import { addField, removeField } from '../../../ResumeStateUtils';
 
 const SkillsSection = ({ fields, setFields, setActiveQuill }) => {
@@ -29,8 +29,8 @@ const SkillsSection = ({ fields, setFields, setActiveQuill }) => {
             <QuillField
               defaultValue={skill.content}
               onTextChange={(content) => handleSkillChange(skill, content)}
-              onSelectionChange={(range, quill) =>
-                handleSelectionChange(setActiveQuill, range, quill)
+              onSelectionChange={(range, quill, changeSpanDisplay) =>
+                setActiveQuill(quill, changeSpanDisplay)
               }
             />
             <button
