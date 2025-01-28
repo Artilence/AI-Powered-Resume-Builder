@@ -17,6 +17,7 @@ export default {
         'black-transparent': 'rgba(255, 255, 255, 0.7)',
         'green-dark': '#1F855F',
         'green-light': '#2EB588',
+        'chat-bg': 'rgba(246, 246, 247, 1)',
       },
       fontFamily: {
         albert: ['"Albert Sans"', 'sans-serif'],
