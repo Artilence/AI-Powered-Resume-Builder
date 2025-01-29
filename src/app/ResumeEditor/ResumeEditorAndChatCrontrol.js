@@ -7,6 +7,8 @@ const initialState = {
   editorState: 'EDITING',
   firstContentDelta: null,
   lastContentDelta: null,
+  newContentHTML: '',
+  userAcceptReject: null,
 };
 
 const ResumeEditorAndChatCrontrol = createSlice({
@@ -31,6 +33,12 @@ const ResumeEditorAndChatCrontrol = createSlice({
     setLastContentDelta: (state, action) => {
       state.lastContentDelta = action.payload;
     },
+    setNewContentHTML: (state, action) => {
+      state.newContentHTML = action.payload;
+    },
+    setUserAcceptReject: (state, action) => {
+      state.userAcceptReject = action.payload;
+    },
   },
 });
 
@@ -41,5 +49,7 @@ export const {
   setEditorState,
   setFirstContentDelta,
   setLastContentDelta,
+  setNewContentHTML,
+  setUserAcceptReject,
 } = ResumeEditorAndChatCrontrol.actions;
 export default ResumeEditorAndChatCrontrol.reducer;

@@ -11,7 +11,12 @@ import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import {
   addChatMessage,
   setEditorState,
+  setFirstContentDelta,
   setIsChatbotOpen,
+  setLastContentDelta,
+  setNewContentHTML,
+  setSelectedContentDelta,
+  setUserAcceptReject,
 } from '../../../../app/index';
 import { chatbotSendIcon } from '../../../../assets';
 import { useEffect, useState } from 'react';
@@ -25,13 +30,56 @@ const ChatBot = ({ activeQuill, changeSpanDisplayRef }) => {
     chatMessages,
     firstContentDelta,
     lastContentDelta,
+    newContentHTML,
+    userAcceptReject,
   } = useSelector((state) => state.ResumeEditorAndChatCrontrol);
   const [chatMessage, setChatMessage] = useState('');
   useEffect(() => {
     if (activeQuill) {
       setQuillRef(activeQuill);
     }
-  }, [activeQuill]);
+    const handleUserAcceptReject = (option) => {
+      //converting response to delta
+      const convertContent = (content) => {
+        const newDelta = quillRef?.clipboard?.convert({
+          html: content,
+        });
+        return newDelta;
+      };
+      const first = firstContentDelta;
+      const original = JSON.parse(JSON.stringify(selectedContentDelta));
+      const transformed = JSON.parse(
+        JSON.stringify(convertContent(`${newContentHTML}`))
+      );
+      const last = lastContentDelta;
+      if (option === 'ACCEPTED') {
+        quillRef?.setContents([...first.ops, ...transformed.ops, ...last.ops]);
+      }
+      if (option === 'REJECTED') {
+        quillRef?.setContents([...first.ops, ...original.ops, ...last.ops]);
+      }
+      dispatch(setUserAcceptReject(null));
+      dispatch(setEditorState('EDITING'));
+      dispatch(setNewContentHTML(null));
+      dispatch(setSelectedContentDelta(null));
+      dispatch(setFirstContentDelta(null));
+      dispatch(setLastContentDelta(null));
+      changeSpanDisplayRef?.current?.current(false);
+    };
+    if (userAcceptReject) {
+      handleUserAcceptReject(userAcceptReject);
+    }
+  }, [
+    activeQuill,
+    userAcceptReject,
+    changeSpanDisplayRef,
+    dispatch,
+    firstContentDelta,
+    lastContentDelta,
+    newContentHTML,
+    quillRef,
+    selectedContentDelta,
+  ]);
 
   const updateChatMessage = () => {
     dispatch(
@@ -84,7 +132,7 @@ const ChatBot = ({ activeQuill, changeSpanDisplayRef }) => {
     //Send response to chatbot
     //Dummy response
     const newContentHTML = '<p><strong>Hello Demo Response</strong><br/></p>';
-
+    dispatch(setNewContentHTML(newContentHTML));
     //updating editor state
     setEditorState('CHANGED');
     //getting first, original and last content

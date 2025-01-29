@@ -8,6 +8,8 @@ import {
   setEditorState,
   setFirstContentDelta,
   setLastContentDelta,
+  setNewContentHTML,
+  setUserAcceptReject,
 } from './ResumeEditor/ResumeEditorAndChatCrontrol';
 
 export {
@@ -22,4 +24,6 @@ export {
   setSelectedContentDelta,
   addChatMessage,
   setEditorState,
+  setNewContentHTML,
+  setUserAcceptReject,
 };

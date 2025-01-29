@@ -9,6 +9,7 @@ import {
   setSelectedContentDelta,
   setFirstContentDelta,
   setLastContentDelta,
+  setUserAcceptReject,
 } from '../../app/index';
 
 const QuillField = forwardRef(
@@ -119,7 +120,7 @@ const QuillField = forwardRef(
           }
         });
         if (spanRef.current) {
-          // spanRef.current.style.display = 'none';
+          spanRef.current.style.display = 'none';
         }
       }
 
@@ -156,12 +157,27 @@ const QuillField = forwardRef(
           ref={containerRef}
           className="!w-[inherit] !h-[inherit] !outline-none !border-none p-0 m-0"
         ></div>
-        <span
+        <div
           ref={spanRef}
-          className="absolute top-[100%] left-0 z-[100] w-full bg-light-gray  rounded-lg p-2"
+          className="absolute top-[100%] left-0 z-10  flex justify-center gap-5 w-[400px] bg-light-gray  rounded-lg p-2"
         >
-          Accept Reject
-        </span>
+          <button
+            className="bg-green-500 text-sm text-white  p-2 rounded-md"
+            onClick={() => {
+              dispatch(setUserAcceptReject('ACCEPTED'));
+            }}
+          >
+            Accept
+          </button>
+          <button
+            className="bg-red-500 text-sm text-white  p-2 rounded-md"
+            onClick={() => {
+              dispatch(setUserAcceptReject('REJECTED'));
+            }}
+          >
+            Reject
+          </button>
+        </div>
       </div>
     );
   }

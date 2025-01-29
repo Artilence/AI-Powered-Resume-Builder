@@ -128,7 +128,6 @@ const AddToChatButton = ({ activeQuill }) => {
     setEditorState('EDITING');
     setCurrentQuill(null);
   };
-  console.log('editorState', editorState);
 
   return (
     <div className="fixed bottom-14 flex gap-4  right-16 z-50 bg-white-transparent-2 px-4 py-2 rounded-lg text-white font-bold text-3xl ">

@@ -10,7 +10,7 @@ const ResumeEditor = () => {
   // PDF
 
   const [activeQuill, setActiveQuill] = useState(null); // Tracks the active Quill instance
-  // Memoize the setActiveQuill callback to prevent unnecessary re-renders
+
   const changeSpanDisplayRef = useRef(null);
   const handleSetActiveQuill = useCallback((quill, changeSpanDisplay) => {
     changeSpanDisplayRef.current = changeSpanDisplay;
