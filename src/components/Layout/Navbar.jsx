@@ -7,12 +7,15 @@ import {
   arrowDown,
 } from '../../assets';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../../app/index';
+import { logoutUser, setIsTemplateDownloading } from '../../app/index';
 
 const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const location = useLocation();
+  const isTemplateDownloading = useSelector(
+    (state) => state.ResumeEditorAndChatCrontrol.isTemplateDownloading
+  );
   const handleLogout = () => {
     dispatch(logoutUser());
   };
@@ -39,7 +42,10 @@ const Navbar = () => {
         )}
         {user && location.pathname === '/' && (
           <Link
-            to={'/my-resumes'}
+            // to={'/my-resumes'}
+            onClick={() => {
+              dispatch(setIsTemplateDownloading(!isTemplateDownloading));
+            }}
             className="rounded-full px-8 py-3 bg-btn-purple flex items-center cursor-pointer justify-center gap-5 "
           >
             <img

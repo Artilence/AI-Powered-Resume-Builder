@@ -1,9 +1,17 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from 'react-redux';
 import { QuillField } from '../../../../components';
 
-import { handleTextChange } from '../../../../ResumeStateUtils';
+import {
+  addField,
+  handleTextChange,
+  removeField,
+} from '../../../../ResumeStateUtils';
 
 const EducationSection = ({ userData, setUserData, setActiveQuill }) => {
+  const isTemplateDownloading = useSelector(
+    (state) => state.ResumeEditorAndChatCrontrol.isTemplateDownloading
+  );
   const handleEducationChange = (index, field, value) => {
     setUserData((prev) => ({
       ...prev,
@@ -78,8 +86,35 @@ const EducationSection = ({ userData, setUserData, setActiveQuill }) => {
                 }
               />
             </div>
+            {!isTemplateDownloading && (
+              <button
+                onClick={() => removeField(setUserData, 'education', index)}
+                className="w-[200px] text-red-500 hover:text-red-700 focus:outline-none"
+                title="Remove Education"
+              >
+                &times;
+              </button>
+            )}
           </div>
         ))}
+        {!isTemplateDownloading && (
+          <button
+            onClick={() =>
+              addField(setUserData, 'education', {
+                degree: 'Bachelor of Science',
+                institution: 'University of Technology',
+                startDate: '2020-01',
+                endDate: '2025-01',
+                description:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ornare metus vel nunc pulvinar auctor. Phasellus et placerat nulla. In hac habitasse platea dictumst',
+              })
+            }
+            className="w-[200px] text-green-500 hover:text-green-700 focus:outline-none"
+            title="Add Education"
+          >
+            +
+          </button>
+        )}
       </div>
     </div>
   );

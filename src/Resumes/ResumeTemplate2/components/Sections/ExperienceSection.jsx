@@ -1,10 +1,18 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from 'react-redux';
 import { QuillField } from '../../../../components';
 
-import { handleTextChange } from '../../../../ResumeStateUtils';
+import {
+  addField,
+  handleTextChange,
+  removeField,
+} from '../../../../ResumeStateUtils';
 import { handleSelectionChange } from '../../../../ResumeStateUtils';
 
 const ExperienceSection = ({ userData, setUserData, setActiveQuill }) => {
+  const isTemplateDownloading = useSelector(
+    (state) => state.ResumeEditorAndChatCrontrol.isTemplateDownloading
+  );
   const handleExperienceChange = (id, field, value) => {
     setUserData((prev) => ({
       ...prev,
@@ -75,6 +83,15 @@ const ExperienceSection = ({ userData, setUserData, setActiveQuill }) => {
                 </span>
               </div>
             </div>
+            {!isTemplateDownloading && (
+              <button
+                onClick={() => removeField(setUserData, 'experience', index)}
+                className="w-[200px] text-red-500 hover:text-red-700 focus:outline-none"
+                title="Remove Experience"
+              >
+                &times;
+              </button>
+            )}
             <div className="w-full  pl-14 h-full">
               <QuillField
                 defaultValue={experience?.description}
@@ -88,6 +105,22 @@ const ExperienceSection = ({ userData, setUserData, setActiveQuill }) => {
             </div>
           </div>
         ))}
+        {!isTemplateDownloading && (
+          <button
+            onClick={() =>
+              addField(setUserData, 'experience', {
+                position: 'Graphic Designer',
+                company: 'Design Co',
+                startDate: '2020-01',
+                endDate: '2025-01',
+                description:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ornare metus vel nunc pulvinar auctor. Phasellus et placerat nulla. In hac habitasse platea dictumst',
+              })
+            }
+          >
+            +
+          </button>
+        )}
       </div>
     </div>
   );

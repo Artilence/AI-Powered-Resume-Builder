@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from 'react-redux';
 import { QuillField } from '../../../components';
 
 import { addField, removeField } from '../../../ResumeStateUtils';
 
 const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
+  const isTemplateDownloading = useSelector(
+    (state) => state.ResumeEditorAndChatCrontrol.isTemplateDownloading
+  );
   const handleExperienceChange = (index, field, value) => {
     setFields((prev) => ({
       ...prev,
@@ -70,31 +74,35 @@ const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
               }
             />
           </div>
-          <button
-            onClick={() => removeField(setFields, 'experience', index)}
-            className="text-red-500 hover:text-red-700 focus:outline-none"
-            title="Remove Experience"
-          >
-            &times;
-          </button>
+          {!isTemplateDownloading && (
+            <button
+              onClick={() => removeField(setFields, 'experience', index)}
+              className="text-red-500 hover:text-red-700 focus:outline-none"
+              title="Remove Experience"
+            >
+              &times;
+            </button>
+          )}
         </div>
       ))}
-      <button
-        onClick={() =>
-          addField(setFields, 'experience', {
-            id: Date.now().toString(),
-            position: 'New Job Title',
-            company: 'New Company',
-            description: 'New Job Description',
-            startDate: '2025-01',
-            endDate: '2030-01',
-          })
-        }
-        className="text-[12px] bg-gray-200 px-[10px] py-[10px] rounded-lg text-gray-500 hover:text-gray-700 focus:outline-none"
-        title="Add Experience"
-      >
-        + Add Experience
-      </button>
+      {!isTemplateDownloading && (
+        <button
+          onClick={() =>
+            addField(setFields, 'experience', {
+              id: Date.now().toString(),
+              position: 'New Job Title',
+              company: 'New Company',
+              description: 'New Job Description',
+              startDate: '2025-01',
+              endDate: '2030-01',
+            })
+          }
+          className="text-[12px] bg-gray-200 px-[10px] py-[10px] rounded-lg text-gray-500 hover:text-gray-700 focus:outline-none"
+          title="Add Experience"
+        >
+          + Add Experience
+        </button>
+      )}
     </div>
   );
 };

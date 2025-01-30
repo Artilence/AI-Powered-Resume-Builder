@@ -13,7 +13,7 @@ import {
 const ResumeTemplate1 = ({ setActiveQuill }) => {
   const [fields, setFields] = useState({
     name: 'Your Name',
-    summary: '',
+    summary: 'Please Enter Your Summary',
     skills: [
       { id: Date.now().toString() + 1212312, content: 'Skill 1' },
       { id: Date.now().toString() + 1212311244, content: 'Skill 2' },
@@ -59,7 +59,7 @@ const ResumeTemplate1 = ({ setActiveQuill }) => {
     <div className="w-[700px] h-[1200px] bg-white shadow-lg rounded-lg py-[40px] px-[20px] flex flex-col gap-4">
       <div className="pb-[30px] w-full text-[40px] font-bold text-gray-500 flex items-center justify-start">
         <QuillField
-          defaultValue="name"
+          defaultValue={fields.name}
           onTextChange={(content) =>
             handleTextChange(setFields, 'name', content)
           }
@@ -77,7 +77,7 @@ const ResumeTemplate1 = ({ setActiveQuill }) => {
         </div>
         <div className="w-full text-[14px] text-gray-500">
           <QuillField
-            defaultValue="Enter your brief summary"
+            defaultValue={fields.summary}
             onTextChange={(content) =>
               handleTextChange(setFields, 'summary', content)
             }

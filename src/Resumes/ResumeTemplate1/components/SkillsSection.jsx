@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from 'react-redux';
 import { QuillField } from '../../../components';
 
 import { addField, removeField } from '../../../ResumeStateUtils';
 
 const SkillsSection = ({ fields, setFields, setActiveQuill }) => {
+  const isTemplateDownloading = useSelector(
+    (state) => state.ResumeEditorAndChatCrontrol.isTemplateDownloading
+  );
   // Handler for text changes in skills
   const handleSkillChange = (index, content) => {
     setFields((prev) => {
@@ -33,27 +37,31 @@ const SkillsSection = ({ fields, setFields, setActiveQuill }) => {
                 setActiveQuill(quill, changeSpanDisplay)
               }
             />
-            <button
-              onClick={() => removeField(setFields, 'skills', index)}
-              className=" text-red-500 hover:text-red-700 focus:outline-none"
-              title="Remove Skill"
-            >
-              &times;
-            </button>
+            {!isTemplateDownloading && (
+              <button
+                onClick={() => removeField(setFields, 'skills', index)}
+                className=" text-red-500 hover:text-red-700 focus:outline-none"
+                title="Remove Skill"
+              >
+                &times;
+              </button>
+            )}
           </div>
         ))}
-        <button
-          onClick={() =>
-            addField(setFields, 'skills', {
-              id: Date.now().toString(),
-              content: 'New Skill',
-            })
-          }
-          className="text-[12px] bg-gray-200 px-[10px] py-[10px] rounded-lg text-gray-500 hover:text-gray-700 focus:outline-none"
-          title="Add Skill"
-        >
-          + Add Skill
-        </button>
+        {!isTemplateDownloading && (
+          <button
+            onClick={() =>
+              addField(setFields, 'skills', {
+                id: Date.now().toString(),
+                content: 'New Skill',
+              })
+            }
+            className="text-[12px] bg-gray-200 px-[10px] py-[10px] rounded-lg text-gray-500 hover:text-gray-700 focus:outline-none"
+            title="Add Skill"
+          >
+            + Add Skill
+          </button>
+        )}
       </div>
     </div>
   );

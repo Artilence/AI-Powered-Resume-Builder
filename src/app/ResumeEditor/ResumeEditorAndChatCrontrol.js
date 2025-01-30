@@ -9,6 +9,7 @@ const initialState = {
   lastContentDelta: null,
   newContentHTML: '',
   userAcceptReject: null,
+  isTemplateDownloading: false,
 };
 
 const ResumeEditorAndChatCrontrol = createSlice({
@@ -39,6 +40,9 @@ const ResumeEditorAndChatCrontrol = createSlice({
     setUserAcceptReject: (state, action) => {
       state.userAcceptReject = action.payload;
     },
+    setIsTemplateDownloading: (state, action) => {
+      state.isTemplateDownloading = action.payload;
+    },
   },
 });
 
@@ -51,5 +55,6 @@ export const {
   setLastContentDelta,
   setNewContentHTML,
   setUserAcceptReject,
+  setIsTemplateDownloading,
 } = ResumeEditorAndChatCrontrol.actions;
 export default ResumeEditorAndChatCrontrol.reducer;

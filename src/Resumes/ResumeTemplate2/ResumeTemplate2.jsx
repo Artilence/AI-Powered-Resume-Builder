@@ -144,7 +144,11 @@ const ResumeTemplate2 = ({ setActiveQuill }) => {
         />
 
         {/* Language */}
-        <LanguageSection userData={userData} setActiveQuill={setActiveQuill} />
+        <LanguageSection
+          userData={userData}
+          setActiveQuill={setActiveQuill}
+          setUserData={setUserData}
+        />
       </div>
     </div>
   );

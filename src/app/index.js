@@ -10,6 +10,7 @@ import {
   setLastContentDelta,
   setNewContentHTML,
   setUserAcceptReject,
+  setIsTemplateDownloading,
 } from './ResumeEditor/ResumeEditorAndChatCrontrol';
 
 export {
@@ -26,4 +27,5 @@ export {
   setEditorState,
   setNewContentHTML,
   setUserAcceptReject,
+  setIsTemplateDownloading,
 };

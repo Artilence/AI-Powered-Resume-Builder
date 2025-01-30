@@ -1,8 +1,13 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from 'react-redux';
 import { QuillField } from '../../../../components';
 
 import { DottedPercentageSlider } from '../PercentageSliders';
-const LanguageSection = ({ userData, setActiveQuill }) => {
+import { addField, removeField } from '../../../../ResumeStateUtils';
+const LanguageSection = ({ userData, setActiveQuill, setUserData }) => {
+  const isTemplateDownloading = useSelector(
+    (state) => state.ResumeEditorAndChatCrontrol.isTemplateDownloading
+  );
   return (
     <div className="w-full flex flex-col overflow-hidden  pl-28 ">
       <div className="w-full  flex gap-5 items-center">
@@ -17,6 +22,15 @@ const LanguageSection = ({ userData, setActiveQuill }) => {
           <div className="w-full h-full flex flex-col  pl-14 pb-10 pt-20 gap-5">
             {userData?.language?.map((language, index) => (
               <div key={index} className="flex items-center gap-5">
+                {!isTemplateDownloading && (
+                  <button
+                    onClick={() => removeField(setUserData, 'language', index)}
+                    className="w-[200px] text-red-500 hover:text-red-700 focus:outline-none"
+                    title="Remove Language"
+                  >
+                    &times;
+                  </button>
+                )}
                 <div>
                   <QuillField
                     defaultValue={language?.name}
@@ -30,6 +44,20 @@ const LanguageSection = ({ userData, setActiveQuill }) => {
                 </div>
               </div>
             ))}
+            {!isTemplateDownloading && (
+              <button
+                onClick={() =>
+                  addField(setUserData, 'language', {
+                    name: 'English',
+                    level: 100,
+                  })
+                }
+                className="w-[200px] text-green-500 hover:text-green-700 focus:outline-none"
+                title="Add Language"
+              >
+                +
+              </button>
+            )}
           </div>
         </div>
       </div>
