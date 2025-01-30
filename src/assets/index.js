@@ -34,6 +34,7 @@ import chatbotIcon from './chatbotIcon.png';
 import LogoIcon from './LogoIcon.png';
 import chatbotSendIcon from './chatbotSendIcon.png';
 import defaultChatBotProfile from './defaultchatbotprofile.png';
+import person from './person.png';
 export {
   myDocuments,
   arrowDown,
@@ -69,4 +70,5 @@ export {
   LogoIcon,
   chatbotSendIcon,
   defaultChatBotProfile,
+  person,
 };

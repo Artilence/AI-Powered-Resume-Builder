@@ -38,5 +38,5 @@ input:-webkit-autofill {
 }
 
 .a4-paper {
-  @apply w-[8.27in] h-max bg-white shadow-md  rounded-sm;
+  @apply w-[8.27in] h-max bg-white shadow-md rounded-sm;
 }
