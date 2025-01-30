@@ -5,7 +5,12 @@ import { forwardRef, useEffect, useRef, useLayoutEffect } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedContent } from '../../app/index';
+import {
+  setSelectedContentDelta,
+  setFirstContentDelta,
+  setLastContentDelta,
+  setUserAcceptReject,
+} from '../../app/index';
 
 const QuillField = forwardRef(
   (
@@ -28,6 +33,8 @@ const QuillField = forwardRef(
     // Update event handlers to avoid stale closures
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
+    const spanRef = useRef(null); // Ref for the <span>
+    const changeSpanDisplay = useRef(null);
 
     useLayoutEffect(() => {
       onTextChangeRef.current = onTextChange;
@@ -85,27 +92,35 @@ const QuillField = forwardRef(
         });
 
         quill.on('selection-change', (range) => {
-          if (range) {
-            console.log(range);
-            const selectedContent = quill.getContents(
+          if (range?.length > 0) {
+            const selectedContentDelta = quill.getContents(
               range.index,
               range.length
             );
+            const firstContentValue = quill?.getContents(0, range.index);
+            const lastContentValue = quill?.getContents(
+              range.index + range.length
+            );
             dispatch(
-              setSelectedContent(JSON.parse(JSON.stringify(selectedContent)))
+              setSelectedContentDelta(
+                JSON.parse(JSON.stringify(selectedContentDelta))
+              )
+            );
+            dispatch(
+              setFirstContentDelta(
+                JSON.parse(JSON.stringify(firstContentValue))
+              )
+            );
+            dispatch(
+              setLastContentDelta(JSON.parse(JSON.stringify(lastContentValue)))
             );
           }
           if (onSelectionChangeRef.current) {
-            onSelectionChangeRef.current(range, quill);
+            onSelectionChangeRef.current(range, quill, changeSpanDisplay);
           }
         });
-
-        if (editorState !== 'EDITING') {
-          console.log(editorState);
-
-          quill.disable(); // Disable editing
-        } else {
-          quill.enable(); // Enable editing
+        if (spanRef.current) {
+          spanRef.current.style.display = 'none';
         }
       }
 
@@ -119,13 +134,51 @@ const QuillField = forwardRef(
           }
         }
       };
-    }, [ref, dispatch, editorState]);
+    }, [ref, dispatch]);
+    useEffect(() => {
+      if (quillInstanceRef.current) {
+        if (editorState !== 'EDITING') {
+          quillInstanceRef.current.disable();
+        } else {
+          quillInstanceRef.current.enable();
+        }
+      }
+    }, [editorState]); // 🔹 Runs ONLY when `editorState` changes
+    changeSpanDisplay.current = (isVisible) => {
+      if (spanRef.current) {
+        console.log(spanRef.current);
+        spanRef.current.style.display = isVisible ? 'flex' : 'none';
+      }
+    };
 
     return (
-      <div
-        ref={containerRef}
-        className="!w-[inherit] !h-[inherit] !outline-none !border-none p-0 m-0"
-      ></div>
+      <div className="relative w-full flex flex-col">
+        <div
+          ref={containerRef}
+          className="!w-[inherit] !h-[inherit] !outline-none !border-none p-0 m-0"
+        ></div>
+        <div
+          ref={spanRef}
+          className="absolute top-[100%] left-0 z-10  flex justify-center gap-5 w-[400px] bg-light-gray  rounded-lg p-2"
+        >
+          <button
+            className="bg-green-500 text-sm text-white  p-2 rounded-md"
+            onClick={() => {
+              dispatch(setUserAcceptReject('ACCEPTED'));
+            }}
+          >
+            Accept
+          </button>
+          <button
+            className="bg-red-500 text-sm text-white  p-2 rounded-md"
+            onClick={() => {
+              dispatch(setUserAcceptReject('REJECTED'));
+            }}
+          >
+            Reject
+          </button>
+        </div>
+      </div>
     );
   }
 );

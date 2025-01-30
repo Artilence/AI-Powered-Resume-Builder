@@ -2,7 +2,6 @@
 import { QuillField } from '../../../../components';
 
 import { handleTextChange } from '../../../../ResumeStateUtils';
-import { handleSelectionChange } from '../../../../ResumeStateUtils';
 import { PercentageSlider } from '../PercentageSliders';
 const LeftBottomSection = ({ userData, setUserData, setActiveQuill }) => {
   const handleSkillChange = (index, content) => {
@@ -28,8 +27,8 @@ const LeftBottomSection = ({ userData, setUserData, setActiveQuill }) => {
             onTextChange={(content) =>
               handleTextChange(setUserData, 'summary', content)
             }
-            onSelectionChange={(range, quill) =>
-              handleSelectionChange(setActiveQuill, range, quill)
+            onSelectionChange={(range, quill, changeSpanDisplay) =>
+              setActiveQuill(quill, changeSpanDisplay)
             }
           />
         </div>
@@ -50,8 +49,8 @@ const LeftBottomSection = ({ userData, setUserData, setActiveQuill }) => {
             <QuillField
               defaultValue={skill?.name}
               onTextChange={(content) => handleSkillChange(skill, content)}
-              onSelectionChange={(range, quill) =>
-                handleSelectionChange(setActiveQuill, range, quill)
+              onSelectionChange={(range, quill, changeSpanDisplay) =>
+                setActiveQuill(quill, changeSpanDisplay)
               }
             />
             <div className="w-full h-[15px]">
@@ -77,8 +76,8 @@ const LeftBottomSection = ({ userData, setUserData, setActiveQuill }) => {
                 onTextChange={(content) =>
                   handleTextChange(setUserData, 'address', content)
                 }
-                onSelectionChange={(range, quill) =>
-                  handleSelectionChange(setActiveQuill, range, quill)
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
                 }
               />
             </div>
@@ -91,8 +90,8 @@ const LeftBottomSection = ({ userData, setUserData, setActiveQuill }) => {
                 onTextChange={(content) =>
                   handleTextChange(setUserData, 'email', content)
                 }
-                onSelectionChange={(range, quill) =>
-                  handleSelectionChange(setActiveQuill, range, quill)
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
                 }
               />
             </div>
@@ -105,8 +104,8 @@ const LeftBottomSection = ({ userData, setUserData, setActiveQuill }) => {
                 onTextChange={(content) =>
                   handleTextChange(setUserData, 'phone', content)
                 }
-                onSelectionChange={(range, quill) =>
-                  handleSelectionChange(setActiveQuill, range, quill)
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
                 }
               />
             </div>
