@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { person } from '../../../../assets';
 import { QuillField } from '../../../../components';
 
 import { handleTextChange } from '../../../../ResumeStateUtils';
@@ -12,11 +13,17 @@ const LeftBottomSection = ({ userData, setUserData, setActiveQuill }) => {
     });
   };
   return (
-    <div className="h-full    grid grid-rows-[1fr_2fr_1fr] w-full pt-10  px-5 gap-5  bg-green-light">
+    <div className="h-full flex flex-col gap-14 w-full py-20  px-10   bg-green-light">
       {/* About me */}
       <div className="flex flex-col gap-5 w-full">
         <div className="w-full flex items-center justify-start gap-5">
-          <span className="w-[24px] h-[24px] rounded-full bg-green-dark"></span>
+          <span className="p-2 rounded-full bg-green-dark">
+            <img
+              src={person}
+              alt="person"
+              className="w-[18px] h-[18px] object-contain"
+            />
+          </span>
           <span className="text-white uppercase font-bold text-[18px]">
             about me
           </span>
