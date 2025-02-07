@@ -23,6 +23,15 @@ const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
           key={exp.id}
           className="flex flex-col gap-4 items-start justify-start w-full"
         >
+          {!isTemplateDownloading && (
+            <button
+              onClick={() => removeField(setFields, 'experience', index)}
+              className=" text-white bg-gray-700 w-[12px] h-[12px] p-4  flex-shrink-0 rounded-full flex items-center justify-center focus:outline-none"
+              title="Remove Experience"
+            >
+              &times;
+            </button>
+          )}
           <div className="w-full flex justify-start items-center text-[16px] font-semibold">
             <QuillField
               defaultValue={exp.position}
@@ -34,33 +43,41 @@ const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
               }
             />
           </div>
-          <div className="flex justify-start items-center w-max text-[14px] gap-5">
-            <QuillField
-              defaultValue={exp.company}
-              onTextChange={(content) =>
-                handleExperienceChange(exp, 'company', content)
-              }
-              onSelectionChange={(range, quill, changeSpanDisplay) =>
-                setActiveQuill(quill, changeSpanDisplay)
-              }
-            />
-            <input
-              type="month"
-              className="w-max text-[12px] text-gray-500"
-              // value={exp.startDate}
-              value={exp.startDate}
-              onChange={(e) =>
-                handleExperienceChange(exp.id, 'startDate', e.target.value)
-              }
-            />
-            <input
-              type="month"
-              className="w-max text-[12px] text-gray-500"
-              value={exp.endDate}
-              onChange={(e) =>
-                handleExperienceChange(exp.id, 'endDate', e.target.value)
-              }
-            />
+          <div className="flex justify-start items-center w-full text-[14px] gap-5">
+            <div className="w-max">
+              <QuillField
+                defaultValue={exp.company}
+                onTextChange={(content) =>
+                  handleExperienceChange(exp, 'company', content)
+                }
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
+                }
+              />
+            </div>
+            <div className="w-max">
+              <QuillField
+                defaultValue={exp.startDate}
+                onTextChange={(content) =>
+                  handleExperienceChange(exp, 'startDate', content)
+                }
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
+                }
+              />
+            </div>
+            <span className="w-[6px] h-[1px] bg-gray-500" />
+            <div className="w-max">
+              <QuillField
+                defaultValue={exp.endDate}
+                onTextChange={(content) =>
+                  handleExperienceChange(exp, 'endDate', content)
+                }
+                onSelectionChange={(range, quill, changeSpanDisplay) =>
+                  setActiveQuill(quill, changeSpanDisplay)
+                }
+              />
+            </div>
           </div>
 
           <div>
@@ -74,15 +91,6 @@ const ExperienceSection = ({ fields, setFields, setActiveQuill }) => {
               }
             />
           </div>
-          {!isTemplateDownloading && (
-            <button
-              onClick={() => removeField(setFields, 'experience', index)}
-              className="text-red-500 hover:text-red-700 focus:outline-none"
-              title="Remove Experience"
-            >
-              &times;
-            </button>
-          )}
         </div>
       ))}
       {!isTemplateDownloading && (

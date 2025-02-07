@@ -56,7 +56,7 @@ const ResumeTemplate1 = ({ setActiveQuill }) => {
   });
 
   return (
-    <div className="w-[700px] h-[1200px] bg-white shadow-lg rounded-lg py-[40px] px-[20px] flex flex-col gap-4">
+    <div className="a4-paper  bg-white shadow-lg rounded-lg py-[40px] px-[20px] flex flex-col gap-4">
       <div className="pb-[30px] w-full text-[40px] font-bold text-gray-500 flex items-center justify-start">
         <QuillField
           defaultValue={fields.name}
