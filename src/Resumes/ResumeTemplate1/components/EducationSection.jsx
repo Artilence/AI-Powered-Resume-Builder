@@ -27,6 +27,15 @@ const EducationSection = ({ fields, setFields, setActiveQuill }) => {
       <div className="w-full flex  flex-col gap-6   text-gray-500 mb-2">
         {fields.education.map((edu, index) => (
           <div key={edu.id} className="flex flex-col gap-3 w-full">
+            {!isTemplateDownloading && (
+              <button
+                onClick={() => removeField(setFields, 'education', index)}
+                className=" text-white bg-gray-700 w-[12px] h-[12px] p-4  flex-shrink-0 rounded-full flex items-center justify-center focus:outline-none"
+                title="Remove Education"
+              >
+                &times;
+              </button>
+            )}
             <div className="w-full text-[14px] font-semibold">
               <QuillField
                 defaultValue={edu.degree}
@@ -38,34 +47,31 @@ const EducationSection = ({ fields, setFields, setActiveQuill }) => {
                 }
               />
             </div>
-            <div className="w-max text-[12px] text-gray-500 flex items-center justify-start gap-3">
-              <QuillField
-                defaultValue={edu.institution}
-                onTextChange={(content) =>
-                  handleEducationChange(edu, 'institution', content)
-                }
-                onSelectionChange={(range, quill, changeSpanDisplay) =>
-                  setActiveQuill(quill, changeSpanDisplay)
-                }
-              />
-              <input
-                type="month"
-                className="w-max text-[12px] flex  text-gray-500"
-                value={edu.endDate}
-                onChange={(e) =>
-                  handleEducationChange(index, 'endDate', e.target.value)
-                }
-              />
+            <div className="w-full text-[12px] text-gray-500 flex items-center justify-start gap-3">
+              <div className="w-max">
+                {' '}
+                <QuillField
+                  defaultValue={edu.institution}
+                  onTextChange={(content) =>
+                    handleEducationChange(edu, 'institution', content)
+                  }
+                  onSelectionChange={(range, quill, changeSpanDisplay) =>
+                    setActiveQuill(quill, changeSpanDisplay)
+                  }
+                />
+              </div>
+              <div className="w-max">
+                <QuillField
+                  defaultValue={edu.endDate}
+                  onTextChange={(content) =>
+                    handleEducationChange(edu, 'endDate', content)
+                  }
+                  onSelectionChange={(range, quill, changeSpanDisplay) =>
+                    setActiveQuill(quill, changeSpanDisplay)
+                  }
+                />
+              </div>
             </div>
-            {!isTemplateDownloading && (
-              <button
-                onClick={() => removeField(setFields, 'education', index)}
-                className="w-[200px] text-red-500 hover:text-red-700 focus:outline-none"
-                title="Remove Education"
-              >
-                &times;
-              </button>
-            )}
           </div>
         ))}
         {!isTemplateDownloading && (

@@ -40,7 +40,7 @@ const SkillsSection = ({ fields, setFields, setActiveQuill }) => {
             {!isTemplateDownloading && (
               <button
                 onClick={() => removeField(setFields, 'skills', index)}
-                className=" text-red-500 hover:text-red-700 focus:outline-none"
+                className=" text-white bg-gray-700 w-[12px] h-[12px] p-3 flex-shrink-0 rounded-full flex items-center justify-center focus:outline-none"
                 title="Remove Skill"
               >
                 &times;
